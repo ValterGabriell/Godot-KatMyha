@@ -8,7 +8,7 @@ size = Vector2(25, 25)
 
 [node name="HiddenPlace" type="Area2D" groups=["hidden_place"]]
 collision_layer = 8
-collision_mask = 2
+collision_mask = 8194
 script = ExtResource("1_flamd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -64,7 +64,6 @@ namespace PrototipoMyha.Enemy.Components.Impl
                     MaxWaitTime: _maxWaitTime,
                     SetNewWaitTimeWhenWaiting: SetNewRandomTarget
                     );
-
             }
 
             if (enemyStateHandler != null)

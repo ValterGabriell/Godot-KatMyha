@@ -121,6 +121,7 @@ f={
 2d_physics/layer_7="swtich_light"
 2d_physics/layer_12="shadowArea"
 2d_physics/layer_13="enemy"
+2d_physics/layer_14="enemy_that_search"
 2d_physics/layer_15="playerWalkArea"
 2d_physics/layer_16="bounderie_world"
 2d_physics/layer_17="terminal_save"

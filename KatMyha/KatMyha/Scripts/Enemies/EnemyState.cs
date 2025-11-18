@@ -16,6 +16,7 @@ namespace PrototipoMyha.Enemy.States
 
 
         Alerted,
-        WalkWarning
+        WalkWarning,
+        SearchingHiddenPlace
     }
 }

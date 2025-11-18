@@ -117,7 +117,7 @@ tile_map_data = PackedByteArray("AAC4/wAAAAABAAUAAAC3/wAAAAABAAUAAAC2/wAAAAABAAU
 tile_set = SubResource("TileSet_efc0h")
 
 [node name="Myha" parent="." instance=ExtResource("2_twxkt")]
-position = Vector2(2040, -238)
+position = Vector2(3388, -172)
 
 [node name="MovePlataform" type="Node" parent="."]
 
@@ -212,7 +212,7 @@ position = Vector2(2284, -177)
 [node name="02" type="Node" parent="Enemies"]
 
 [node name="CharacterBody2D" parent="Enemies/02" node_paths=PackedStringArray("Marker_01", "Marker_02") instance=ExtResource("10_5mjwn")]
-position = Vector2(2932, -175)
+position = Vector2(3025, -175)
 Marker_01 = NodePath("../Marker2D2")
 Marker_02 = NodePath("../Marker2D")
 
@@ -220,7 +220,7 @@ Marker_02 = NodePath("../Marker2D")
 position = Vector2(3169, -166)
 
 [node name="Marker2D" type="Marker2D" parent="Enemies/02"]
-position = Vector2(2916, -166)
+position = Vector2(2989, -164)
 
 [node name="DeathLight" type="Node" parent="."]
 
@@ -232,7 +232,6 @@ position = Vector2(2236, -357)
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="MusicOfLevel"]
 stream = ExtResource("13_j1gya")
 volume_db = 0.115
-autoplay = true
 max_distance = 4096.0
 parameters/looping = true
 

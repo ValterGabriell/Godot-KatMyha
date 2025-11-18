@@ -156,6 +156,7 @@ namespace PrototipoMyha.Scripts.Enemies.BaseGuard.Components.Impl
                 Enemy.States.EnemyState.Waiting => EnumGuardMove.end_warning.ToString(),
                 Enemy.States.EnemyState.Investigating => EnumGuardMove.end_warning.ToString(),
                 Enemy.States.EnemyState.Chasing => EnumGuardMove.shoot.ToString(),
+                Enemy.States.EnemyState.SearchingHiddenPlace => EnumGuardMove.shoot.ToString(),
                 _ => EnumGuardMove.roaming.ToString(),
             };
 

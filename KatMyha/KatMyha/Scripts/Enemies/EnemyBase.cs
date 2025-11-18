@@ -33,6 +33,7 @@ public abstract partial class EnemyBase : CharacterBody2D
 
     public EnemyState CurrentEnemyState { get; private set; }  = EnemyState.Roaming;
     private Guid Identifier = Guid.NewGuid();
+    private bool HasJustSearchSomePlace = false;
 
 
     public Guid GetIdentifier()
@@ -169,4 +170,14 @@ public abstract partial class EnemyBase : CharacterBody2D
         };
     }
 
+    public bool GetHasJustSearchSomePlace()
+    {
+        return this.HasJustSearchSomePlace;
+    }
+
+    public void SetInHiddenPlace()
+    {
+        this.SetState(EnemyState.SearchingHiddenPlace);
+        this.HasJustSearchSomePlace = true;
+    }
 }
