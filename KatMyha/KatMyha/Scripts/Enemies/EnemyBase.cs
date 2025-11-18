@@ -75,6 +75,7 @@ public abstract partial class EnemyBase : CharacterBody2D
                 SoundManager.PlaySound(player.DeathAudioStreamPlayer2D);
                 this.Velocity = Vector2.Zero;
                 hasEmittedKillSignal = true;
+                player.UnblockMovement();
             }
         }
     }

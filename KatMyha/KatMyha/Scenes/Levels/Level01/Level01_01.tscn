@@ -240,3 +240,6 @@ color = Color(0.34043485, 0.32033226, 0.37393916, 1)
 
 [node name="SwitchLight" parent="." instance=ExtResource("21_53dfb")]
 position = Vector2(2112, -247)
+
+[node name="TerminalSave" parent="." instance=ExtResource("3_efc0h")]
+position = Vector2(3215, -170)
