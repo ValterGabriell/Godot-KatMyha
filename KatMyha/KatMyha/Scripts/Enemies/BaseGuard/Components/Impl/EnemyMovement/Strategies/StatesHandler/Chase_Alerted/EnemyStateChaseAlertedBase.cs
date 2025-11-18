@@ -106,8 +106,6 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
             {
                 (BasePlayer player, bool isColliding) = RaycastUtils.IsColliding<BasePlayer>(InEnemy.RayCast2DDetection);
 
-
-
                 if (isColliding
                     && !hasEmittedKillSignal)
                 {

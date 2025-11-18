@@ -1,4 +1,5 @@
 using Godot;
+using PrototipoMyha;
 using PrototipoMyha.Enemy;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Scripts.Enemies.BaseGuard.Components.Impl.EnemyMovement.Strategies.Interfaces;
@@ -16,6 +17,7 @@ namespace KatMyha.Scripts.Enemies.BaseGuard.Components.Impl.EnemyMovement.Strate
         private bool IsExcute = false;
         private float ElapsedTime = 0f;
         private const float SearchDuration = 2000f; 
+    
 
         public float ExecuteState(
             double delta,
@@ -29,10 +31,15 @@ namespace KatMyha.Scripts.Enemies.BaseGuard.Components.Impl.EnemyMovement.Strate
                 this.ElapsedTime = 0f;
             }
 
+            if (InEnemy.RayCast2DDetection.IsColliding())
+            {
+                InEnemy.ProcessKillOfPlayer();
+            }
             this.ElapsedTime += (float)delta * 1000f;
 
             if (this.ElapsedTime >= SearchDuration)
             {
+              
                 InEnemy.SetState(EnemyState.Waiting);
                 this.IsExcute = false;
                 this.ElapsedTime = 0f;

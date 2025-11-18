@@ -1,7 +1,10 @@
 using Godot;
+using KatMyha.Scripts.Managers;
+using KatrinaGame.Core;
 using PrototipoMyha.Enemy.Components.Interfaces;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Scripts.Utils.Objetos;
+using PrototipoMyha.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -30,11 +33,13 @@ public abstract partial class EnemyBase : CharacterBody2D
 
     public bool JustLoaded { get; set; } = false;
     protected Dictionary<string, IEnemyBaseComponents> Components = new();
+    private SoundManager SoundManager = SoundManager.Instance;
+
 
     public EnemyState CurrentEnemyState { get; private set; }  = EnemyState.Roaming;
     private Guid Identifier = Guid.NewGuid();
     private bool HasJustSearchSomePlace = false;
-
+    private bool hasEmittedKillSignal = false;
 
     public Guid GetIdentifier()
     {
@@ -54,6 +59,24 @@ public abstract partial class EnemyBase : CharacterBody2D
     public void SetPolygonDetectionColor()
     {
         this.Polygon2DDetection.Color = new Godot.Color(1f, 0f, 0f, 0.5f);
+    }
+
+    public void ProcessKillOfPlayer()
+    {
+        if (this.RayCast2DDetection != null)
+        {
+            (BasePlayer player, bool isColliding) = RaycastUtils.IsColliding<BasePlayer>(this.RayCast2DDetection);
+
+            if (isColliding
+                && !hasEmittedKillSignal)
+            {
+                var manager = SignalManager.Instance;
+                manager.EmitSignal(nameof(SignalManager.EnemyKillMyha));
+                SoundManager.PlaySound(player.DeathAudioStreamPlayer2D);
+                this.Velocity = Vector2.Zero;
+                hasEmittedKillSignal = true;
+            }
+        }
     }
 
     public override void _Ready() 
