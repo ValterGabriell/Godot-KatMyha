@@ -38,6 +38,7 @@ terrain=""
 wall_vertical=""
 kill_light=""
 hidden_place=""
+door=""
 
 [input]
 

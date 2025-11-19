@@ -194,9 +194,12 @@ namespace KatrinaGame.Players
                     var isLocked = (bool)door.Get("is_locked");
                     var requiredKeyName = (string)door.Get("required_key_name");
 
-                    // Você pode usar essas variáveis conforme necessário
-                    GD.Print($"2 - A porta está trancada? {isLocked}, chave necessária: {requiredKeyName}");
-                } 
+                    door.Call("try_unlock");
+                }
+                else
+                {
+                    GDLogger.PrintGreen("Nenhuma porta encontrada para interagir.");
+                }
             }
 
             MovementComponent.Move(inputVector, CurrentPlayerSpeed);

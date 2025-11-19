@@ -22,7 +22,7 @@ namespace KatrinaGame.Core
         [Export] public Timer TimeToFallWall { get; set; }
         public PlayerState CurrentPlayerState { get; private set; } = PlayerState.IDLE;
         public LightHiddenState CurrentHiddenState { get; private set; } = LightHiddenState.HIDDEN;
-        private StaticBody2D DoorThatEnemyIs {  get; set; } 
+        private StaticBody2D DoorThatPlayerIs {  get; set; } 
 
         protected Dictionary<string, IPlayerBaseComponent> Components = new();
         [Export] public AnimatedSprite2D AnimatedSprite2D { get; set; }
@@ -58,15 +58,11 @@ namespace KatrinaGame.Core
 
         public void SetIsEnemyOnDoor(StaticBody2D door)
         {
-            DoorThatEnemyIs = door;
-            var isLocked = (bool)door.Get("is_locked");
-            var requiredKeyName = (string)door.Get("required_key_name");
-
-            // Você pode usar essas variáveis conforme necessário
-            GD.Print($"A porta está trancada? {isLocked}, chave necessária: {requiredKeyName}");
+            if (!door.IsInGroup("door")) return;
+            DoorThatPlayerIs = door;
         }
-        public void RemoveEnemyOnDoor() => DoorThatEnemyIs = null;
-        public StaticBody2D GetDoorThatEnemyIs() => DoorThatEnemyIs;
+        public void RemoveEnemyOnDoor() => DoorThatPlayerIs = null;
+        public StaticBody2D GetDoorThatEnemyIs() => DoorThatPlayerIs;
         
 
 

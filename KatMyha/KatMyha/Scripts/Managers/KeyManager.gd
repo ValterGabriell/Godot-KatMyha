@@ -8,3 +8,8 @@ func add_key(key: Key) -> void:
 
 func has_key(keyName: String) -> bool:
     return collected_keys.has(keyName)
+
+func get_key(keyName: String) -> Key:
+    if has_key(keyName):
+        return collected_keys[keyName]
+    return null
