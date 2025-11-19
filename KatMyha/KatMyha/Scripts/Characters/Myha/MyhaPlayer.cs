@@ -170,7 +170,6 @@ namespace KatrinaGame.Players
                     inputVector.Y += 1;
                     CurrentPlayerSpeed = WallWalkSpeed;
                 }
-
             }
 
 
@@ -185,6 +184,19 @@ namespace KatrinaGame.Players
                 this.UnblockMovement();
                 this.SetState(PlayerState.IDLE);
                 this.Velocity = new Vector2(this.Velocity.X + 250, 0);
+            }
+
+            if (Input.IsActionJustPressed("action"))
+            {
+                if(this.GetDoorThatEnemyIs() != null)
+                {
+                    var door = this.GetDoorThatEnemyIs();
+                    var isLocked = (bool)door.Get("is_locked");
+                    var requiredKeyName = (string)door.Get("required_key_name");
+
+                    // Você pode usar essas variáveis conforme necessário
+                    GD.Print($"2 - A porta está trancada? {isLocked}, chave necessária: {requiredKeyName}");
+                } 
             }
 
             MovementComponent.Move(inputVector, CurrentPlayerSpeed);

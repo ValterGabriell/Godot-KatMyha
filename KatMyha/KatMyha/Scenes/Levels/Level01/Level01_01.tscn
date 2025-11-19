@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://cb10hg7he4wk5"]
+[gd_scene load_steps=28 format=4 uid="uid://cb10hg7he4wk5"]
 
 [ext_resource type="Texture2D" uid="uid://d2ivhrkguvk2u" path="res://Assets/Tilesets/World/PrototipoWorldTileset.png" id="1_i5gsn"]
 [ext_resource type="Script" uid="uid://p0tnlhwc8n4b" path="res://Scripts/Levels/LevelBase.cs" id="1_wf4vu"]
@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" uid="uid://tqq0jk3c6rek" path="res://Scenes/Items/Itens/KillLight.tscn" id="12_0f82d"]
 [ext_resource type="AudioStream" uid="uid://cntajrvgvm6ka" path="res://Assets/Sound/BaseMusic03.mp3" id="13_j1gya"]
 [ext_resource type="PackedScene" uid="uid://canhr253yo7bt" path="res://Scenes/Items/Itens/SwitchLight.tscn" id="21_53dfb"]
+[ext_resource type="PackedScene" uid="uid://wxue5tat5k2c" path="res://Scenes/Items/Itens/Key.tscn" id="22_yonhq"]
+[ext_resource type="PackedScene" uid="uid://d3uhi87fbyy3l" path="res://Scenes/Items/Itens/Door.tscn" id="23_hvpqb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_twxkt"]
 texture = ExtResource("1_i5gsn")
@@ -117,7 +119,7 @@ tile_map_data = PackedByteArray("AAC4/wAAAAABAAUAAAC3/wAAAAABAAUAAAC2/wAAAAABAAU
 tile_set = SubResource("TileSet_efc0h")
 
 [node name="Myha" parent="." instance=ExtResource("2_twxkt")]
-position = Vector2(3150, -167)
+position = Vector2(3429, -174)
 
 [node name="MovePlataform" type="Node" parent="."]
 
@@ -243,3 +245,9 @@ position = Vector2(2112, -247)
 
 [node name="TerminalSave" parent="." instance=ExtResource("3_efc0h")]
 position = Vector2(3215, -170)
+
+[node name="Key" parent="." instance=ExtResource("22_yonhq")]
+position = Vector2(3506, -174)
+
+[node name="Door" parent="." instance=ExtResource("23_hvpqb")]
+position = Vector2(3590, -189)
