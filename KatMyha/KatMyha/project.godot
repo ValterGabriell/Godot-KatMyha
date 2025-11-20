@@ -39,6 +39,8 @@ wall_vertical=""
 kill_light=""
 hidden_place=""
 door=""
+fall_plataform=""
+fall_trap=""
 
 [input]
 
@@ -124,6 +126,7 @@ action={
 2d_physics/layer_2="player"
 2d_physics/layer_3="plataform_horizontal"
 2d_physics/layer_4="hidden_place"
+2d_physics/layer_5="fall_plataform"
 2d_physics/layer_6="wall"
 2d_physics/layer_7="swtich_light"
 2d_physics/layer_8="key"

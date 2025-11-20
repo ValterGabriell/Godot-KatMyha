@@ -1,9 +1,8 @@
 using Godot;
+using KatMyha.Scripts.Items.KillLight;
 using PrototipoMyha;
-using PrototipoMyha.Utilidades;
-using System;
 
-public partial class KillLight : RigidBody2D
+public partial class KillLight : FallTrap
 {
     [Export] private float TextureScale = 1.0f;
     [Export] private float EnergyOfLight = 1.0f;

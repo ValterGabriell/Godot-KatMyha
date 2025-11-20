@@ -198,7 +198,7 @@ namespace KatrinaGame.Players
                 }
                 else
                 {
-                    GDLogger.PrintGreen("Nenhuma porta encontrada para interagir.");
+                    GDLogger.LogGreen("Nenhuma porta encontrada para interagir.");
                 }
             }
 
@@ -209,7 +209,7 @@ namespace KatrinaGame.Players
 
         internal void EnterHiddenPlace()
         {
-            GDLogger.PrintObjects_Blue("Entering Hidden Place");
+            GDLogger.LogBlue("Entering Hidden Place");
             this.SetState(PlayerState.HIDDEN);
             this.BlockMovement();
         }

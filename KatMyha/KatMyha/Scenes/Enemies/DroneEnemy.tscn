@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7fdesmfrgqg8"]
+
+[ext_resource type="Texture2D" uid="uid://cbnsucfdqkhly" path="res://Assets/Sprites/Enemies/Drone.png" id="1_84ew4"]
+[ext_resource type="Script" uid="uid://cfyr8kx4d84au" path="res://Scripts/Enemies/DroneEnemy/DroneEnemy.cs" id="1_uahfm"]
+[ext_resource type="Resource" uid="uid://hy4jpoxs0g5f" path="res://Resources/Enemies/v2/BaseEnemyV2Resource.tres" id="2_rwynu"]
+[ext_resource type="Script" uid="uid://by1g8hpnhrqst" path="res://Scripts/Enemies/DroneEnemy/States/Machine/DroneStateMachine.cs" id="4_rwynu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_84ew4"]
+
+[node name="DroneEnemy" type="CharacterBody2D"]
+script = ExtResource("1_uahfm")
+Resources = ExtResource("2_rwynu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_84ew4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_84ew4")
+
+[node name="DroneStateMachine" type="Node" parent="."]
+script = ExtResource("4_rwynu")

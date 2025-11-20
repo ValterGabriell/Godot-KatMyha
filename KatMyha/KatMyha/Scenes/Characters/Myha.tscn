@@ -278,7 +278,7 @@ radius = 5.0990195
 
 [node name="Myha" type="CharacterBody2D" node_paths=PackedStringArray("AttackRaycast", "SoundAreaWalkingComponent", "WalkAudioStreamPlayer2D", "JumpAudioStreamPlayer2D", "SaveAudioStreamPlayer2D", "TimeToFallWall", "AnimatedSprite2D", "SoundAnimatedSprite2D", "DeathAudioStreamPlayer2D") groups=["player"]]
 collision_layer = 2
-collision_mask = 131557
+collision_mask = 131573
 script = ExtResource("1_gp1ay")
 AttackRaycast = NodePath("AttackRaycast")
 BallScene = ExtResource("2_hntan")

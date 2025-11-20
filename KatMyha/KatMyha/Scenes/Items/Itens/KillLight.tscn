@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://tqq0jk3c6rek"]
+[gd_scene load_steps=9 format=3 uid="uid://tqq0jk3c6rek"]
 
 [ext_resource type="Script" uid="uid://c3mlpdt0tyope" path="res://Scripts/Items/KillLight/KillLight.cs" id="1_wm56c"]
 [ext_resource type="Texture2D" uid="uid://cj0su0kjlx6ua" path="res://Assets/Sprites/Itens/light (1).png" id="2_wm56c"]
+[ext_resource type="Texture2D" uid="uid://cf5ack8f2nk3n" path="res://Assets/Sprites/Itens/LampadaMirada.png" id="2_yttrs"]
 [ext_resource type="Texture2D" uid="uid://dprw0pas7xloi" path="res://Assets/Sprites/Itens/Lampada.png" id="3_eydi3"]
+[ext_resource type="Texture2D" uid="uid://bd3ks5cuhg6mj" path="res://Assets/Sprites/Itens/LampadaQuebrada.png" id="3_sfj6p"]
 [ext_resource type="Texture2D" uid="uid://bgg05rnce8150" path="res://Assets/Sprites/Itens/LuzPixel.png" id="4_cv5x0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5smk5"]
@@ -10,7 +12,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_5smk5"]
 radius = 12.0
 
-[node name="KillLight" type="RigidBody2D" node_paths=PackedStringArray("PointLight2D", "LightSprite", "Area2D") groups=["kill_light"]]
+[node name="KillLight" type="RigidBody2D" node_paths=PackedStringArray("PointLight2D", "LightSprite", "Area2D") groups=["fall_trap"]]
 collision_layer = 131072
 collision_mask = 4096
 mass = 10.0
@@ -22,6 +24,9 @@ script = ExtResource("1_wm56c")
 PointLight2D = NodePath("Sprite2D/PointLight2D")
 LightSprite = NodePath("Sprite2D/Sprite2D")
 Area2D = NodePath("Area2D")
+TargetAimedTexture2D = ExtResource("2_yttrs")
+ShootedAimedTexture2D = ExtResource("3_sfj6p")
+IdleAimedTexture2D = ExtResource("3_eydi3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_5smk5")

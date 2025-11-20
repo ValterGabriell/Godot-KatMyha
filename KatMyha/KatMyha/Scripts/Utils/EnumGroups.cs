@@ -14,6 +14,9 @@ namespace PrototipoMyha
         death_water_area,
         enemy,
         terrain,
-        AlertSprite
+        AlertSprite,
+        fall_plataform,
+        kill_light,
+        fall_trap
     }
 }

@@ -12,7 +12,7 @@ namespace PrototipoMyha.Utilidades
     public static class GDLogger
     {
         private static readonly object _lockObject = new object();
-        public static void PrintObjects_Blue(object message,
+        public static void LogBlue(object message,
         bool isVerbose = false,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string filePath = "",
@@ -21,7 +21,7 @@ namespace PrototipoMyha.Utilidades
             PrintWithEmoji("🔵", message, isVerbose, memberName, filePath, lineNumber);
         }
 
-        public static void PrintGreen(object message,
+        public static void LogGreen(object message,
             bool isVerbose = false,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
@@ -30,7 +30,7 @@ namespace PrototipoMyha.Utilidades
             PrintWithEmoji("🟢", message, isVerbose, memberName, filePath, lineNumber);
         }
 
-        public static void PrintDebug_Red(object message,
+        public static void LogRed(object message,
             bool isVerbose = false,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",
@@ -39,7 +39,7 @@ namespace PrototipoMyha.Utilidades
             PrintWithEmoji("🔴", message, isVerbose, memberName, filePath, lineNumber);
         }
 
-        public static void PrintPlayerActions_Yellow(object message,
+        public static void LogYellow(object message,
             bool isVerbose = false,
             [CallerMemberName] string memberName = "",
             [CallerFilePath] string filePath = "",

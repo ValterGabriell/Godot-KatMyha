@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://b1gnb8slestvs"]
+[gd_scene load_steps=14 format=4 uid="uid://b1cyhmy2dmc8h"]
 
 [ext_resource type="Texture2D" uid="uid://d2ivhrkguvk2u" path="res://Assets/Tilesets/World/PrototipoWorldTileset.png" id="1_7mycd"]
 [ext_resource type="Script" uid="uid://p0tnlhwc8n4b" path="res://Scripts/Levels/LevelBase.cs" id="1_efxa6"]
@@ -50,7 +50,7 @@ CollisionShadowScale = Vector2(3, 2.3)
 
 [node name="02" type="Node2D" parent="Enemies/Floor"]
 
-[node name="CharacterBody2D2" parent="Enemies/Floor/02" node_paths=PackedStringArray("Marker_01", "Marker_02") groups=["enemy"] instance=ExtResource("6_7mycd")]
+[node name="CharacterBody2D2" parent="Enemies/Floor/02" node_paths=PackedStringArray("Marker_01", "Marker_02") instance=ExtResource("6_7mycd")]
 position = Vector2(1259, -14)
 PatrolRadius = 200.0
 Marker_01 = NodePath("../Marker2D")

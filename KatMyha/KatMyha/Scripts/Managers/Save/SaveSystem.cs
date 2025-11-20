@@ -37,7 +37,7 @@ public partial class SaveSystem : Node
 
             if (file != null)
             {
-                GDLogger.PrintObjects_Blue(json);
+                GDLogger.LogBlue(json);
                 file.StoreString(json);
                 GD.Print("Jogo salvo com sucesso!");
             }

@@ -215,7 +215,7 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
             else
             {
                 // Animação olhando para baixo
-                GDLogger.PrintGreen("Player is above - Enemy stopped and looking up");
+                GDLogger.LogGreen("Player is above - Enemy stopped and looking up");
 
             }
 

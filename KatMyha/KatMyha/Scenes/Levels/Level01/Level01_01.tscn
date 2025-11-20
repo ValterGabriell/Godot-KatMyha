@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=4 uid="uid://cb10hg7he4wk5"]
+[gd_scene load_steps=30 format=4 uid="uid://cb10hg7he4wk5"]
 
 [ext_resource type="Texture2D" uid="uid://d2ivhrkguvk2u" path="res://Assets/Tilesets/World/PrototipoWorldTileset.png" id="1_i5gsn"]
 [ext_resource type="Script" uid="uid://p0tnlhwc8n4b" path="res://Scripts/Levels/LevelBase.cs" id="1_wf4vu"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://ca7v8keyvqa11" path="res://Scenes/Items/Plataform/ShakeItem/shake.tscn" id="6_kgtyh"]
 [ext_resource type="PackedScene" uid="uid://fivb1ydt0fiu" path="res://Scenes/Items/Plataform/HorizontalPlataform/HorizontalPlataform.tscn" id="7_3bo8m"]
 [ext_resource type="PackedScene" uid="uid://c8xryd28twoay" path="res://Scenes/Items/Itens/HiddenPlace.tscn" id="7_uk42m"]
+[ext_resource type="PackedScene" uid="uid://b7fdesmfrgqg8" path="res://Scenes/Enemies/DroneEnemy.tscn" id="8_k0dm3"]
 [ext_resource type="PackedScene" uid="uid://dnri2nw7j0trm" path="res://Scenes/Items/Plataform/MovePlataform/MovePlataformWithGrab.tscn" id="8_wuy85"]
 [ext_resource type="PackedScene" uid="uid://cur6241ewq0d6" path="res://Scenes/Items/Plataform/VerticalPlataform/VerticalPlataform.tscn" id="9_rqb07"]
 [ext_resource type="PackedScene" uid="uid://dyb3c5aecsw5r" path="res://Scenes/Enemies/BaseGuard.tscn" id="10_5mjwn"]
@@ -23,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://canhr253yo7bt" path="res://Scenes/Items/Itens/SwitchLight.tscn" id="21_53dfb"]
 [ext_resource type="PackedScene" uid="uid://wxue5tat5k2c" path="res://Scenes/Items/Itens/Key.tscn" id="22_yonhq"]
 [ext_resource type="PackedScene" uid="uid://d3uhi87fbyy3l" path="res://Scenes/Items/Itens/Door.tscn" id="23_hvpqb"]
+[ext_resource type="PackedScene" uid="uid://cix0q6d614wrr" path="res://Scenes/Items/Itens/FallTrapBall.tscn" id="25_kv7pv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_twxkt"]
 texture = ExtResource("1_i5gsn")
@@ -111,6 +113,9 @@ texture_scale = 4.28
 [node name="HiddenPlace" parent="Parallax" instance=ExtResource("7_uk42m")]
 position = Vector2(3115, -173)
 
+[node name="DroneEnemy" parent="Parallax" instance=ExtResource("8_k0dm3")]
+position = Vector2(3700, -264)
+
 [node name="World" type="TileMapLayer" parent="."]
 z_index = 2
 y_sort_enabled = true
@@ -119,7 +124,7 @@ tile_map_data = PackedByteArray("AAC4/wAAAAABAAUAAAC3/wAAAAABAAUAAAC2/wAAAAABAAU
 tile_set = SubResource("TileSet_efc0h")
 
 [node name="Myha" parent="." instance=ExtResource("2_twxkt")]
-position = Vector2(3429, -174)
+position = Vector2(2590, -195)
 
 [node name="MovePlataform" type="Node" parent="."]
 
@@ -158,15 +163,19 @@ position = Vector2(2200, -238)
 [node name="FallPlataforms" type="Node" parent="."]
 
 [node name="PrototipoPlataform" parent="FallPlataforms" instance=ExtResource("7_3bo8m")]
-position = Vector2(1074, 75)
+position = Vector2(1134, 78)
 scale = Vector2(0.34, 1)
+HasToFall = true
+TimeToFall = 0.2
 
 [node name="PrototipoPlataform2" parent="FallPlataforms" instance=ExtResource("7_3bo8m")]
-position = Vector2(1211, 43)
+position = Vector2(1250, 51)
 scale = Vector2(0.34, 1)
+HasToFall = true
+TimeToFall = 0.5
 
 [node name="PrototipoPlataform3" parent="FallPlataforms" instance=ExtResource("7_3bo8m")]
-position = Vector2(1391, 11)
+position = Vector2(1388, 26)
 
 [node name="PrototipoPlataform4" parent="FallPlataforms" instance=ExtResource("7_3bo8m")]
 position = Vector2(2349, -276)
@@ -175,7 +184,7 @@ scale = Vector2(0.8, 1)
 [node name="DeathPlataforms" type="Node" parent="."]
 
 [node name="MovePlataformWithDeath01" parent="DeathPlataforms" instance=ExtResource("8_wuy85")]
-position = Vector2(1524, -12)
+position = Vector2(1436, 40)
 
 [node name="WallJump" type="Node" parent="."]
 
@@ -252,3 +261,12 @@ position = Vector2(3506, -174)
 [node name="Door" parent="." instance=ExtResource("23_hvpqb")]
 position = Vector2(3590, -189)
 rotation = 0.008991702
+
+[node name="KillLight" parent="." instance=ExtResource("12_0f82d")]
+position = Vector2(2800, -321)
+
+[node name="KillLight2" parent="." instance=ExtResource("12_0f82d")]
+position = Vector2(2903, -324)
+
+[node name="FallTrapBall" parent="." instance=ExtResource("25_kv7pv")]
+position = Vector2(2756, -322)
