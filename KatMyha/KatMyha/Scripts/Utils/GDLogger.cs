@@ -30,6 +30,26 @@ namespace PrototipoMyha.Utilidades
             PrintWithEmoji("🟢", message, isVerbose, memberName, filePath, lineNumber);
         }
 
+
+        public static void Log(object message,
+            bool isVerbose = false,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            PrintWithEmoji("X", message, isVerbose, memberName, filePath, lineNumber);
+        }
+
+
+        public static void Print(object message,
+            bool isVerbose = false,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            PrintWithEmoji("P", message, isVerbose, memberName, filePath, lineNumber);
+        }
+
         public static void LogRed(object message,
             bool isVerbose = false,
             [CallerMemberName] string memberName = "",

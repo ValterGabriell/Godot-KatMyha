@@ -22,25 +22,48 @@ public partial class SignalManager : Node
     [Signal] public delegate void PlayerShootEventHandler();
     [Signal] public delegate void PlayerIsOnLightEventHandler();
     [Signal] public delegate void PlayerHasAlterStateOfLightEventHandler(string playerSwitchLightState);
+    [Signal] public delegate void PlayerHasKillAnEnemyEventHandler();
 
 
     [Signal] public delegate void GameLoadedEventHandler(Vector2 position);
-    
 
 
+    public Dictionary<string, bool> SignalsEmited = new();
 
-    public static SignalManager Instance { get; private set; }
+    private static SignalManager _instance;
 
-
-    public override void _Ready()
+    public static SignalManager Instance
     {
-        if (Instance == null)
-            Instance = this;
-        else
-            QueueFree(); 
+        get
+        {
+            if (_instance == null)
+            {
+                GD.PushError("SignalManager instance accessed before initialization!");
+            }
+            return _instance;
+        }
     }
 
 
+    public override void _EnterTree()
+    {
+        if (_instance != null && _instance != this)
+        {
+            GD.PushWarning("Multiple SignalManager instances detected. Destroying duplicate.");
+            QueueFree();
+            return;
+        }
+
+        _instance = this;
+    }
+
+    public override void _ExitTree()
+    {
+        if (_instance == this)
+        {
+            _instance = null;
+        }
+    }
 }
 
 /*

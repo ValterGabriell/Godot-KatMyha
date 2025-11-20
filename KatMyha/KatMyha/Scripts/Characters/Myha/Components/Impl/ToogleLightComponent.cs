@@ -3,12 +3,6 @@ using KatrinaGame.Core;
 using KatrinaGame.Players;
 using PrototipoMyha;
 using PrototipoMyha.Player.Components.Interfaces;
-using PrototipoMyha.Utilidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KatMyha.Scripts.Characters.Myha.Components.Impl
 {

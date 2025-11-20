@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace KatMyha.Scripts.Items.KillLight
 {
-    public partial class BallFallTrap : FallTrap
-    {
-    }
+	public partial class BallFallTrap : FallTrap
+	{
+		
+	}
 }

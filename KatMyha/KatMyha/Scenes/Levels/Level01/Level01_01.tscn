@@ -223,15 +223,15 @@ position = Vector2(2284, -177)
 [node name="02" type="Node" parent="Enemies"]
 
 [node name="CharacterBody2D" parent="Enemies/02" node_paths=PackedStringArray("Marker_01", "Marker_02") instance=ExtResource("10_5mjwn")]
-position = Vector2(3025, -175)
+position = Vector2(2747, -174)
 Marker_01 = NodePath("../Marker2D2")
 Marker_02 = NodePath("../Marker2D")
 
 [node name="Marker2D2" type="Marker2D" parent="Enemies/02"]
-position = Vector2(3169, -166)
+position = Vector2(2694, -164)
 
 [node name="Marker2D" type="Marker2D" parent="Enemies/02"]
-position = Vector2(2989, -164)
+position = Vector2(2774, -162)
 
 [node name="DeathLight" type="Node" parent="."]
 
