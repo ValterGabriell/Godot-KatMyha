@@ -16,9 +16,9 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         {
         }
 
-        public override void Enter(EnemyStateBase prevState)
+        public override void EnterState(EnemyStateBase prevState)
         {
-            base.Enter(prevState);
+            base.EnterState(prevState);
             _timeSinceLastSeen = 0.0f;
             
             if (_enemy != null)
@@ -27,9 +27,9 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
             }
         }
 
-        public override void Exit(EnemyStateBase nextState)
+        public override void ExitState(EnemyStateBase nextState)
         {
-            base.Exit(nextState);
+            base.ExitState(nextState);
             
             if (_enemy != null)
             {
@@ -37,7 +37,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
             }
         }
 
-        public override void Update(float delta)
+        public override void Process(float delta)
         {
             if (_enemy == null) return;
 
@@ -70,7 +70,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
             }
         }
 
-        public override void PhysicsUpdate(float delta)
+        public override void PhysicsProcess(float delta)
         {
             if (_enemy == null) return;
             

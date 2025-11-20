@@ -1,3 +1,5 @@
+using Godot;
+using KatrinaGame.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,5 +10,6 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy
 {
     public partial class DroneEnemy : EnemyBaseV2
     {
+   
     }
 }

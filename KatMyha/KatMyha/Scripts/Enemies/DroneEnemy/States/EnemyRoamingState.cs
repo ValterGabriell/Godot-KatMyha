@@ -1,7 +1,9 @@
 using Godot;
+using KatrinaGame.Players;
 using PrototipoMyha.Enemy;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Utilidades;
+using System;
 
 namespace KatMyha.Scripts.Enemies.DroneEnemy.States
 {
@@ -15,15 +17,18 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
 
         private const float DriftRadius = 120.0f;
         private const float DriftSpeed = 0.4f;
+        private EnemyBaseV2 EnemyBaseV2 => _enemy;
+        private RayCast2D SearchPlayerRaycast => _enemy.GetNode<RayCast2D>("SearchPlayerRaycast");
+    
 
         public EnemyRoamingState(EnemyBaseV2 enemy) : base(enemy)
         {
         }
 
-        public override void Enter(EnemyStateBase prevState)
+        public override void EnterState(EnemyStateBase prevState)
         {
             GDLogger.LogRed("Entering EnemyRoamingState");
-            base.Enter(prevState);
+            base.EnterState(prevState);
 
             if (_enemy != null)
             {
@@ -32,7 +37,8 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
             }
         }
 
-        public override void Update(float delta)
+
+        public override void Process(float delta)
         {
             if (_enemy == null) return;
             _time += delta;
@@ -54,11 +60,21 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
             _enemy.Velocity = dir * _enemy.Resources.MoveSpeed * delta;
         }
 
-        public override void PhysicsUpdate(float delta)
+        public override void PhysicsProcess(float delta)
         {
             if (_enemy == null) return;
             
             _enemy.MoveAndSlide();
+            if (this.SearchPlayerRaycast != null)
+                PP_LookAtPlayer();
+            
+            
+        }
+
+        private void PP_LookAtPlayer()
+        {
+            Vector2 playerGlobalPos = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition();
+            SearchPlayerRaycast.TargetPosition = SearchPlayerRaycast.ToLocal(playerGlobalPos);
         }
     }
 }

@@ -59,24 +59,24 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
                 GD.PushError($"[StateMachine] State {newStateType} not found in registered states!");
                 return;
             }
-            _currentState?.Exit(nextState);
+            _currentState?.ExitState(nextState);
 
             var previousState = _currentState;
             
             _currentState = nextState;
             CurrentStateType = newStateType;
 
-            _currentState.Enter(previousState);
+            _currentState.EnterState(previousState);
         }
 
         public override void _Process(double delta)
         {
-            _currentState?.Update((float)delta);
+            _currentState?.Process((float)delta);
         }
 
         public override void _PhysicsProcess(double delta)
         {
-            _currentState?.PhysicsUpdate((float)delta);
+            _currentState?.PhysicsProcess((float)delta);
         }
 
         public EnemyStateBase GetCurrentState()

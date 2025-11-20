@@ -14,25 +14,30 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
             _enemy = enemy;
         }
 
-        public virtual void Enter(EnemyStateBase prevState)
+        public virtual void EnterState(EnemyStateBase prevState)
         {
             GD.Print($"[State] Entering {GetType().Name} from {prevState?.GetType().Name ?? "null"}");
         }
 
       
-        public virtual void Exit(EnemyStateBase nextState)
+        public virtual void ExitState(EnemyStateBase nextState)
         {
             GD.Print($"[State] Exiting {GetType().Name} to {nextState?.GetType().Name ?? "null"}");
         }
 
-
-        public virtual void Update(float delta)
+        public override void _PhysicsProcess(double delta)
         {
+            Process((float)delta);
         }
 
-        public virtual void PhysicsUpdate(float delta)
+        public override void _Process(double delta)
         {
+            PhysicsProcess((float)delta);
         }
+
+        public abstract void Process(float delta);
+
+        public abstract void PhysicsProcess(float delta);
 
         public StateMachine GetStateMachine()
         {
@@ -43,5 +48,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         {
             _stateMachine?.ChangeState(newState);
         }
+
+  
     }
 }
