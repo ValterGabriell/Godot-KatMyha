@@ -101,7 +101,13 @@ namespace PrototipoMyha.Utilidades
             return System.IO.Path.GetFileNameWithoutExtension(filePath) ?? "UnknownClass";
         }
 
-
-
+        internal static void LogError(object message,
+            bool isVerbose = false,
+            [CallerMemberName] string memberName = "",
+            [CallerFilePath] string filePath = "",
+            [CallerLineNumber] int lineNumber = 0)
+        {
+            PrintWithEmoji("ERR - ", message, isVerbose, memberName, filePath, lineNumber);
+        }
     }
 }

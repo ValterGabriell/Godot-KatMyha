@@ -20,8 +20,6 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
             double delta,
             EnemyBase InEnemy, Vector2? InPositionToChase = null)
         {
-
-
             InEnemy.SetPolygonAlertedColor();
             if (!hasEmittedAlert)
             {
@@ -37,8 +35,6 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
                return 0.1f;
             }
 
-
-            InEnemy.SetState(States.EnemyState.Alerted);
             alertWaitDuration -= (float)delta;
             InEnemy.Velocity = Vector2.Zero;
             float waitTime = 3;

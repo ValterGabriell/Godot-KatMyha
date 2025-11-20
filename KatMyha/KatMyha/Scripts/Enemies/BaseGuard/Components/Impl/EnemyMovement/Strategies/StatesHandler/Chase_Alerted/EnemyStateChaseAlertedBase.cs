@@ -27,11 +27,20 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
         private bool hasEmittedKillSignal = false;
         private bool stopEnemy = false;
         private SoundManager SoundManager = SoundManager.Instance;
+        
+        // NOVO: Controle de timeout para evitar que o inimigo fique preso
+        private float timeStuckAtPosition = 0f;
+        private Vector2 lastPosition = Vector2.Zero;
+        private const float MAX_STUCK_TIME = 5.0f; // 5 segundos sem progresso = desistir
+        private const float STUCK_DISTANCE_THRESHOLD = 2f; // Se mover menos que 2 pixels por segundo = preso
+        private const float STUCK_CHECK_INTERVAL = 1.0f; // Verificar a cada 1 segundo
+        private float timeSinceLastCheck = 0f;
 
         public EnemyStateChaseAlertedBase(Vector2 inTargetMovement)
         {
             InTargetMovement = inTargetMovement;
             SignalManager = SignalManager.Instance;
+            lastPosition = Vector2.Zero; // Será inicializado no primeiro frame
         }
 
         public virtual float ExecuteState(
@@ -39,15 +48,23 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
            EnemyBase InEnemy,
            Vector2? InPositionToChase = null)
         {
-
             //chase
             if (InPositionToChase.HasValue)
                 this.InTargetMovement = ClampToBoundaries(InEnemy, InPositionToChase.Value);
             else 
-                this.InTargetMovement = ClampToBoundaries(InEnemy, InTargetMovement);
+            {
+                // Para DistractionAlerted, não clampar a posição para permitir que o inimigo investigue fora dos limites
+                if (InEnemy.CurrentEnemyState == States.EnemyState.DistractionAlerted)
+                {
+                    this.InTargetMovement = InTargetMovement;
+                }
+                else
+                {
+                    this.InTargetMovement = ClampToBoundaries(InEnemy, InTargetMovement);
+                }
+            }
 
-
-            return HandleAlertedMovement(InEnemy);
+            return HandleAlertedMovement(InEnemy, delta);
         }
 
         private Vector2 ClampToBoundaries(EnemyBase enemy, Vector2 position)
@@ -63,21 +80,55 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
             return position;
         }
 
-        private float HandleAlertedMovement(EnemyBase InEnemy)
+        private float HandleAlertedMovement(EnemyBase InEnemy, double delta)
         {
             Vector2 directionToPlayer = (InTargetMovement - InEnemy.GlobalPosition).Normalized();
 
             // Verifica se o jogador não está no mesmo nível vertical
             bool isPlayerAtDifferentLevel = IsPlayerAtDifferentVerticalLevel(InEnemy);
 
-            // NOVO: Verifica se chegou no limite dos marcadores
+            // Verifica se chegou no boundary
             bool isAtBoundary = IsAtBoundaryLimit(InEnemy);
+            
+            // Calcula a distância horizontal para o alvo
+            float horizontalDistanceToTarget = Mathf.Abs(InTargetMovement.X - InEnemy.GlobalPosition.X);
+            
+            // NOVO: Detectar se o inimigo está preso (não se movendo)
+            if (InEnemy.CurrentEnemyState == States.EnemyState.DistractionAlerted)
+            {
+                CheckIfStuck(InEnemy, delta);
+                
+                // Se ficou preso por muito tempo, desistir e voltar para Waiting
+                if (timeStuckAtPosition >= MAX_STUCK_TIME)
+                {
+                    GDLogger.LogRed($"Enemy stuck for {MAX_STUCK_TIME}s, giving up on distraction");
+                    InEnemy.SetState(States.EnemyState.Waiting);
+                    InEnemy.Velocity = Vector2.Zero;
+                    ResetStuckTimer();
+                    return TIME_TO_WAIT_WHEN_WAITING_START;
+                }
+            }
 
             // Se o jogador estiver em nível diferente, pare o movimento horizontal
             float horizontalVelocity = 0f;
-            if (!isPlayerAtDifferentLevel && !isAtBoundary) // Adicionado !isAtBoundary
+            
+            // Para Alerted normal, respeitar boundary
+            // Para DistractionAlerted, ignorar boundary completamente
+            if (!isPlayerAtDifferentLevel)
             {
-                horizontalVelocity = directionToPlayer.X * InEnemy.EnemyResource.ChaseSpeed;
+                if (InEnemy.CurrentEnemyState == States.EnemyState.DistractionAlerted)
+                {
+                    // DistractionAlerted: SEMPRE se mover, ignorando boundary
+                    horizontalVelocity = directionToPlayer.X * InEnemy.EnemyResource.ChaseSpeed;
+                }
+                else
+                {
+                    // Alerted normal: respeitar boundary
+                    if (!isAtBoundary)
+                    {
+                        horizontalVelocity = directionToPlayer.X * InEnemy.EnemyResource.ChaseSpeed;
+                    }
+                }
             }
 
             InEnemy.Velocity = new Vector2(horizontalVelocity, InEnemy.Velocity.Y);
@@ -85,8 +136,8 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
 
             ProcessAlertAtDifferentLevel(InEnemy, directionToPlayer, isPlayerAtDifferentLevel, horizontalVelocity);
             HandleAlertedStateTransition(InEnemy, isPlayerAtDifferentLevel, directionToPlayer, isAtBoundary);
-            ///por padrao true
-            if (IsRaycastDirectionNotInitialized() && !isAtBoundary) // Adicionado !isAtBoundary
+            
+            if (IsRaycastDirectionNotInitialized() && !isAtBoundary)
             {
                 FlipEnemyDirection(InEnemy, directionToPlayer);
             }
@@ -136,8 +187,6 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
             return isAtMinBoundary || isAtMaxBoundary;
         }
 
-
-
         private float ProcessAlertAtDifferentLevel(EnemyBase InEnemy, Vector2 directionToPlayer, bool isPlayerAtDifferentLevel, float horizontalVelocity)
         {
             // Ativa animação específica quando o jogador está em nível diferente
@@ -166,12 +215,20 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
             float direction = directionToPlayer.X > 0 ? 1 : -1;
             // Calcula apenas a distância horizontal (eixo X)
             float horizontalDistanceToTarget = Mathf.Abs(InTargetMovement.X - InEnemy.GlobalPosition.X);
-
-            if (InEnemy.CurrentEnemyState == States.EnemyState.Alerted
-                && horizontalDistanceToTarget < 20f && !IsInvestigatingArea && !isPlayerAtDifferentLevel)
+            
+            float threshold = 15f;
+            
+            if ((InEnemy.CurrentEnemyState == States.EnemyState.Alerted || InEnemy.CurrentEnemyState == States.EnemyState.DistractionAlerted)
+                && horizontalDistanceToTarget < threshold && !IsInvestigatingArea && !isPlayerAtDifferentLevel)
             {
                 ToggleRaycastDirectionOnAlert(direction);
                 InEnemy.SetState(States.EnemyState.Waiting);
+                
+                // Resetar stuck timer quando transicionar com sucesso
+                if (InEnemy.CurrentEnemyState == States.EnemyState.DistractionAlerted)
+                {
+                    ResetStuckTimer();
+                }
             }
         }
 
@@ -210,7 +267,7 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
             if (isPlayerAbove)
             {
                 // Animação olhando para cima
-                //GDLogger.PrintGreen("Player is above - Enemy stopped and looking up");
+                GDLogger.Log("Player is above - Enemy stopped and looking up");
             }
             else
             {
@@ -238,6 +295,54 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
                 RaycastDirectionWhenStartToAlert = raycastDirection;
             else
                 RaycastDirectionWhenStartToAlert = 0f;
+        }
+
+        private void CheckIfStuck(EnemyBase enemy, double delta)
+        {
+            timeSinceLastCheck += (float)delta;
+            
+            // Só verificar a cada intervalo para evitar falsos positivos
+            if (timeSinceLastCheck < STUCK_CHECK_INTERVAL)
+            {
+                return;
+            }
+            
+            // Inicializar lastPosition na primeira verificação
+            if (lastPosition == Vector2.Zero)
+            {
+                lastPosition = enemy.GlobalPosition;
+                timeStuckAtPosition = 0f;
+                timeSinceLastCheck = 0f;
+                return;
+            }
+            
+            float distanceMoved = enemy.GlobalPosition.DistanceTo(lastPosition);
+            
+            // Se moveu muito pouco no intervalo, está preso
+            if (distanceMoved < STUCK_DISTANCE_THRESHOLD)
+            {
+                timeStuckAtPosition += timeSinceLastCheck;
+                GDLogger.LogYellow($"Enemy possibly stuck. Moved {distanceMoved:F2}px in {timeSinceLastCheck:F2}s. Total stuck time: {timeStuckAtPosition:F2}s");
+            }
+            else
+            {
+                // Resetar o timer se conseguiu se mover
+                if (timeStuckAtPosition > 0)
+                {
+                    GDLogger.LogGreen($"Enemy unstuck! Moved {distanceMoved:F2}px");
+                }
+                timeStuckAtPosition = 0f;
+            }
+            
+            lastPosition = enemy.GlobalPosition;
+            timeSinceLastCheck = 0f;
+        }
+
+        private void ResetStuckTimer()
+        {
+            timeStuckAtPosition = 0f;
+            lastPosition = Vector2.Zero;
+            timeSinceLastCheck = 0f;
         }
     }
 }

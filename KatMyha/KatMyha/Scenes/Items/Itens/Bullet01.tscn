@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://belhcxrdca17j"]
+[gd_scene load_steps=8 format=3 uid="uid://belhcxrdca17j"]
 
 [ext_resource type="Texture2D" uid="uid://cc01l1jesbexl" path="res://Assets/Sprites/Itens/ShotItem01.png" id="1_igf84"]
+[ext_resource type="Script" uid="uid://drnys47sqn0p7" path="res://Scripts/Items/Bullet01.cs" id="2_kp1u7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kp1u7"]
 atlas = ExtResource("1_igf84")
@@ -24,8 +25,26 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Bullet01" type="AnimatedSprite2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_kp1u7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3jdrc"]
+radius = 6.0
+
+[node name="Bullet01" type="RigidBody2D"]
 texture_filter = 1
 scale = Vector2(0.5, 0.5)
+collision_layer = 0
+script = ExtResource("2_kp1u7")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3aq3l")
-frame_progress = 0.571834
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_kp1u7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_3jdrc")
+debug_color = Color(0.960072, 9.62615e-08, 0.5107771, 0)

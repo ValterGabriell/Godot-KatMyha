@@ -97,6 +97,7 @@ namespace PrototipoMyha.Scripts.Enemies.BaseGuard.Components.Impl
             }
 
             AnimatedSprite2D sprite = (AnimatedSprite2D)spriteScene.Instantiate();
+            GDLogger.LogBlue("Mostrando alerta na posição: " + positionToShowAlert);
             sprite.Position = positionToShowAlert;
             sprite.AddToGroup(EnumGroups.AlertSprite.ToString());
             AddChild(sprite);

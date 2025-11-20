@@ -124,7 +124,7 @@ tile_map_data = PackedByteArray("AAC4/wAAAAABAAUAAAC3/wAAAAABAAUAAAC2/wAAAAABAAU
 tile_set = SubResource("TileSet_efc0h")
 
 [node name="Myha" parent="." instance=ExtResource("2_twxkt")]
-position = Vector2(2590, -195)
+position = Vector2(2472, -191)
 
 [node name="MovePlataform" type="Node" parent="."]
 

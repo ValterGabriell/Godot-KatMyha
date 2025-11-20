@@ -10,9 +10,17 @@ public enum PlayerSwitchLightState
     CAN_TURN_OFF_LIGHT,
     CANT_TOGGLE_LIGHT
 }
+
+public enum PlayerShootType
+{
+    DISTRACTION_SHOOT,
+    AIM_SHOOT
+}
+
 public partial class PlayerManager : Node
 {
     private Vector2 CurrentPlayerPosition { get; set; }
+    private Vector2? LastDistractionBallPosition { get; set; }
 
     private static PlayerManager PlayerGlobalInstance = null;
 
@@ -22,6 +30,7 @@ public partial class PlayerManager : Node
     public static float JumpNoiseRadius { get; private set; } = 50f;
     public bool PlayerCanSaveTheGame { get; set; } = false;
     public PlayerSwitchLightState PlayerCanTurnOfTheLight { get; set; } = PlayerSwitchLightState.CANT_TOGGLE_LIGHT;
+    private PlayerShootType CurrentPlayerShootType { get; set; } = PlayerShootType.DISTRACTION_SHOOT;
     
     public override void _Ready()
     {
@@ -42,6 +51,16 @@ public partial class PlayerManager : Node
         {
             QueueFree();
         }
+    }
+
+    public void SetCurrentPlayerShootType(PlayerShootType shootType)
+    {
+        CurrentPlayerShootType = shootType;
+    }
+
+    public PlayerShootType GetCurrentPlayerShootType()
+    {
+        return CurrentPlayerShootType;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -66,5 +85,16 @@ public partial class PlayerManager : Node
     public Vector2 GetPlayerPosition()
     {
         return CurrentPlayerPosition;
+    }
+
+    public void UpdateLastDistractionBallPosition(Vector2? newPosition)
+    {
+        GDLogger.LogGreen("Updating LastDistractionBallPosition to: " + (newPosition.HasValue ? newPosition.Value.ToString() : "null"));
+        LastDistractionBallPosition = newPosition;
+    }
+
+    public Vector2 GetLastDistractionBallPosition()
+    {
+        return LastDistractionBallPosition ?? CurrentPlayerPosition;
     }
 }

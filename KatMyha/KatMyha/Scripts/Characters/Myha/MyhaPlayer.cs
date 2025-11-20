@@ -193,13 +193,17 @@ namespace KatrinaGame.Players
                     var door = this.GetDoorThatEnemyIs();
                     var isLocked = (bool)door.Get("is_locked");
                     var requiredKeyName = (string)door.Get("required_key_name");
-
                     door.Call("try_unlock");
                 }
+            }
+
+            if (Input.IsActionJustPressed(nameof(EnumActionsInput.shoot_options_toogle)))
+            {
+                if (PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.AIM_SHOOT)
+                    PlayerManager.GetPlayerGlobalInstance().SetCurrentPlayerShootType(PlayerShootType.DISTRACTION_SHOOT);
                 else
-                {
-                    GDLogger.LogGreen("Nenhuma porta encontrada para interagir.");
-                }
+                    PlayerManager.GetPlayerGlobalInstance().SetCurrentPlayerShootType(PlayerShootType.AIM_SHOOT);
+                GDLogger.LogYellow("Toggled Shoot Type to: " + PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType().ToString());
             }
 
             MovementComponent.Move(inputVector, CurrentPlayerSpeed);
@@ -214,4 +218,16 @@ namespace KatrinaGame.Players
             this.BlockMovement();
         }
     }
+}
+
+
+enum EnumActionsInput
+{
+    shoot_options_toogle,
+    action,
+    jump,
+    s,
+    w,
+    a,
+    d
 }

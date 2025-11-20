@@ -8,6 +8,7 @@ public enum PlayerState
     WALK,
     RUN,
     ATTACK,
+
     THROW,
     HURT,
     DEAD,

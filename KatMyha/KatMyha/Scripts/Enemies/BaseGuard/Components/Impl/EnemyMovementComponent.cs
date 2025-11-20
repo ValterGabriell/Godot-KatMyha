@@ -63,17 +63,21 @@ namespace PrototipoMyha.Enemy.Components.Impl
                     WaitTime: _waitTimer,
                     MaxWaitTime: _maxWaitTime,
                     SetNewWaitTimeWhenWaiting: SetNewRandomTarget
-                    );
+                );
             }
 
             if (enemyStateHandler != null)
             {
-                _waitTimer = enemyStateHandler.ExecuteState(
-                        delta: delta,
-                        InEnemy: _Enemy,
-                        InTargetPosition: _targetPosition);
-            }
+                // Só passa _targetPosition para estados que precisam (Roaming)
+                Vector2? positionToPass = _Enemy.CurrentEnemyState == EnemyState.Roaming 
+                    ? _targetPosition 
+                    : null;
 
+                _waitTimer = enemyStateHandler.ExecuteState(
+                    delta: delta,
+                    InEnemy: _Enemy,
+                    InTargetPosition: positionToPass);
+            }
         }
 
 

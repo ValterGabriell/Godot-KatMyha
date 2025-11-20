@@ -1,7 +1,7 @@
 [gd_scene load_steps=45 format=3 uid="uid://dw4s248phtymn"]
 
 [ext_resource type="Script" uid="uid://dk8egln53p1ft" path="res://Scripts/Characters/Myha/MyhaPlayer.cs" id="1_gp1ay"]
-[ext_resource type="PackedScene" uid="uid://dkjhvr053vtls" path="res://Scenes/Items/Plataform/Gangorra/Gangorra.tscn" id="2_hntan"]
+[ext_resource type="PackedScene" uid="uid://belhcxrdca17j" path="res://Scenes/Items/Itens/Bullet01.tscn" id="2_qemu2"]
 [ext_resource type="Texture2D" uid="uid://dlj7psu1h8gig" path="res://Assets/Sprites/Characters/Myha/myha21.png" id="3_hntan"]
 [ext_resource type="Texture2D" uid="uid://wcu1syg0rthr" path="res://Assets/Sprites/Characters/Myha/myha21jump.png" id="3_tpfg6"]
 [ext_resource type="Texture2D" uid="uid://dgbxtqsplftdo" path="res://Assets/Sprites/Characters/Myha/myha21idle.png" id="3_xyvna"]
@@ -281,7 +281,7 @@ collision_layer = 2
 collision_mask = 131573
 script = ExtResource("1_gp1ay")
 AttackRaycast = NodePath("AttackRaycast")
-BallScene = ExtResource("2_hntan")
+BallScene = ExtResource("2_qemu2")
 SoundAreaWalkingComponent = NodePath("SoundArea")
 WalkAudioStreamPlayer2D = NodePath("Sounds/WalkSound")
 JumpAudioStreamPlayer2D = NodePath("Sounds/JumpSound")

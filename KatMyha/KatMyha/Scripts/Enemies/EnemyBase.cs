@@ -1,5 +1,6 @@
 using Godot;
 using KatMyha.Scripts.Managers;
+using KatMyha.Scripts.Utils;
 using KatrinaGame.Core;
 using PrototipoMyha.Enemy.Components.Interfaces;
 using PrototipoMyha.Enemy.States;
@@ -11,7 +12,7 @@ using System.Drawing;
 
 namespace PrototipoMyha.Enemy;
 
-public abstract partial class EnemyBase : CharacterBody2D
+public abstract partial class EnemyBase : CharacterBody2D, IDistanceToSelf
 {
 	[Export] public EnemyResources EnemyResource;
 
@@ -35,11 +36,13 @@ public abstract partial class EnemyBase : CharacterBody2D
 	protected Dictionary<string, IEnemyBaseComponents> Components = new();
 	private SoundManager SoundManager = SoundManager.Instance;
 
-
+	public float DistanceToSelf { get; set; }
 
 
 
 	public EnemyState CurrentEnemyState { get; private set; }  = EnemyState.Roaming;
+
+
 	private Guid Identifier = Guid.NewGuid();
 	private bool HasJustSearchSomePlace = false;
 	private bool hasEmittedKillSignal = false;
