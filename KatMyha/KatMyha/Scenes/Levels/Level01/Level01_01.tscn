@@ -113,9 +113,8 @@ texture_scale = 4.28
 [node name="HiddenPlace" parent="Parallax" instance=ExtResource("7_uk42m")]
 position = Vector2(3115, -173)
 
-[node name="DroneEnemy" parent="Parallax" node_paths=PackedStringArray("MyhaPlayer") instance=ExtResource("8_k0dm3")]
+[node name="DroneEnemy" parent="Parallax" instance=ExtResource("8_k0dm3")]
 position = Vector2(3700, -264)
-MyhaPlayer = NodePath("../../Myha")
 
 [node name="World" type="TileMapLayer" parent="."]
 z_index = 2
@@ -125,7 +124,7 @@ tile_map_data = PackedByteArray("AAC4/wAAAAABAAUAAAC3/wAAAAABAAUAAAC2/wAAAAABAAU
 tile_set = SubResource("TileSet_efc0h")
 
 [node name="Myha" parent="." instance=ExtResource("2_twxkt")]
-position = Vector2(3654, -172)
+position = Vector2(3825, -170)
 
 [node name="MovePlataform" type="Node" parent="."]
 

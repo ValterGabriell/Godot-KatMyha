@@ -27,5 +27,14 @@ namespace PrototipoMyha.Utilidades
             }
             return (default, false);
         }
+        public static void LookAtPlayer(Vector2 PlayerPos, RayCast2D rayCast2D, Vector2 TargetRaycastPosition, RaycastFollowHasLimitedRange raycastFollowHasLimitedRange)
+        {
+            Vector2 localPlayerPos = rayCast2D.ToLocal(PlayerPos);
+            TargetRaycastPosition.X = localPlayerPos.X;
+            TargetRaycastPosition.Y = raycastFollowHasLimitedRange.HasLimitedRange ? raycastFollowHasLimitedRange.MaxRange : localPlayerPos.Y;
+            rayCast2D.TargetPosition = TargetRaycastPosition;
+        }
     }
+
+    public record RaycastFollowHasLimitedRange(bool HasLimitedRange,float MaxRange);
 }

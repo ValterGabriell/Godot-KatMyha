@@ -34,7 +34,7 @@ namespace PrototipoMyha.Scripts.Enemies.BaseGuard.Components.Impl
             this.SignalManager = SignalManager.Instance;
             this.SignalManager.EnemySpottedPlayer += OnEnemySpottedPlayer;
             this.SignalManager.EnemySpottedPlayerShowAlert += OnEnemySpottedPlayerShowAlert;
-            this.SignalManager.EnemyKillMyha += Shoot;
+            //this.SignalManager.EnemyKillMyha += Shoot;
 
         }
 

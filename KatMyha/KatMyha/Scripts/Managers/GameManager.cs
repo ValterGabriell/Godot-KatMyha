@@ -1,4 +1,6 @@
 using Godot;
+using KatMyha.Scripts.Enemies.DroneEnemy;
+using KatMyha.Scripts.Managers;
 using PrototipoMyha.Enemy;
 using PrototipoMyha.Player.StateManager;
 using PrototipoMyha.Scripts.Utils.Objetos;
@@ -19,7 +21,8 @@ namespace PrototipoMyha.Scripts.Managers
         private const  int TIME_TO_LOAD_GAME_CONST = 150;
         private bool playerHasBeenKilled = false;
         public int CurrentLevelNumber { get; private set; } = 1;
-
+        private bool hasEmittedKillSignal = false;
+        private bool stopEnemy = false;
         public LevelSaveData CurrentLevelObjData { get; private set; }
 
         public void SetCurrentLevelNumber(int levelNumber)
@@ -88,13 +91,15 @@ namespace PrototipoMyha.Scripts.Managers
             return _instance;
         }
 
-        public void SetCurrentLevelInitialData(List<EnemyBase> enemies)
+        public void SetCurrentLevelInitialData(List<EnemyBase> enemies, List<EnemyBaseV2> enemyBaseV2s)
         {
-       
+            var enemySaveDataList = enemies.Select(e => e.ToSaveData()).ToList();
+            var enemyV2SaveDataList = enemyBaseV2s.Select(e => e.ToSaveData()).ToList();
+            enemySaveDataList.AddRange(enemyV2SaveDataList);
             CurrentLevelObjData = new LevelSaveData
             {
                 LevelNumber = GameManager.GetGameManagerInstance().CurrentLevelNumber,
-                Enemies = enemies.Select(e => e.ToSaveData()).ToList(),
+                Enemies = enemySaveDataList,
                 PlayerPosition_X_OnLevel = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition().X,
                 PlayerPosition_Y_OnLevel = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition().Y
             };
@@ -205,7 +210,20 @@ namespace PrototipoMyha.Scripts.Managers
 
           
         }
+        public void KillPlayer(EnemyBaseV2 enemyBaseV2)
+        {
+            if (!hasEmittedKillSignal)
+            {
+                SignalManager.Instance.EmitSignal(nameof(SignalManager.EnemyKillMyha));
+                enemyBaseV2.Velocity = Vector2.Zero;
+                hasEmittedKillSignal = true;
+                stopEnemy = true;
+            }
+   
+        }
+
     }
+
 
 
 }

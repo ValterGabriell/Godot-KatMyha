@@ -1,9 +1,12 @@
 using Godot;
+using Godot.Collections;
 using KatrinaGame.Players;
+using PrototipoMyha;
 using PrototipoMyha.Enemy;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Utilidades;
 using System;
+using System.Linq;
 
 namespace KatMyha.Scripts.Enemies.DroneEnemy.States
 {
@@ -18,11 +21,14 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         private const float DriftRadius = 120.0f;
         private const float DriftSpeed = 0.4f;
         private EnemyBaseV2 EnemyBaseV2 => _enemy;
-        private RayCast2D SearchPlayerRaycast => _enemy.GetNode<RayCast2D>("SearchPlayerRaycast");
-    
+        private DroneEnemy DroneEnemy => _enemy as DroneEnemy;
+        private Vector2 TargetPosition = new Vector2();
 
-        public EnemyRoamingState(EnemyBaseV2 enemy) : base(enemy)
+
+
+        public EnemyRoamingState(EnemyBaseV2 enemy, StateMachine stateMachine) : base(enemy, stateMachine)
         {
+            this.DroneEnemy.Area2D.BodyEntered += OnBodyEntered;
         }
 
         public override void EnterState(EnemyStateBase prevState)
@@ -32,6 +38,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
 
             if (_enemy != null)
             {
+                this._enemy.SetEnemyState(EnemyState.Roaming);
                 _centerPoint = _enemy.GlobalPosition;
                 _time = 0.0f;
             }
@@ -63,18 +70,20 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         public override void PhysicsProcess(float delta)
         {
             if (_enemy == null) return;
-            
+               
             _enemy.MoveAndSlide();
-            if (this.SearchPlayerRaycast != null)
-                PP_LookAtPlayer();
-            
-            
         }
 
-        private void PP_LookAtPlayer()
+        private void OnBodyEntered(Node2D body)
         {
-            Vector2 playerGlobalPos = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition();
-            SearchPlayerRaycast.TargetPosition = SearchPlayerRaycast.ToLocal(playerGlobalPos);
+            if (body.IsInGroup(EnumGroups.player.ToString()))
+            {
+                GDLogger.LogRed("DroneEnemy detected the player, transitioning to Chasing state.");
+                TransitionTo(EnemyState.Chasing);
+            }
         }
+
+
+
     }
 }

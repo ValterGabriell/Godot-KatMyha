@@ -1,4 +1,5 @@
 using Godot;
+using KatMyha.Scripts.Enemies.DroneEnemy;
 using PrototipoMyha.Enemy;
 using PrototipoMyha.Scripts.Managers;
 using System.Linq;
@@ -12,8 +13,10 @@ public partial class LevelBase : Node2D
     
         var enemiesInScene = GetTree().GetNodesInGroup("enemy");
         var listaInimigos = enemiesInScene.OfType<EnemyBase>().ToList();
+        var listaInimigosv2 = enemiesInScene.OfType<EnemyBaseV2>().ToList();
+       
         var gameManagerInstance = GameManager.GetGameManagerInstance();
         gameManagerInstance.SetCurrentLevelNumber(LevelNumber);
-        gameManagerInstance.SetCurrentLevelInitialData(enemies: listaInimigos);
+        gameManagerInstance.SetCurrentLevelInitialData(enemies: listaInimigos, enemyBaseV2s: listaInimigosv2);
     }
 }

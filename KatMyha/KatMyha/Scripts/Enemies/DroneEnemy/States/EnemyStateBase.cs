@@ -1,6 +1,7 @@
 using Godot;
 using PrototipoMyha.Enemy;
 using PrototipoMyha.Enemy.States;
+using PrototipoMyha.Utilidades;
 
 namespace KatMyha.Scripts.Enemies.DroneEnemy.States
 {
@@ -9,9 +10,10 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         protected EnemyBaseV2 _enemy;
         protected StateMachine _stateMachine;
 
-        protected EnemyStateBase(EnemyBaseV2 enemy)
+        protected EnemyStateBase(EnemyBaseV2 enemy, StateMachine stateMachine)
         {
             _enemy = enemy;
+            _stateMachine = stateMachine;
         }
 
         public virtual void EnterState(EnemyStateBase prevState)
