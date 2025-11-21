@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bge6tkj65u8sd"]
+
+[ext_resource type="Texture2D" uid="uid://bvaitfhcjehck" path="res://Assets/Sprites/Itens/CAMERA.png" id="1_hiyj7"]
+[ext_resource type="Script" uid="uid://5env3spt04s1" path="res://Scripts/Items/Camera.cs" id="1_x1a40"]
+
+[node name="Camera" type="Node2D"]
+script = ExtResource("1_x1a40")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_hiyj7")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(0, 150)
+collision_mask = 2

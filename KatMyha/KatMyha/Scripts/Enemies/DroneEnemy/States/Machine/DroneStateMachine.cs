@@ -10,7 +10,6 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         {
             RegisterState(EnemyState.Roaming, new EnemyRoamingState(_enemy, this));
             RegisterState(EnemyState.Chasing, new EnemyKillingState(_enemy, this));
-            RegisterState(EnemyState.Alerted, new EnemyAlertedState(_enemy, this));
         }
     }
 }

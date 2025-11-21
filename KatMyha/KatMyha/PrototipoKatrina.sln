@@ -1,19 +1,28 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototipoKatrina", "PrototipoKatrina.csproj", "{24F2D226-6469-4A1E-BA78-B9C641653DDB}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36717.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KatMyha", "KatMyha.csproj", "{4E0EA76E-4710-2CD4-2AB7-C11138E627E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{24F2D226-6469-4A1E-BA78-B9C641653DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{24F2D226-6469-4A1E-BA78-B9C641653DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{24F2D226-6469-4A1E-BA78-B9C641653DDB}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
-		{24F2D226-6469-4A1E-BA78-B9C641653DDB}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
-		{24F2D226-6469-4A1E-BA78-B9C641653DDB}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
-		{24F2D226-6469-4A1E-BA78-B9C641653DDB}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{4E0EA76E-4710-2CD4-2AB7-C11138E627E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E0EA76E-4710-2CD4-2AB7-C11138E627E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E0EA76E-4710-2CD4-2AB7-C11138E627E1}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{4E0EA76E-4710-2CD4-2AB7-C11138E627E1}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{4E0EA76E-4710-2CD4-2AB7-C11138E627E1}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{4E0EA76E-4710-2CD4-2AB7-C11138E627E1}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8B27B7EA-6B1A-498B-86AA-F1D25F0A78A7}
 	EndGlobalSection
 EndGlobal

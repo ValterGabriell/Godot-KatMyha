@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=4 uid="uid://cb10hg7he4wk5"]
+[gd_scene load_steps=31 format=4 uid="uid://cb10hg7he4wk5"]
 
 [ext_resource type="Texture2D" uid="uid://d2ivhrkguvk2u" path="res://Assets/Tilesets/World/PrototipoWorldTileset.png" id="1_i5gsn"]
 [ext_resource type="Script" uid="uid://p0tnlhwc8n4b" path="res://Scripts/Levels/LevelBase.cs" id="1_wf4vu"]
@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://wxue5tat5k2c" path="res://Scenes/Items/Itens/Key.tscn" id="22_yonhq"]
 [ext_resource type="PackedScene" uid="uid://d3uhi87fbyy3l" path="res://Scenes/Items/Itens/Door.tscn" id="23_hvpqb"]
 [ext_resource type="PackedScene" uid="uid://cix0q6d614wrr" path="res://Scenes/Items/Itens/FallTrapBall.tscn" id="25_kv7pv"]
+[ext_resource type="PackedScene" uid="uid://bge6tkj65u8sd" path="res://Scenes/Items/Itens/Camera.tscn" id="26_pr731"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_twxkt"]
 texture = ExtResource("1_i5gsn")
@@ -124,7 +125,7 @@ tile_map_data = PackedByteArray("AAC4/wAAAAABAAUAAAC3/wAAAAABAAUAAAC2/wAAAAABAAU
 tile_set = SubResource("TileSet_efc0h")
 
 [node name="Myha" parent="." instance=ExtResource("2_twxkt")]
-position = Vector2(3825, -170)
+position = Vector2(3463, -168)
 
 [node name="MovePlataform" type="Node" parent="."]
 
@@ -270,3 +271,6 @@ position = Vector2(2903, -324)
 
 [node name="FallTrapBall" parent="." instance=ExtResource("25_kv7pv")]
 position = Vector2(2756, -322)
+
+[node name="Camera" parent="." instance=ExtResource("26_pr731")]
+position = Vector2(3530, -258)
