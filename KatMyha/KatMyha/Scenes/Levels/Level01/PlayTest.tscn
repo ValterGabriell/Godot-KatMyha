@@ -76,13 +76,13 @@ position = Vector2(371, -161)
 [node name="01" type="Node" parent="Enemies"]
 
 [node name="Marker2D" type="Marker2D" parent="Enemies/01"]
-position = Vector2(2558, -98)
+position = Vector2(2525, -98)
 
 [node name="Marker2D2" type="Marker2D" parent="Enemies/01"]
 position = Vector2(2245.1663, -98.31099)
 
 [node name="CharacterBody2D" parent="Enemies/01" node_paths=PackedStringArray("Marker_01", "Marker_02") instance=ExtResource("4_8av8c")]
-position = Vector2(2409, -109)
+position = Vector2(2504, -108)
 Marker_01 = NodePath("../Marker2D")
 Marker_02 = NodePath("../Marker2D2")
 

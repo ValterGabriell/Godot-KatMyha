@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using KatMyha.Scripts.Managers;
 using KatrinaGame.Core;
 using KatrinaGame.Players;
@@ -6,8 +6,6 @@ using KatrinaGame.Scripts.Utils;
 using PrototipoMyha.Enemy;
 using PrototipoMyha.Player.Components.Interfaces;
 using PrototipoMyha.Player.StateManager;
-using PrototipoMyha.Utilidades;
-using System;
 
 namespace PrototipoMyha.Player.Components.Impl
 {
@@ -25,7 +23,7 @@ namespace PrototipoMyha.Player.Components.Impl
             this.MyhaPlayer = BasePlayer;
         }
 
-        public void HandleInput(double delta) {}
+        public void HandleInput(double delta) { }
 
         public void Initialize(BasePlayer player)
         {
@@ -43,16 +41,16 @@ namespace PrototipoMyha.Player.Components.Impl
 
         private void OnPlayerHasStateChanged(string animationToPlay)
         {
-            if(animationToPlay == EnumAnimations.jump_up.ToString())
+            if (animationToPlay == EnumAnimations.jump_up.ToString())
             {
                 SoundManager.Instance.PlaySound(this.MyhaPlayer.JumpAudioStreamPlayer2D, soundExtension: SoundExtension.wav);
             }
-   
+
         }
 
         private void OnMyhaStoped()
         {
-            if(this.MyhaPlayer.CurrentPlayerState != PlayerState.AIMING)
+            if (this.MyhaPlayer.CurrentPlayerState != PlayerState.AIMING && this.MyhaPlayer.CurrentPlayerState != PlayerState.HIDDEN)
             {
                 this.MyhaPlayer.SetState(PlayerState.IDLE);
                 this.MyhaPlayer.AlterRadiusCollisionSoundArea(0);
@@ -62,7 +60,7 @@ namespace PrototipoMyha.Player.Components.Impl
 
         private void OnMyhaIsMoving(float NoiseValue)
         {
-            if(MyhaPlayer.CurrentPlayerState == PlayerState.SNEAK && MyhaPlayer.CurrentHiddenState == LightHiddenState.HIDDEN)
+            if (MyhaPlayer.CurrentPlayerState == PlayerState.SNEAK && MyhaPlayer.CurrentLightHiddenState == LightHiddenState.LIGHT_HIDDEN)
             {
                 this.MyhaPlayer.AlterRadiusCollisionSoundArea(0);
                 return;
@@ -81,8 +79,8 @@ namespace PrototipoMyha.Player.Components.Impl
 
 
 
-        public void Process(double delta){ }
+        public void Process(double delta) { }
 
-        public void PhysicsProcess(double delta){}
+        public void PhysicsProcess(double delta) { }
     }
 }

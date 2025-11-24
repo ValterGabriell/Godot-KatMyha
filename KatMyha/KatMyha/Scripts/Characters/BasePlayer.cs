@@ -1,11 +1,6 @@
-using Godot;
-using KatrinaGame.Core.Interfaces;
-using PrototipoMyha;
-using PrototipoMyha.Enemy.Components.Interfaces;
+﻿using Godot;
 using PrototipoMyha.Player.Components.Interfaces;
 using PrototipoMyha.Player.StateManager;
-using PrototipoMyha.Utilidades;
-using System;
 using System.Collections.Generic;
 
 namespace KatrinaGame.Core
@@ -21,8 +16,8 @@ namespace KatrinaGame.Core
         [Export] public float Gravity { get; set; } = 700f;
         [Export] public Timer TimeToFallWall { get; set; }
         public PlayerState CurrentPlayerState { get; private set; } = PlayerState.IDLE;
-        public LightHiddenState CurrentHiddenState { get; private set; } = LightHiddenState.HIDDEN;
-        private StaticBody2D DoorThatPlayerIs {  get; set; } 
+        public LightHiddenState CurrentLightHiddenState { get; private set; } = LightHiddenState.LIGHT_HIDDEN;
+        private StaticBody2D DoorThatPlayerIs { get; set; }
 
         protected Dictionary<string, IPlayerBaseComponent> Components = new();
         [Export] public AnimatedSprite2D AnimatedSprite2D { get; set; }
@@ -63,7 +58,7 @@ namespace KatrinaGame.Core
         }
         public void RemoveEnemyOnDoor() => DoorThatPlayerIs = null;
         public StaticBody2D GetDoorThatEnemyIs() => DoorThatPlayerIs;
-        
+
 
 
         public override void _PhysicsProcess(double delta)
@@ -88,9 +83,20 @@ namespace KatrinaGame.Core
             CurrentPlayerState = newState;
         }
 
+        public void RemoveMaskOfEnemy()
+        {
+            this.CollisionMask &= ~(1u << 13);
+        }
+
+        public void ActivateMaskOfEnemy()
+        {
+            // Adiciona a layer 14 à máscara de colisão
+            CollisionMask |= (1 << 13);
+        }
+
         public void SetStateHidden(LightHiddenState newState)
         {
-            CurrentHiddenState = newState;
+            CurrentLightHiddenState = newState;
         }
 
 
@@ -122,7 +128,7 @@ namespace KatrinaGame.Core
         {
             Components[typeof(T).ToString()] = component;
             AddChild(component as Node);
-            
+
         }
 
         public T GetComponent<T>() where T : IPlayerBaseComponent

@@ -1,6 +1,4 @@
-using System;
-
-namespace PrototipoMyha.Player.StateManager;
+﻿namespace PrototipoMyha.Player.StateManager;
 
 public enum PlayerState
 {
@@ -25,6 +23,6 @@ public enum PlayerState
 
 public enum LightHiddenState
 {
-    HIDDEN,
-    NOT_HIDDEN,
+    LIGHT_HIDDEN,
+    LIGHT_NOT_HIDDEN,
 }

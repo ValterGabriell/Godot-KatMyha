@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using KatrinaGame.Core;
 using PrototipoMyha.Utilidades;
 
@@ -9,7 +9,7 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
         private float alertWaitDuration = 2.0f;
         private SignalManager SignalManager;
         private Vector2 lastKnownPlayerPosition;
-        private bool hasEmittedAlert = false; 
+        private bool hasEmittedAlert = false;
         public EnemyStateAlertedHandler(Vector2 lastKnownPlayerPosition) : base(lastKnownPlayerPosition)
         {
             SignalManager = SignalManager.Instance;
@@ -20,19 +20,20 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
             double delta,
             EnemyBase InEnemy, Vector2? InPositionToChase = null)
         {
+            GDLogger.Log("EnemyStateAlertedHandler - ExecuteState");
             InEnemy.SetPolygonAlertedColor();
             if (!hasEmittedAlert)
             {
                 SignalManager.EmitSignal(nameof(SignalManager.EnemySpottedPlayerShowAlert), lastKnownPlayerPosition);
                 hasEmittedAlert = true;
             }
-         
+
 
             (BasePlayer _, bool isColliding) = RaycastUtils.IsColliding<BasePlayer>(InEnemy.RayCast2DDetection);
             if (isColliding)
             {
-               InEnemy.SetState(States.EnemyState.Chasing);
-               return 0.1f;
+                InEnemy.SetState(States.EnemyState.Chasing);
+                return 0.1f;
             }
 
             alertWaitDuration -= (float)delta;

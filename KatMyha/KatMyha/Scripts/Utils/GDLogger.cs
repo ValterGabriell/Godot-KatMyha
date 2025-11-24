@@ -1,11 +1,6 @@
+﻿using Godot;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Godot;
 
 namespace PrototipoMyha.Utilidades
 {
@@ -37,7 +32,7 @@ namespace PrototipoMyha.Utilidades
             [CallerFilePath] string filePath = "",
             [CallerLineNumber] int lineNumber = 0)
         {
-            PrintWithEmoji("X", message, isVerbose, memberName, filePath, lineNumber);
+            PrintWithEmoji("LOG: ", message, isVerbose, memberName, filePath, lineNumber);
         }
 
 

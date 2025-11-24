@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using KatrinaGame.Core;
 using KatrinaGame.Core.Interfaces;
 using KatrinaGame.Players;
@@ -45,7 +45,7 @@ namespace PrototipoMyha.Scripts.Characters.Myha.Components.Impl
         {
 
             this._player.AnimatedSprite2D.Play(animationToPlay);
-            if (MyhaPlayer.CurrentPlayerState == PlayerState.SNEAK && MyhaPlayer.CurrentHiddenState == LightHiddenState.HIDDEN)
+            if (MyhaPlayer.CurrentPlayerState == PlayerState.SNEAK && MyhaPlayer.CurrentLightHiddenState == LightHiddenState.LIGHT_HIDDEN)
             {
                 return;
             }

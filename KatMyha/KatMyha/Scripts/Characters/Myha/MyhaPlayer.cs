@@ -1,17 +1,13 @@
-using Godot;
+﻿using Godot;
 using KatMyha.Scripts.Characters.Myha.Components.Impl;
 using KatrinaGame.Components;
 using KatrinaGame.Core;
 using KatrinaGame.Core.Interfaces;
 using PrototipoMyha;
-using PrototipoMyha.Enemy;
 using PrototipoMyha.Player.Components.Impl;
 using PrototipoMyha.Player.StateManager;
 using PrototipoMyha.Scripts.Characters.Myha.Components.Impl;
-using PrototipoMyha.Scripts.Managers;
 using PrototipoMyha.Utilidades;
-using System;
-using System.Linq;
 
 namespace KatrinaGame.Players
 {
@@ -19,7 +15,7 @@ namespace KatrinaGame.Players
     {
         [ExportGroup("RayCasts")]
         [Export] public RayCast2D AttackRaycast { get; set; }
-        
+
         [ExportGroup("Scenes")]
         [Export] public PackedScene BallScene { get; set; }
 
@@ -65,7 +61,7 @@ namespace KatrinaGame.Players
         {
             SignalManager.Instance.PlayerStateChanged += PlayerStateChanged;
             SignalManager.Instance.GameLoaded += UpdatePlayerPosition;
-   
+
 
         }
 
@@ -90,7 +86,7 @@ namespace KatrinaGame.Players
         {
             if (node.IsInGroup("kill_light"))
             {
-                this.SetStateHidden(LightHiddenState.NOT_HIDDEN);
+                this.SetStateHidden(LightHiddenState.LIGHT_NOT_HIDDEN);
                 SignalManager.Instance.EmitSignal(nameof(SignalManager.Instance.PlayerIsOnLight));
             }
         }
@@ -99,8 +95,8 @@ namespace KatrinaGame.Players
         {
             if (node.IsInGroup("kill_light"))
             {
-                this.SetStateHidden(LightHiddenState.HIDDEN);
-  
+                this.SetStateHidden(LightHiddenState.LIGHT_HIDDEN);
+
             }
         }
 
@@ -157,7 +153,7 @@ namespace KatrinaGame.Players
                 }
             }
 
-            if(this.CurrentPlayerState == PlayerState.WALL_SLIDING)
+            if (this.CurrentPlayerState == PlayerState.WALL_SLIDING)
             {
                 if (Input.IsActionPressed("w") && this.IsMovementBlocked == false)
                 {
@@ -179,8 +175,9 @@ namespace KatrinaGame.Players
                 MovementComponent.Jump();
             }
 
-            if(Input.IsKeyPressed(Key.Enter) && this.CurrentPlayerState == PlayerState.HIDDEN)
+            if (Input.IsKeyPressed(Key.Enter) && this.CurrentPlayerState == PlayerState.HIDDEN)
             {
+                GDLogger.LogYellow("Exiting Hidden State via Enter Key");
                 this.UnblockMovement();
                 this.SetState(PlayerState.IDLE);
                 this.Velocity = new Vector2(this.Velocity.X + 250, 0);
@@ -188,12 +185,19 @@ namespace KatrinaGame.Players
 
             if (Input.IsActionJustPressed("action"))
             {
-                if(this.GetDoorThatEnemyIs() != null)
+                GDLogger.LogYellow("Action Pressed: " + this.CurrentPlayerState);
+                if (this.GetDoorThatEnemyIs() != null)
                 {
                     var door = this.GetDoorThatEnemyIs();
                     var isLocked = (bool)door.Get("is_locked");
                     var requiredKeyName = (string)door.Get("required_key_name");
                     door.Call("try_unlock");
+                }
+
+                if (this.CurrentPlayerState == PlayerState.HIDDEN)
+                {
+                    GDLogger.LogYellow("Exiting Hidden State via Action Key");
+                    CallDeferred(nameof(SetHiddenPlace));
                 }
             }
 
@@ -211,11 +215,18 @@ namespace KatrinaGame.Players
             base.HandleInput(delta);
         }
 
+        private void SetHiddenPlace()
+        {
+            GDLogger.LogYellow("Exiting Hidden State");
+            this.RemoveMaskOfEnemy();
+            this.BlockMovement();
+        }
+
         internal void EnterHiddenPlace()
         {
-            GDLogger.LogBlue("Entering Hidden Place");
+            GDLogger.LogYellow("Entering Hidden Place");
             this.SetState(PlayerState.HIDDEN);
-            this.BlockMovement();
+            GDLogger.LogYellow(this.CurrentPlayerState);
         }
     }
 }
