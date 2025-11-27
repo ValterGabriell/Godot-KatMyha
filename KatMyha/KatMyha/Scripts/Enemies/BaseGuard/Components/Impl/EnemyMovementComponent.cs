@@ -1,6 +1,8 @@
-using Godot;
+﻿using Godot;
+using KatMyha.Scripts.Enemies.BaseGuard.Components.Impl.EnemyMovement.Strategies.StatesHandler;
 using PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.PatrolHandler;
 using PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHandler;
+using PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHandler.Chase_Alerted;
 using PrototipoMyha.Enemy.Components.Interfaces;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Scripts.Enemies.BaseGuard.Components.Impl.EnemyMovement.Strategies.Interfaces;
@@ -72,11 +74,26 @@ namespace PrototipoMyha.Enemy.Components.Impl
                 Vector2? positionToPass = _Enemy.CurrentEnemyState == EnemyState.Roaming 
                     ? _targetPosition 
                     : null;
+                
+                if(this._Enemy.EnemyResource.EnemyJustMoveWhenDistracted 
+                    && (enemyStateHandler is EnemyStateAlertedHandler 
+                    || enemyStateHandler is EnemyStateWaitingHandler
+                    || enemyStateHandler is EnemyStateStoppedWhileNotDistracted))
+                {
+                    _waitTimer = enemyStateHandler.ExecuteState(
+                        delta: delta,
+                        InEnemy: _Enemy,
+                        InTargetPosition: positionToPass);
+                }
 
-                _waitTimer = enemyStateHandler.ExecuteState(
-                    delta: delta,
-                    InEnemy: _Enemy,
-                    InTargetPosition: positionToPass);
+                if (!this._Enemy.EnemyResource.EnemyJustMoveWhenDistracted)
+                {
+                    _waitTimer = enemyStateHandler.ExecuteState(
+                     delta: delta,
+                     InEnemy: _Enemy,
+                     InTargetPosition: positionToPass);
+                }
+     
             }
         }
 

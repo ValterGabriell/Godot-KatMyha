@@ -5,3 +5,4 @@
 [resource]
 script = ExtResource("1_nrbqc")
 IsEnemyThatSearch = true
+EnemyJustMoveWhenDistracted = true

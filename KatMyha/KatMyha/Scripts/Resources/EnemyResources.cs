@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.PatrolHandler;
 using PrototipoMyha.Enemy.Components.Interfaces;
 using System;
@@ -17,6 +17,7 @@ public partial class EnemyResources : Resource
     [Export] public float ForcePushDamage = 200f;
     [Export] public float Gravity = 20f;
     [Export] public bool IsEnemyThatSearch = false;
+    [Export] public bool EnemyJustMoveWhenDistracted = false;
 
 
 

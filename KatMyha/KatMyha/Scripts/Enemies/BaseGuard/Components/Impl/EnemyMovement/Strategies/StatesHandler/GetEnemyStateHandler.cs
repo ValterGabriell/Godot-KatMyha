@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using KatMyha.Scripts.Enemies.BaseGuard.Components.Impl.EnemyMovement.Strategies.StatesHandler;
 using PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHandler.Chase_Alerted;
 using PrototipoMyha.Enemy.States;
@@ -27,6 +27,7 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
                 EnemyState.Alerted => new EnemyStateAlertedHandler(PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition()),
                 EnemyState.DistractionAlerted => new EnemyStateAlertedHandler(PlayerManager.GetPlayerGlobalInstance().GetLastDistractionBallPosition()),
                 EnemyState.SearchingHiddenPlace => new EnemyStateSearchingInAHiddenPlace(),
+                EnemyState.StopedWhileNotDistracted => new EnemyStateStoppedWhileNotDistracted(),
                 EnemyState.Investigating => null,
                 _ => throw new NotImplementedException($"State handler for {state} is not implemented."),
             };

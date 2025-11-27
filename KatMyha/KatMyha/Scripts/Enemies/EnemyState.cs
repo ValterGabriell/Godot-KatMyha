@@ -1,4 +1,4 @@
-namespace PrototipoMyha.Enemy.States
+﻿namespace PrototipoMyha.Enemy.States
 {
     public enum EnemyState
     {
@@ -18,6 +18,7 @@ namespace PrototipoMyha.Enemy.States
         Alerted,
         DistractionAlerted,
         WalkWarning,
-        SearchingHiddenPlace
+        SearchingHiddenPlace,
+        StopedWhileNotDistracted
     }
 }

@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Scripts.Enemies.BaseGuard.Components.Impl.EnemyMovement.Strategies.Interfaces;
 using PrototipoMyha.Utilidades;
@@ -25,8 +25,12 @@ namespace PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.StatesHan
             InEnemy.Velocity = Vector2.Zero;
             if (InWaitTime <= 0f)
             {
-                InEnemy.SetState(EnemyState.Roaming);
+                if(InEnemy.EnemyResource.EnemyJustMoveWhenDistracted)
+                    InEnemy.SetState(EnemyState.StopedWhileNotDistracted);
+                else
+                    InEnemy.SetState(EnemyState.Roaming);
                 SetNewRandomTarget();
+                InEnemy.SetPolygonRoamingColor();
             }
             return InWaitTime;
         }
