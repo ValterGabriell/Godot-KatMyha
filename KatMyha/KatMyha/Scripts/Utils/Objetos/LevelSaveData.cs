@@ -1,7 +1,4 @@
-using Godot;
-using PrototipoMyha.Enemy;
-using PrototipoMyha.Enemy.Components.Impl.EnemyMovement.Strategies.PatrolHandler;
-using PrototipoMyha.Enemy.States;
+﻿using PrototipoMyha.Enemy.States;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +10,7 @@ namespace PrototipoMyha.Scripts.Utils.Objetos
         public float PlayerPosition_X_OnLevel { get; set; }
         public float PlayerPosition_Y_OnLevel { get; set; }
         public List<EnemySaveData> Enemies { get; set; }
+        public List<PyramdFallKillSaveData> PyramdsFallKill { get; set; }
     }
 
     public class EnemySaveData
@@ -20,6 +18,13 @@ namespace PrototipoMyha.Scripts.Utils.Objetos
         public Guid InstanceID { get; set; }
         public float PositionX { get; set; }
         public float PositionY { get; set; }
-        public EnemyState EnemyState { get; set; }
+        public EnumEnemyState EnemyState { get; set; }
+    }
+
+    public class PyramdFallKillSaveData
+    {
+        public Guid InstanceID { get; set; }
+        public float PositionX { get; set; }
+        public float PositionY { get; set; }
     }
 }

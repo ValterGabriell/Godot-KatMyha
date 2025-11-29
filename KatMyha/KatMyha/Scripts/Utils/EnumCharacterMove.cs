@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +8,9 @@ namespace PrototipoMyha.Scripts.Utils
 {
 
 
-    public enum EnumGuardMove
+    public enum EnumBaseGuardV2_Animation
     {
-        end_warning,
+        waiting,
         roaming,
         shoot,
         start_warning,

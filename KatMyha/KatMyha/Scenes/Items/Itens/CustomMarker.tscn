@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dr7g12dk4hxko"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_75xmp"]
+
+[node name="CustomMarker" type="Marker2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_75xmp")
+debug_color = Color(0.57254905, 1, 0, 0.41960785)

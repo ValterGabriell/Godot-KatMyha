@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using PrototipoMyha.Enemy.States;
 
 namespace KatMyha.Scripts.Enemies.DroneEnemy.States
@@ -8,8 +8,8 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
     {
         protected override void InitializeStates(EnemyBaseV2 _enemy)
         {
-            RegisterState(EnemyState.Roaming, new EnemyRoamingState(_enemy, this));
-            RegisterState(EnemyState.Chasing, new EnemyKillingState(_enemy, this));
+            RegisterState(EnumEnemyState.Roaming, new EnemyRoamingState(_enemy, this));
+            RegisterState(EnumEnemyState.Chasing, new EnemyKillingState(_enemy, this));
         }
     }
 }

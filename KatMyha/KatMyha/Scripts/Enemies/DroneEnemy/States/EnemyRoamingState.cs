@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using Godot.Collections;
 using KatrinaGame.Players;
 using PrototipoMyha;
@@ -38,7 +38,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
 
             if (_enemy != null)
             {
-                this._enemy.SetEnemyState(EnemyState.Roaming);
+                this._enemy.SetEnemyState(EnumEnemyState.Roaming);
                 _centerPoint = _enemy.GlobalPosition;
                 _time = 0.0f;
             }
@@ -78,11 +78,9 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         {
             if (body.IsInGroup(EnumGroups.player.ToString()))
             {
-                GDLogger.LogRed("DroneEnemy detected the player, transitioning to Chasing state.");
-                TransitionTo(EnemyState.Chasing);
+                TransitionTo(EnumEnemyState.Chasing);
             }
         }
-
 
 
     }

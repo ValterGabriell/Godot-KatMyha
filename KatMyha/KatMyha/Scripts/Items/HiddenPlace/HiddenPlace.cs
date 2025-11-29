@@ -1,6 +1,5 @@
 ﻿using Godot;
 using KatrinaGame.Players;
-using PrototipoMyha.Enemy;
 
 public partial class HiddenPlace : Area2D
 {
@@ -10,17 +9,7 @@ public partial class HiddenPlace : Area2D
         if (body is MyhaPlayer player)
             player.EnterHiddenPlace();
 
-        if (body is EnemyBase enemy && enemy.EnemyResource.IsEnemyThatSearch)
-        {
-            if (true && TryToSearchCount > 0 && TryToSearchCount < 3)
-            {
-                TryToSearchCount++;
-                return;
-            }
-
-            TryToSearchCount = 1;
-            enemy.SetInHiddenPlace();
-        }
+       
 
     }
 

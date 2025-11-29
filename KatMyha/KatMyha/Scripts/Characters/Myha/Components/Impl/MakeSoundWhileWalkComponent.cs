@@ -1,4 +1,5 @@
 ﻿using Godot;
+using KatMyha.Scripts.Enemies.DroneEnemy;
 using KatMyha.Scripts.Managers;
 using KatrinaGame.Core;
 using KatrinaGame.Players;
@@ -17,6 +18,7 @@ namespace PrototipoMyha.Player.Components.Impl
         private MyhaPlayer MyhaPlayer;
         private SignalManager SignalManager = SignalManager.Instance;
         private SoundManager SoundManager = SoundManager.Instance;
+        private PlayerManager _PlayerManager = PlayerManager.GetPlayerGlobalInstance();
 
         public MakeSoundWhileWalkComponent(MyhaPlayer BasePlayer)
         {
@@ -27,7 +29,7 @@ namespace PrototipoMyha.Player.Components.Impl
 
         public void Initialize(BasePlayer player)
         {
-            this.MyhaPlayer.SoundAreaWalkingComponent.BodyEntered += OnBodyEntered;
+            this.MyhaPlayer.SoundAreaWalkingComponent.BodyEntered += OnEnemyAreaOfSoundEntered;
             this.SignalManager.PlayerIsMoving += OnMyhaIsMoving;
             this.SignalManager.PlayerHasChangedState += OnPlayerHasStateChanged;
             this.SignalManager.PlayerSaveTheGame += OnPlayerSaveGame;
@@ -69,11 +71,30 @@ namespace PrototipoMyha.Player.Components.Impl
             SoundManager.Instance.PlaySound(this.MyhaPlayer.WalkAudioStreamPlayer2D, soundExtension: SoundExtension.wav);
         }
 
-        private void OnBodyEntered(Node2D area)
+        private void OnEnemyAreaOfSoundEntered(Node2D area)
         {
-            if (area is EnemyBase enemy && enemy.CurrentEnemyState != Enemy.States.EnemyState.Chasing)
+            if (area is EnemyBaseV2 enemy && enemy.CurrentEnemyState != Enemy.States.EnumEnemyState.Chasing)
             {
-                enemy.SetState(Enemy.States.EnemyState.Alerted);
+                _PlayerManager.UpdateLastPlayerPositionThatMakedSound(this.MyhaPlayer.GlobalPosition);
+                enemy.EnemyStateBase.TransitionTo(Enemy.States.EnumEnemyState.Alerted);
+
+                var packageScene = GD.Load<PackedScene>("res://Scenes/Items/Itens/ItemAlertSound.tscn");
+                var instance = packageScene.Instantiate<AnimatedSprite2D>();
+                instance.GlobalPosition = _PlayerManager.LastPlayerPositionThatMakedSound; 
+                instance.Play("default");
+                GetTree().CurrentScene.AddChild(instance);
+
+
+                var timer = new Timer();
+                timer.WaitTime = 3.0f;
+                timer.OneShot = true;
+                timer.Timeout += () =>
+                {
+                    instance.QueueFree();
+                    timer.QueueFree();
+                };
+                GetTree().CurrentScene.AddChild(timer);
+                timer.Start();
             }
         }
 

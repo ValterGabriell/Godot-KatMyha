@@ -1,14 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://dnri2nw7j0trm"]
+[gd_scene load_steps=8 format=3 uid="uid://dnri2nw7j0trm"]
 
 [ext_resource type="Texture2D" uid="uid://bc38phk2i10ob" path="res://Assets/Sprites/Itens/MovePlataform.png" id="1_6msmu"]
 [ext_resource type="Script" uid="uid://dddajnkljvrqb" path="res://Scripts/Items/Plataform/MovePlataform.cs" id="1_sdns2"]
 [ext_resource type="Texture2D" uid="uid://cj0su0kjlx6ua" path="res://Assets/Sprites/Itens/light (1).png" id="3_e2lch"]
-
-[sub_resource type="Curve2D" id="Curve2D_sdns2"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, -1, -6, 0, 0, 0, 0, 350, -8)
-}
-point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e2lch"]
 size = Vector2(67.011505, 67.990845)
@@ -51,21 +45,22 @@ _data = {
 }
 
 [node name="MovePlataformWithDeath01" type="Path2D" node_paths=PackedStringArray("PathFollow2D", "AnimationPlayer")]
-curve = SubResource("Curve2D_sdns2")
 script = ExtResource("1_sdns2")
 PathFollow2D = NodePath("PathFollow2D")
 AnimationPlayer = NodePath("AnimationPlayer")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
-position = Vector2(0, -4)
-rotation = -0.012345051
+position = Vector2(-1, -6)
+rotation = -0.005697944
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="PathFollow2D"]
 remote_path = NodePath("../../AnimatableBody2D")
 
 [node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
-position = Vector2(0, -4)
-rotation = -0.01234505
+position = Vector2(-1, -6)
+rotation = -0.005697944
+collision_layer = 20
+collision_mask = 12290
 
 [node name="Sprite2D" type="Sprite2D" parent="AnimatableBody2D"]
 texture = ExtResource("1_6msmu")

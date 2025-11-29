@@ -1,8 +1,10 @@
-using Godot;
+﻿using Godot;
+using KatMyha.Scripts.Enemies.DroneEnemy;
 using KatMyha.Scripts.Items.KillLight;
 using KatMyha.Scripts.Utils;
 using PrototipoMyha;
 using PrototipoMyha.Enemy;
+using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Utilidades;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,7 @@ public partial class Bullet01 : RigidBody2D
 {
     [Export] public float LifeTime = 0.5f;
     [Export] public AudioStreamPlayer2D ImpactSound;
-    private List<EnemyBase> allEnemiesOnRange = [];
+    private List<EnemyBaseV2> allEnemiesOnRange = [];
 
     private bool hasLanded = false;
 
@@ -48,10 +50,10 @@ public partial class Bullet01 : RigidBody2D
         var allEnemies = GetTree().GetNodesInGroup(EnumGroups.enemy.ToString());
         ImpactSound?.Play();
 
-        List<EnemyBase> enemiesInRange = FindItemsNearest.FindAndSetAimTargets(allEnemies, landingPosition, 150f, allEnemiesOnRange);
+        List<EnemyBaseV2> enemiesInRange = FindItemsNearest.FindAndSetAimTargets(allEnemies, landingPosition, 150f, allEnemiesOnRange);
         foreach (var enemy in enemiesInRange)
         {
-            enemy.SetState(PrototipoMyha.Enemy.States.EnemyState.DistractionAlerted);
+            enemy.EnemyStateBase.TransitionTo(EnumEnemyState.DistractionAlerted);
         }
 
         // Destruir após X segundos

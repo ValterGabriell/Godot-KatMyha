@@ -24,7 +24,7 @@ texture = ExtResource("1_84ew4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_84ew4")
 
-[node name="DroneStateMachine" type="Node" parent="."]
+[node name="StateMachine" type="Node" parent="."]
 script = ExtResource("4_rwynu")
 
 [node name="Area2D" type="Area2D" parent="."]

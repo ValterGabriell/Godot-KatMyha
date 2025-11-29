@@ -16,6 +16,7 @@ namespace KatrinaGame.Core
         [Export] public float Gravity { get; set; } = 700f;
         [Export] public Timer TimeToFallWall { get; set; }
         public PlayerState CurrentPlayerState { get; private set; } = PlayerState.IDLE;
+        public PlayerCurrentEnabledAction PlayerCurrentEnabledAction { get; private set; } = PlayerCurrentEnabledAction.NONE;
         public LightHiddenState CurrentLightHiddenState { get; private set; } = LightHiddenState.LIGHT_HIDDEN;
         private StaticBody2D DoorThatPlayerIs { get; set; }
 
@@ -81,6 +82,11 @@ namespace KatrinaGame.Core
         public void SetState(PlayerState newState)
         {
             CurrentPlayerState = newState;
+        }
+
+        public void SetCurrentEnabledAction(PlayerCurrentEnabledAction newAction)
+        {
+            PlayerCurrentEnabledAction = newAction;
         }
 
         public void RemoveMaskOfEnemy()

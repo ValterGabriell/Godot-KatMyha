@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using KatMyha.Scripts.Enemies.DroneEnemy;
 using KatMyha.Scripts.Managers;
 using PrototipoMyha.Enemy;
@@ -91,15 +91,20 @@ namespace PrototipoMyha.Scripts.Managers
             return _instance;
         }
 
-        public void SetCurrentLevelInitialData(List<EnemyBase> enemies, List<EnemyBaseV2> enemyBaseV2s)
+        public void SetCurrentLevelInitialData(List<EnemyBaseV2> enemyBaseV2s, List<KillFallPyramd> piramedFallList)
         {
-            var enemySaveDataList = enemies.Select(e => e.ToSaveData()).ToList();
             var enemyV2SaveDataList = enemyBaseV2s.Select(e => e.ToSaveData()).ToList();
-            enemySaveDataList.AddRange(enemyV2SaveDataList);
+            var pyramedsToSave = piramedFallList.Select(e => new PyramdFallKillSaveData
+            {
+                InstanceID = e.InstanceID,
+                PositionX = e.GlobalPosition.X,
+                PositionY = e.GlobalPosition.Y  
+            }).ToList();
             CurrentLevelObjData = new LevelSaveData
             {
                 LevelNumber = GameManager.GetGameManagerInstance().CurrentLevelNumber,
-                Enemies = enemySaveDataList,
+                Enemies = enemyV2SaveDataList,
+                PyramdsFallKill = pyramedsToSave,
                 PlayerPosition_X_OnLevel = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition().X,
                 PlayerPosition_Y_OnLevel = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition().Y
             };
@@ -179,6 +184,7 @@ namespace PrototipoMyha.Scripts.Managers
                 instanceManager.BasePlayer.SetState(PlayerState.IDLE);
 
                 var enemiesInScene = GetTree().GetNodesInGroup("enemy"); 
+                var pyramdInScene = GetTree().GetNodesInGroup("pyramd"); 
                 var alertsInScene = GetTree().GetNodesInGroup(EnumGroups.AlertSprite.ToString());
 
                 foreach (var item in alertsInScene)
@@ -191,20 +197,34 @@ namespace PrototipoMyha.Scripts.Managers
                 {
                     // Encontre o inimigo correspondente pelo Id ou outro identificador
                     var enemy = enemiesInScene
-                        .OfType<EnemyBase>()
+                        .OfType<EnemyBaseV2>()
                         .FirstOrDefault(e => e.GetIdentifier() == enemySave.InstanceID); 
 
                     if (enemy != null)
                     {
                         enemy.GlobalPosition = new Vector2(enemySave.PositionX, enemySave.PositionY);
-                        enemy.SetState(enemySave.EnemyState);
+                        enemy.EnemyStateBase.TransitionTo(enemySave.EnemyState);
                         enemy.JustLoaded = true;
 
                     }
-
-                    
                 }
-               
+
+                foreach (var item in saveData.PyramdsFallKill)
+                {
+                    // Encontre o inimigo correspondente pelo Id ou outro identificador
+                    var pyramed = pyramdInScene
+                        .OfType<KillFallPyramd>()
+                        .FirstOrDefault(e => e.InstanceID == item.InstanceID);
+
+                    if (pyramed != null)
+                    {
+                        var newPyramed = (KillFallPyramd)GD.Load<PackedScene>("res://Scenes/Items/Itens/KillFallPyramd.tscn").Instantiate();
+                        newPyramed.InstanceID = item.InstanceID;
+                        newPyramed.GlobalPosition = new Vector2(item.PositionX, item.PositionY);
+                        GetTree().CurrentScene.AddChild(newPyramed);
+                    }
+                }
+
 
             }
 

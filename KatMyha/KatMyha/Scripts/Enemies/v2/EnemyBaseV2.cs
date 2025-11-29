@@ -1,20 +1,35 @@
-using Godot;
+﻿using Godot;
+using KatMyha.Scripts.Enemies.DroneEnemy.States;
+using KatMyha.Scripts.Utils;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Scripts.Utils.Objetos;
 using System;
 
 namespace KatMyha.Scripts.Enemies.DroneEnemy
 {
-	public partial class EnemyBaseV2 : CharacterBody2D
-	{
+	public partial class EnemyBaseV2 : CharacterBody2D, IDistanceToSelf
+    {
 		[Export] public EnemyResources Resources { get; set; }
 
 		public float CurrentHealth { get; private set; }
 		public bool IsDead { get; private set; }
 
         private Guid Identifier = Guid.NewGuid();
+        public Guid GetIdentifier()
+        {
+            return Identifier;
+        }
+        public bool JustLoaded { get; set; } = false;
+        public EnumEnemyState CurrentEnemyState { get; private set; } = EnumEnemyState.Roaming;
 
-		public EnemyState CurrentEnemyState { get; private set; } = EnemyState.Roaming;
+		public EnemyStateBase EnemyStateBase => GetNode<StateMachine>("StateMachine").GetCurrentState();
+
+        /// <summary>
+        /// This is setted by FindItemsNearest when searching for nearest items.
+        /// </summary>
+        float IDistanceToSelf.DistanceToSelf { get; set; }
+
+        public float DistanceToSelf = 0f;
 
         public override void _Ready()
 		{
@@ -28,7 +43,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy
 			IsDead = false;
 		}
 
-		public void SetEnemyState(EnemyState newState)
+		public void SetEnemyState(EnumEnemyState newState)
 		{
 			CurrentEnemyState = newState;
         }

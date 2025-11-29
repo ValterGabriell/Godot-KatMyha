@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using KatrinaGame.Core;
 using KatrinaGame.Players;
 using PrototipoMyha.Utilidades;
@@ -21,6 +21,7 @@ public partial class PlayerManager : Node
 {
     private Vector2 CurrentPlayerPosition { get; set; }
     private Vector2? LastDistractionBallPosition { get; set; }
+    public Vector2 LastPlayerPositionThatMakedSound { get; private set; }
 
     private static PlayerManager PlayerGlobalInstance = null;
 
@@ -96,5 +97,11 @@ public partial class PlayerManager : Node
     public Vector2 GetLastDistractionBallPosition()
     {
         return LastDistractionBallPosition ?? CurrentPlayerPosition;
+    }
+
+    public void UpdateLastPlayerPositionThatMakedSound(Vector2 newPosition)
+    {
+        GDLogger.LogGreen("Updating LastPlayerPositionThatMakedSound to: " + (newPosition != Vector2.Zero ? newPosition.ToString() : "null"));
+        LastPlayerPositionThatMakedSound = newPosition;
     }
 }

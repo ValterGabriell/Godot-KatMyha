@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Scripts.Managers;
 
@@ -18,7 +18,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         {
             if (_enemy != null)
             {
-                _enemy.SetEnemyState(EnemyState.Chasing);
+                _enemy.SetEnemyState(EnumEnemyState.Chasing);
                 GameManager.GetGameManagerInstance().KillPlayer(EnemyBaseV2);
             }
         }
@@ -42,5 +42,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         {
             
         }
+
+        
     }
 }

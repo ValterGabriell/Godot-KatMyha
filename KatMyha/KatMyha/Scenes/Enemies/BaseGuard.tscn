@@ -1,28 +1,13 @@
-[gd_scene load_steps=42 format=3 uid="uid://dyb3c5aecsw5r"]
+[gd_scene load_steps=43 format=3 uid="uid://dyb3c5aecsw5r"]
 
-[ext_resource type="Script" uid="uid://dx0dresfbg0ix" path="res://Scripts/Enemies/BaseGuard/GuardEnemy.cs" id="1_ib5uv"]
-[ext_resource type="Resource" uid="uid://hx1o1nvw3c7k" path="res://Resources/Player/EnemyResource.tres" id="2_n2d1g"]
+[ext_resource type="Script" uid="uid://dp6fbgweofutx" path="res://Scripts/Enemies/BaseGuardV2/BaseGuardV2.cs" id="1_203vw"]
+[ext_resource type="Resource" uid="uid://hy4jpoxs0g5f" path="res://Resources/Enemies/v2/BaseEnemyV2Resource.tres" id="2_c27uw"]
 [ext_resource type="Texture2D" uid="uid://csdi3dq2f7h4h" path="res://Assets/Sprites/Enemies/BaseGuard/guarDrOAMING.png" id="3_sn2e0"]
 [ext_resource type="Texture2D" uid="uid://43wbqdwaxcyf" path="res://Assets/Sprites/Enemies/BaseGuard/guardEndAlert.png" id="3_tg06w"]
 [ext_resource type="Texture2D" uid="uid://cnxsmctbx5bah" path="res://Assets/Sprites/Enemies/BaseGuard/guardWalkAlert.png" id="4_uysno"]
 [ext_resource type="Texture2D" uid="uid://d0xhwqawjm45g" path="res://Assets/Sprites/Enemies/BaseGuard/guardShoot.png" id="5_203vw"]
 [ext_resource type="Texture2D" uid="uid://b2skp2o8cxp3a" path="res://Assets/Sprites/Enemies/BaseGuard/guardStartAlert.png" id="5_tg06w"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_al4k4"]
-atlas = ExtResource("3_tg06w")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bkrc1"]
-atlas = ExtResource("3_tg06w")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_516hv"]
-atlas = ExtResource("3_tg06w")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pioe4"]
-atlas = ExtResource("3_tg06w")
-region = Rect2(96, 0, 32, 32)
+[ext_resource type="Script" uid="uid://drjeyiqn5la5s" path="res://Scripts/Enemies/BaseGuardV2/States/Machine/BaseGuardMachine.cs" id="8_c27uw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tg06w"]
 atlas = ExtResource("3_sn2e0")
@@ -96,6 +81,22 @@ region = Rect2(64, 0, 32, 32)
 atlas = ExtResource("5_tg06w")
 region = Rect2(96, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_al4k4"]
+atlas = ExtResource("3_tg06w")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bkrc1"]
+atlas = ExtResource("3_tg06w")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_516hv"]
+atlas = ExtResource("3_tg06w")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pioe4"]
+atlas = ExtResource("3_tg06w")
+region = Rect2(96, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_eotnd"]
 atlas = ExtResource("4_uysno")
 region = Rect2(0, 0, 32, 32)
@@ -138,23 +139,6 @@ region = Rect2(288, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_n2d1g"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_al4k4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bkrc1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_516hv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pioe4")
-}],
-"loop": true,
-"name": &"end_warning",
-"speed": 7.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tg06w")
@@ -226,6 +210,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_al4k4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bkrc1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_516hv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pioe4")
+}],
+"loop": true,
+"name": &"waiting",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_eotnd")
 }, {
 "duration": 1.0,
@@ -263,21 +264,19 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7mycd"]
 size = Vector2(15.75, 25)
 
-[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("RayCast2DDetection", "Polygon2DDetection", "TimerToChase", "AnimatedSprite2DEnemy") groups=["enemy"]]
+[node name="CharacterBody2D" type="CharacterBody2D" node_paths=PackedStringArray("RayCast2DDetection", "Polygon2DDetection", "AnimatedSprite2DEnemy") groups=["enemy"]]
 collision_layer = 12288
-collision_mask = 163873
-script = ExtResource("1_ib5uv")
-EnemyResource = ExtResource("2_n2d1g")
+collision_mask = 163893
+script = ExtResource("1_203vw")
 RayCast2DDetection = NodePath("RayCast2DDetectionPlayer")
 Polygon2DDetection = NodePath("Polygon2D")
-TimerToChase = NodePath("TimerToChase")
 AnimatedSprite2DEnemy = NodePath("AnimatedSprite2D")
-PatrolRadius = 300.0
+Resources = ExtResource("2_c27uw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_n2d1g")
-animation = &"shoot"
+animation = &"waiting"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.875, 0.5)
@@ -300,3 +299,6 @@ one_shot = true
 [node name="TimerToStayAlert" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("8_c27uw")

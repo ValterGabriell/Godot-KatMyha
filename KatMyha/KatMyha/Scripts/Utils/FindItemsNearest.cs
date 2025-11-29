@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using Godot.Collections;
 using KatMyha.Scripts.Items.KillLight;
 using PrototipoMyha;
@@ -12,6 +12,9 @@ namespace KatMyha.Scripts.Utils
 {
     public interface IDistanceToSelf
     {
+        /// <summary>
+        /// Gets or sets the distance from the current object to itself.
+        /// </summary>
         public float DistanceToSelf { get; set; }
     }
     public static class FindItemsNearest

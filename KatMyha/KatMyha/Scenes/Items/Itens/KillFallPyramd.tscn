@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://qucco8chtt8x"]
+
+[ext_resource type="Texture2D" uid="uid://s3mkvxvao0l8" path="res://Assets/Sprites/Itens/KillFallPyramd.png" id="1_chxjx"]
+[ext_resource type="Script" uid="uid://dtrl2uowqguux" path="res://Scripts/Items/KillFallPyramd.cs" id="1_jtor3"]
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_jtor3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_chxjx"]
+
+[node name="KillFallPyramd" type="Node2D" groups=["pyramd"]]
+script = ExtResource("1_jtor3")
+FallDelayInSeconds = 5.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_chxjx")
+
+[node name="KillPlayerArea" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillPlayerArea"]
+scale = Vector2(1, 150)
+shape = SubResource("SeparationRayShape2D_jtor3")
+debug_color = Color(0.95686275, 0, 0, 0.41960785)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 512
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 3)
+shape = SubResource("CircleShape2D_chxjx")
+debug_color = Color(0.101960786, 0, 0.08235294, 0.21176471)
+
+[connection signal="body_entered" from="KillPlayerArea" to="." method="_on_kill_player_area_body_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
