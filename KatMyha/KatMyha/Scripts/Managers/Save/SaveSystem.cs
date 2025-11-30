@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using PrototipoMyha.Scripts.Utils.Objetos;
 using PrototipoMyha.Utilidades;
 using System;
@@ -37,9 +37,9 @@ public partial class SaveSystem : Node
 
             if (file != null)
             {
-                GDLogger.LogBlue(json);
+
                 file.StoreString(json);
-                GD.Print("Jogo salvo com sucesso!");
+   
             }
             else
             {

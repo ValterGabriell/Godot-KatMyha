@@ -101,7 +101,6 @@ public partial class PlayerManager : Node
 
     public void UpdateLastPlayerPositionThatMakedSound(Vector2 newPosition)
     {
-        GDLogger.LogGreen("Updating LastPlayerPositionThatMakedSound to: " + (newPosition != Vector2.Zero ? newPosition.ToString() : "null"));
         LastPlayerPositionThatMakedSound = newPosition;
     }
 }

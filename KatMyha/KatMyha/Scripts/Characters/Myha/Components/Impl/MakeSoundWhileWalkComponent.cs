@@ -7,6 +7,7 @@ using KatrinaGame.Scripts.Utils;
 using PrototipoMyha.Enemy;
 using PrototipoMyha.Player.Components.Interfaces;
 using PrototipoMyha.Player.StateManager;
+using PrototipoMyha.Utilidades;
 
 namespace PrototipoMyha.Player.Components.Impl
 {

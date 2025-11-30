@@ -32,8 +32,14 @@ namespace KatrinaGame.Players
         [ExportGroup("CollisionShapes")]
         private CircleShape2D SoundAreaWalkingColiisonComponent { get; set; }
 
+
+        [ExportGroup("UI")]
+        [Export] public UIGame UICodigo { get; set; }
+
         private IMovementComponent MovementComponent;
         private float CurrentPlayerSpeed = 0f;
+
+
 
 
         /*WALL JUMP*/
@@ -222,16 +228,22 @@ namespace KatrinaGame.Players
 
         private void SetHiddenPlace()
         {
+            UICodigo.EmitSignal("UIChangeVisibility", false);
             this.RemoveMaskOfEnemy();
             this.BlockMovement();
             this.SetState(PlayerState.HIDDEN);
             SetCurrentEnabledAction(PlayerCurrentEnabledAction.CAN_OUT_HIDDEN_PLACE);
+            this.ZIndex = -1;
+            this.SoundAreaWalkingComponent.Monitoring = false;
         }
 
         private void OutHiddenPlace()
         {
+            UICodigo.EmitSignal("UIChangeVisibility", true);
             this.UnblockMovement();
             this.SetState(PlayerState.IDLE);
+            this.ZIndex = 100;
+            this.SoundAreaWalkingComponent.Monitoring = true;
         }
 
         internal void EnterHiddenPlace()

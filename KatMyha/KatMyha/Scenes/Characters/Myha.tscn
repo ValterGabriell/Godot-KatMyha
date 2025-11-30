@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dw4s248phtymn"]
+[gd_scene load_steps=48 format=3 uid="uid://dw4s248phtymn"]
 
 [ext_resource type="Script" uid="uid://dk8egln53p1ft" path="res://Scripts/Characters/Myha/MyhaPlayer.cs" id="1_gp1ay"]
 [ext_resource type="PackedScene" uid="uid://belhcxrdca17j" path="res://Scenes/Items/Itens/Bullet01.tscn" id="2_qemu2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cjv776p4n10lc" path="res://Assets/Sprites/Characters/Myha/myha21sneak.png" id="4_lrdqb"]
 [ext_resource type="Texture2D" uid="uid://ccllucgvqoa4s" path="res://Assets/Sprites/Itens/RunAsset.png" id="7_c2xpc"]
 [ext_resource type="Texture2D" uid="uid://dtv1rosyy6aa5" path="res://Assets/Sprites/Itens/SneakAsset.png" id="8_qemu2"]
+[ext_resource type="Script" uid="uid://cojd212tnird4" path="res://Scripts/UIGame.cs" id="9_85h7w"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v2aao"]
 atlas = ExtResource("3_xyvna")
@@ -264,6 +265,13 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_85h7w"]
 radius = 7.883183
 
+[sub_resource type="Theme" id="Theme_qemu2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7qi77"]
+outline_size = 2
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 1)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qo5v2"]
 size = Vector2(20, 14)
 
@@ -276,7 +284,8 @@ size = Vector2(26, 7)
 [sub_resource type="CircleShape2D" id="CircleShape2D_qemu2"]
 radius = 5.0990195
 
-[node name="Myha" type="CharacterBody2D" node_paths=PackedStringArray("AttackRaycast", "SoundAreaWalkingComponent", "WalkAudioStreamPlayer2D", "JumpAudioStreamPlayer2D", "SaveAudioStreamPlayer2D", "TimeToFallWall", "AnimatedSprite2D", "SoundAnimatedSprite2D", "DeathAudioStreamPlayer2D") groups=["player"]]
+[node name="Myha" type="CharacterBody2D" node_paths=PackedStringArray("AttackRaycast", "SoundAreaWalkingComponent", "WalkAudioStreamPlayer2D", "JumpAudioStreamPlayer2D", "SaveAudioStreamPlayer2D", "UICodigo", "TimeToFallWall", "AnimatedSprite2D", "SoundAnimatedSprite2D", "DeathAudioStreamPlayer2D") groups=["player"]]
+z_index = 999
 collision_layer = 2
 collision_mask = 132085
 script = ExtResource("1_gp1ay")
@@ -286,6 +295,7 @@ SoundAreaWalkingComponent = NodePath("SoundArea")
 WalkAudioStreamPlayer2D = NodePath("Sounds/WalkSound")
 JumpAudioStreamPlayer2D = NodePath("Sounds/JumpSound")
 SaveAudioStreamPlayer2D = NodePath("Sounds/SaveSound")
+UICodigo = NodePath("Control")
 SneakSpeed = 50.0
 JumpVelocity = -250.0
 TimeToFallWall = NodePath("TimerToFallWall")
@@ -313,6 +323,37 @@ shape = SubResource("CircleShape2D_85h7w")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.5, 1.5)
 
+[node name="Control" type="Control" parent="." node_paths=PackedStringArray("LabelVisibility")]
+z_index = 100
+layout_mode = 3
+anchors_preset = 0
+offset_left = -385.0
+offset_top = -216.0
+offset_right = 384.0
+offset_bottom = 217.0
+script = ExtResource("9_85h7w")
+LabelVisibility = NodePath("Visibility")
+
+[node name="Visibility" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 45.0
+offset_right = 152.0
+offset_bottom = 68.0
+theme = SubResource("Theme_qemu2")
+text = "Myha está visivel!"
+label_settings = SubResource("LabelSettings_7qi77")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 588.0
+offset_top = 36.0
+offset_right = 749.0
+offset_bottom = 364.0
+text = "Botão de Ação: E
+Pular: ESPAÇO
+"
+
 [node name="AttackRaycast" type="RayCast2D" parent="."]
 target_position = Vector2(34, 0)
 collision_mask = 512
@@ -331,7 +372,7 @@ debug_color = Color(0.6835048, 0, 0.08780732, 0.41960785)
 
 [node name="SoundArea" type="Area2D" parent="."]
 collision_layer = 16386
-collision_mask = 0
+collision_mask = 12288
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SoundArea"]
 shape = SubResource("CircleShape2D_3bx22")

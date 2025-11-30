@@ -35,6 +35,7 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
             if (_TimeInvestigating <= 0.0f)
             {
                 TransitionTo(EnumEnemyState.Waiting);
+                _TimeInvestigating = 3f;
             }
         }
 
@@ -42,8 +43,10 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
         {
             Vector2 targetPos = _PlayerManager.LastPlayerPositionThatMakedSound;
             Vector2 direction = (targetPos - BaseGuardV2.GlobalPosition).Normalized();
-            BaseGuardV2.GlobalPosition += direction * this.BaseGuardV2.Resources.MoveSpeed * delta;
-            FlipEnemyDirection(BaseGuardV2, direction);
+            var goTo = direction * this.BaseGuardV2.Resources.MoveSpeed * delta;
+            BaseGuardV2.GlobalPosition += new Vector2(goTo.X, 0);
+            if (BaseGuardV2.Position.DistanceTo(targetPos) >= 15.0f)
+                FlipEnemyDirection(BaseGuardV2, direction);
             return targetPos;
         }
 

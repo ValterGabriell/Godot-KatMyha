@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://heo4huknmaqb"]
+[gd_scene load_steps=15 format=4 uid="uid://heo4huknmaqb"]
 
 [ext_resource type="Script" uid="uid://p0tnlhwc8n4b" path="res://Scripts/Levels/LevelBase.cs" id="1_fq7pw"]
 [ext_resource type="Texture2D" uid="uid://c1tl7ixhqpw75" path="res://Assets/Tilesets/World/PrototipoWorldTileset-sheet.png" id="1_jdhm7"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://fivb1ydt0fiu" path="res://Scenes/Items/Plataform/HorizontalPlataform/HorizontalPlataform.tscn" id="6_8ivvr"]
 [ext_resource type="PackedScene" uid="uid://dr7g12dk4hxko" path="res://Scenes/Items/Itens/CustomMarker.tscn" id="8_gl8ey"]
 [ext_resource type="PackedScene" uid="uid://qucco8chtt8x" path="res://Scenes/Items/Itens/KillFallPyramd.tscn" id="12_8ivvr"]
+[ext_resource type="PackedScene" uid="uid://cqnm15sbkihg1" path="res://Scenes/Items/TriggerChangeScene.tscn" id="12_ab8o7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8av8c"]
 texture = ExtResource("1_jdhm7")
@@ -55,7 +56,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAEAAIAAAAAAAEAAAAEAAIAAAAAAAIAAAAEAAI
 tile_set = SubResource("TileSet_yajtc")
 
 [node name="Myha" parent="Base" instance=ExtResource("2_6fxsd")]
-position = Vector2(2772, 839)
+position = Vector2(1678, -80)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Base"]
 color = Color(0.5609549, 0.5609549, 0.56095487, 1)
@@ -99,6 +100,7 @@ position = Vector2(1065, -6)
 [node name="001" type="Node" parent="Enemies"]
 
 [node name="CharacterBody2D" parent="Enemies/001" node_paths=PackedStringArray("RoamMarkerA", "RoamMarkerB") instance=ExtResource("4_8av8c")]
+visible = false
 position = Vector2(2054, -78)
 RoamMarkerA = NodePath("../CustomMarker")
 RoamMarkerB = NodePath("../CustomMarker2")
@@ -163,3 +165,22 @@ position = Vector2(2911, 602)
 
 [node name="PrototipoPlataform" parent="Plataforms" instance=ExtResource("6_8ivvr")]
 position = Vector2(3104, 511)
+
+[node name="ChangeCameraPositions" type="Node" parent="."]
+
+[node name="Area2D" parent="ChangeCameraPositions" node_paths=PackedStringArray("MyhaPlayer") instance=ExtResource("12_ab8o7")]
+MyhaPlayer = NodePath("../../Base/Myha")
+ProcessDelayInSeconds = 0.2
+TargetInterpolationZoomX = -0.5
+TargetInterpolationZoomY = -0.5
+TargetInterpolationPositionY = 0.0
+TargetInterpolationPositionX = 150.0
+
+[node name="Area2D2" parent="ChangeCameraPositions" node_paths=PackedStringArray("MyhaPlayer") instance=ExtResource("12_ab8o7")]
+position = Vector2(543, 0)
+MyhaPlayer = NodePath("../../Base/Myha")
+DelayToStart = 0.0
+FreezePlayer = false
+ProcessDelayInSeconds = 0.5
+TargetInterpolationPositionY = 0.0
+TargetInterpolationPositionX = -150.0
