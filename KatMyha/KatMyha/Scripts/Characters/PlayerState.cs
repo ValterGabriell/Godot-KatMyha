@@ -37,8 +37,8 @@ public enum PlayerCurrentEnabledAction
     CAN_OPEN_DOOR
 }
 
-public enum LightHiddenState
+public enum MyhaContactLightHiddenState
 {
-    LIGHT_HIDDEN,
-    LIGHT_NOT_HIDDEN,
+    MYHA_IS_NOT_ON_LIGHT,
+    MYHA_IS_ON_LIGHT,
 }

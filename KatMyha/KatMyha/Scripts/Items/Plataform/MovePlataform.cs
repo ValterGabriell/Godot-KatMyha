@@ -1,11 +1,11 @@
-using Godot;
+﻿using Godot;
 using System;
 
 public partial class MovePlataform : Path2D
 {
     [Export] public bool IsLooping = true;
     [Export] public float Speed = 2.0f;
-    [Export] public float SpeedScale = 1.0f;
+    private float SpeedScale = 1.0f;
     [Export] public PathFollow2D PathFollow2D;
     [Export] public AnimationPlayer AnimationPlayer;
 

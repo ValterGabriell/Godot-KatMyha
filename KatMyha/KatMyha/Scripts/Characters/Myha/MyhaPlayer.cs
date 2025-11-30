@@ -32,6 +32,8 @@ namespace KatrinaGame.Players
         [ExportGroup("CollisionShapes")]
         private CircleShape2D SoundAreaWalkingColiisonComponent { get; set; }
 
+        public Camera2D InitialCameraSettings { get; private set; }
+
 
         [ExportGroup("UI")]
         [Export] public UIGame UICodigo { get; set; }
@@ -54,7 +56,7 @@ namespace KatrinaGame.Players
             AddComponent<IAnimationComponents>(new AnimationComponents(this));
             AddComponent<IShootAimComponent>(new ShootAimComponent());
             AddComponent<IToogleLightComponent>(new ToogleLightComponent());
-
+            InitialCameraSettings = this.GetNode<Camera2D>("Camera2D");
 
             MovementComponent = GetComponent<IMovementComponent>();
             SubscribeSignals();
@@ -92,7 +94,7 @@ namespace KatrinaGame.Players
         {
             if (node.IsInGroup("kill_light"))
             {
-                this.SetStateHidden(LightHiddenState.LIGHT_NOT_HIDDEN);
+                this.SetStateHidden(MyhaContactLightHiddenState.MYHA_IS_ON_LIGHT);
                 SignalManager.Instance.EmitSignal(nameof(SignalManager.Instance.PlayerIsOnLight));
             }
         }
@@ -101,7 +103,7 @@ namespace KatrinaGame.Players
         {
             if (node.IsInGroup("kill_light"))
             {
-                this.SetStateHidden(LightHiddenState.LIGHT_HIDDEN);
+                this.SetStateHidden(MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT);
 
             }
         }

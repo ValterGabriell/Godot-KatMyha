@@ -6,39 +6,66 @@ using System;
 
 public partial class TriggerChangeScene : Area2D
 {
-    [Export] private MyhaPlayer MyhaPlayer { get; set; }
-    [Export] private float DelayToStart { get; set; } = 0.2f;
-    [Export] private bool FreezePlayer { get; set; } = true;
-    [Export] private float ProcessDelayInSeconds { get; set; } = 5.5f;
-    [Export] private float TargetInterpolationZoomX { get; set; } = 0.5f;
-    [Export] private float TargetInterpolationZoomY { get; set; } = 0.5f;
-    [Export] private float TargetInterpolationPositionY { get; set; } = 0.5f;
-    [Export] private float TargetInterpolationPositionX { get; set; } = 0.5f;
-
     
+    [ExportGroup("General Settings")]   
+    [Export] private float DelayToStart { get; set; } = 0f;
+    [Export] private MyhaPlayer MyhaPlayerInit;
+
+    [ExportCategory("Player Settings")]
+    [Export] private bool FreezePlayer { get; set; } = true;
+    [Export] private float ProcessDelayInSeconds { get; set; } = 0f;
+
+    [ExportGroup("Camera Interpolation Settings")]
+    [Export] private float NewZoomX { get; set; } = 1.5f;
+    [Export] private float NewZoomY { get; set; } = 1.5f;
+    [Export] private float NewPositionY { get; set; } = 0f;
+    [Export] private float NewPositionX { get; set; } = 0f;
+
+    [ExportGroup("New Camera")]
+    [Export] private bool FreezeCameraAfterInterpolation { get; set; } = false;
+    [Export] private Camera2D NewCamera { get; set; }
+
+    private Vector2 CameraZoomBeforeChange = Vector2.One;
+    private Vector2 CameraPosBeforeChange = Vector2.One;
+
+    public override void _Ready()
+    {
+        var camera = MyhaPlayerInit.GetNode<Camera2D>("Camera2D");
+        CameraZoomBeforeChange = camera.Zoom;
+         CameraPosBeforeChange = camera.Position;
+    }
 
     public void _on_body_entered(Node2D node2D)
     {
         if (node2D.IsInGroup("player"))
         {
-            if (FreezePlayer)
+            MyhaPlayer myhaPlayer = node2D as MyhaPlayer;
+            if (FreezePlayer && myhaPlayer != null)
             {
-                MyhaPlayer.SetState(PlayerState.IDLE);
-                MyhaPlayer.BlockMovement();
+                myhaPlayer.SetState(PlayerState.IDLE);
+                myhaPlayer.BlockMovement();
             }
-            GetTree().CreateTimer(DelayToStart).Timeout += () => StartCameraInterpolation();
+            GetTree().CreateTimer(DelayToStart).Timeout += () => StartCameraInterpolation(myhaPlayer);
          
         }
     }
 
-    private void StartCameraInterpolation()
+    public void _on_body_exited(Node2D node2D)
     {
-        var camera = MyhaPlayer.GetNode<Camera2D>("Camera2D");
+        if (node2D.IsInGroup("player"))
+        {
+            MyhaPlayer myhaPlayer = node2D as MyhaPlayer;
+            GetTree().CreateTimer(DelayToStart).Timeout += () => EndCameraInterpolation(myhaPlayer);
+        }
+    }
+
+    private void StartCameraInterpolation(MyhaPlayer myhaPlayer)
+    {
+        GDLogger.LogGreen("Starting Camera Interpolation");
+        var camera = myhaPlayer.GetNode<Camera2D>("Camera2D");
         var tween = GetTree().CreateTween();
-        // Zoom final desejado (exemplo: aumenta 0.5 em cada eixo)
-        var targetZoom = camera.Zoom + new Vector2(TargetInterpolationZoomX, TargetInterpolationZoomY);
-        var targetPosition = camera.Position + new Vector2(TargetInterpolationPositionX, TargetInterpolationPositionY);
-        // Duração do efeito (em segundos)
+        var targetZoom = camera.Zoom + new Vector2(NewZoomX, NewZoomY);
+        var targetPosition = camera.Position + new Vector2(NewPositionX, NewPositionY);
         float duration = ProcessDelayInSeconds;
         tween.TweenProperty(camera, "position", targetPosition, duration)
          .SetTrans(Tween.TransitionType.Sine)
@@ -48,12 +75,49 @@ public partial class TriggerChangeScene : Area2D
            .SetTrans(Tween.TransitionType.Sine)
            .SetEase(Tween.EaseType.InOut);
 
-        if (FreezePlayer)
+  
+        tween.Finished += () => OnInterpolationFinished(myhaPlayer, camera);
+    }
+
+    private void EndCameraInterpolation(MyhaPlayer myhaPlayer)
+    {
+        FreezeCameraAfterInterpolation = false;
+      
+        var camera = myhaPlayer.GetNode<Camera2D>("Camera2D");
+        var tween = GetTree().CreateTween();
+
+        var targetZoom = CameraZoomBeforeChange;
+        var targetPosition = CameraPosBeforeChange;
+
+        float duration = ProcessDelayInSeconds;
+        tween.TweenProperty(camera, "position", targetPosition, duration)
+         .SetTrans(Tween.TransitionType.Sine)
+         .SetEase(Tween.EaseType.InOut);
+
+        tween.TweenProperty(camera, "zoom", targetZoom, duration)
+           .SetTrans(Tween.TransitionType.Sine)
+           .SetEase(Tween.EaseType.InOut);
+
+        if (!FreezeCameraAfterInterpolation)
         {
-            MyhaPlayer.UnblockMovement();
+            camera.MakeCurrent();
         }
 
         QueueFree();
+    }
 
+    public virtual void OnInterpolationFinished(MyhaPlayer myhaPlayer, Camera2D playerCamera)
+    {
+        if (FreezeCameraAfterInterpolation && NewCamera != null)
+        {
+            NewCamera.GlobalPosition = playerCamera.GlobalPosition;
+            NewCamera.Zoom = playerCamera.Zoom;
+            NewCamera.MakeCurrent();
+        }
+
+        if (FreezePlayer)
+        {
+            myhaPlayer.UnblockMovement();
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace KatrinaGame.Core
         [Export] public Timer TimeToFallWall { get; set; }
         public PlayerState CurrentPlayerState { get; private set; } = PlayerState.IDLE;
         public PlayerCurrentEnabledAction PlayerCurrentEnabledAction { get; private set; } = PlayerCurrentEnabledAction.NONE;
-        public LightHiddenState CurrentLightHiddenState { get; private set; } = LightHiddenState.LIGHT_HIDDEN;
+        public MyhaContactLightHiddenState CurrentLightHiddenState { get; private set; } = MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT;
         private StaticBody2D DoorThatPlayerIs { get; set; }
 
         protected Dictionary<string, IPlayerBaseComponent> Components = new();
@@ -100,7 +100,7 @@ namespace KatrinaGame.Core
             CollisionMask |= (1 << 13);
         }
 
-        public void SetStateHidden(LightHiddenState newState)
+        public void SetStateHidden(MyhaContactLightHiddenState newState)
         {
             CurrentLightHiddenState = newState;
         }

@@ -63,11 +63,22 @@ namespace PrototipoMyha.Player.Components.Impl
 
         private void OnMyhaIsMoving(float NoiseValue)
         {
-            if (MyhaPlayer.CurrentPlayerState == PlayerState.SNEAK && MyhaPlayer.CurrentLightHiddenState == LightHiddenState.LIGHT_HIDDEN)
+            if (
+                (MyhaPlayer.CurrentPlayerState == PlayerState.SNEAK
+                && MyhaPlayer.CurrentLightHiddenState == MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT)
+                || (MyhaPlayer.CurrentPlayerState == PlayerState.RUN
+                && MyhaPlayer.CurrentLightHiddenState == MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT)
+                || (MyhaPlayer.CurrentPlayerState == PlayerState.JUMPING
+                && MyhaPlayer.CurrentLightHiddenState == MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT)
+                || (MyhaPlayer.CurrentPlayerState == PlayerState.JUMPING_WALL
+                && MyhaPlayer.CurrentLightHiddenState == MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT)
+            )
             {
+               
                 this.MyhaPlayer.AlterRadiusCollisionSoundArea(0);
                 return;
             }
+           
             this.MyhaPlayer.AlterRadiusCollisionSoundArea(NoiseValue);
             SoundManager.Instance.PlaySound(this.MyhaPlayer.WalkAudioStreamPlayer2D, soundExtension: SoundExtension.wav);
         }

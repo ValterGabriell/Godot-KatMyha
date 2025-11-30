@@ -43,12 +43,23 @@ namespace PrototipoMyha.Scripts.Characters.Myha.Components.Impl
 
         private void OnPlayerHasChangedState(string animationToPlay)
         {
-
             this._player.AnimatedSprite2D.Play(animationToPlay);
-            if (MyhaPlayer.CurrentPlayerState == PlayerState.SNEAK && MyhaPlayer.CurrentLightHiddenState == LightHiddenState.LIGHT_HIDDEN)
+            if (
+                 (MyhaPlayer.CurrentPlayerState == PlayerState.SNEAK
+                 && MyhaPlayer.CurrentLightHiddenState == MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT)
+                 || (MyhaPlayer.CurrentPlayerState == PlayerState.RUN
+                 && MyhaPlayer.CurrentLightHiddenState == MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT)
+                 || (MyhaPlayer.CurrentPlayerState == PlayerState.JUMPING
+                 && MyhaPlayer.CurrentLightHiddenState == MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT)
+                 || (MyhaPlayer.CurrentPlayerState == PlayerState.JUMPING_WALL
+                 && MyhaPlayer.CurrentLightHiddenState == MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT)
+             )
             {
+                this._player.SoundAnimatedSprite2D.Visible = false;
+                this._player.SoundAnimatedSprite2D.Stop();
                 return;
             }
+            this._player.SoundAnimatedSprite2D.Visible = true;
             this._player.SoundAnimatedSprite2D.Play(animationToPlay);
 
         }
