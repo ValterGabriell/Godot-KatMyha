@@ -2,7 +2,7 @@
 using PrototipoMyha;
 using System;
 
-public partial class UIGame : Control
+public partial class UIGame : CanvasLayer
 {
     [Signal] public delegate void UIChangeVisibilityEventHandler(bool isVisible);
     [Export] public Label LabelVisibility { get; set; }

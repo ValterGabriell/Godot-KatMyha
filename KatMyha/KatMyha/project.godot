@@ -138,6 +138,7 @@ shoot_options_toogle={
 2d_physics/layer_8="key"
 2d_physics/layer_9="door"
 2d_physics/layer_10="kill_fall_pyramd"
+2d_physics/layer_11="dialog_Area"
 2d_physics/layer_12="shadowArea"
 2d_physics/layer_13="enemy"
 2d_physics/layer_14="enemy_that_search"

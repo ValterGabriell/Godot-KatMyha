@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4rjon2p61f1"]
+
+[ext_resource type="Script" uid="uid://cojd212tnird4" path="res://Scripts/UIGame.cs" id="1_84yft"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ssv7"]
+bg_color = Color(0, 0, 0, 0.19607843)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[node name="MainUi" type="CanvasLayer" node_paths=PackedStringArray("LabelVisibility")]
+script = ExtResource("1_84yft")
+LabelVisibility = NodePath("MarginContainer2/Label2")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_left = 4.0
+offset_top = 15.0
+offset_right = 1125.0
+offset_bottom = 147.0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 800
+theme_override_constants/margin_bottom = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6ssv7")
+
+[node name="Label" type="Label" parent="MarginContainer"]
+layout_mode = 2
+text = "Botão de Ação: E
+Pular: ESPAÇO
+
+
+"
+
+[node name="MarginContainer2" type="MarginContainer" parent="."]
+offset_left = 9.0
+offset_top = 100.0
+offset_right = 141.0
+offset_bottom = 140.0
+
+[node name="Label2" type="Label" parent="MarginContainer2"]
+layout_mode = 2
+text = "Myha está visível"
