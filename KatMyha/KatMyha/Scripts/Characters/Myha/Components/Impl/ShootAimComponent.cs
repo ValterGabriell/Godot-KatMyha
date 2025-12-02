@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using KatMyha.Scripts.Items.KillLight;
 using KatrinaGame.Core;
 using KatrinaGame.Players;
@@ -18,6 +18,7 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
     {
         private MyhaPlayer _player;
         public SignalManager SignalManager { get; private set; } = SignalManager.Instance;
+        private PlayerManager PlayerManager { get; } = PlayerManager.GetPlayerGlobalInstance();
 
         private FallTrap currentTargetAimed = null;
         private FallTrap lastAimLightShooted = null;
@@ -277,6 +278,7 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
 
         private void OnPlayerAim()
         {
+            if(!PlayerManager.IsPlayerHabilityUnlocked(PlayerHabilityKey.AIM_SHOOT)) return;
             this._player.SetState(PlayerState.AIMING);
             if (PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.AIM_SHOOT)
             {

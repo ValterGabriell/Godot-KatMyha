@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://sfwxvejq5out"]
+
+[ext_resource type="Texture2D" uid="uid://dd2iu62r6xx5e" path="res://Assets/Sprites/Itens/LedLightIncand.png" id="1_deu6j"]
+[ext_resource type="Script" uid="uid://cyq1ty5no1yxf" path="res://Scripts/HabilityPoint.cs" id="1_rwp6c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_opni1"]
+
+[node name="HabilityPoint" type="Area2D" node_paths=PackedStringArray("Label")]
+collision_layer = 262144
+collision_mask = 2
+script = ExtResource("1_rwp6c")
+HabilityKey = 1
+Label = NodePath("Label")
+
+[node name="Area2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_opni1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_deu6j")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -61.0
+offset_top = -37.0
+offset_right = 86.0
+offset_bottom = -14.0
+text = "Pegue a habilidade"

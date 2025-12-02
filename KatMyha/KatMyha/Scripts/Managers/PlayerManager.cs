@@ -3,6 +3,7 @@ using KatrinaGame.Core;
 using KatrinaGame.Players;
 using PrototipoMyha.Utilidades;
 using System;
+using System.Collections.Generic;
 
 public enum PlayerSwitchLightState
 {
@@ -15,6 +16,13 @@ public enum PlayerShootType
 {
     DISTRACTION_SHOOT,
     AIM_SHOOT
+}
+
+public enum PlayerHabilityKey
+{
+    WALL_JUMP,
+    AIM_SHOOT,
+    LIGHT_SHOOT
 }
 
 public partial class PlayerManager : Node
@@ -32,7 +40,9 @@ public partial class PlayerManager : Node
     public bool PlayerCanSaveTheGame { get; set; } = false;
     public PlayerSwitchLightState PlayerCanTurnOfTheLight { get; set; } = PlayerSwitchLightState.CANT_TOGGLE_LIGHT;
     private PlayerShootType CurrentPlayerShootType { get; set; } = PlayerShootType.DISTRACTION_SHOOT;
-    
+
+    private Dictionary<PlayerHabilityKey, bool> PlayerHabilities = new Dictionary<PlayerHabilityKey, bool>();
+
     public override void _Ready()
     {
         var playerInTree = GetTree().GetNodesInGroup("player");
@@ -53,6 +63,21 @@ public partial class PlayerManager : Node
             QueueFree();
         }
     }
+
+    public void UnlockPlayerHability(PlayerHabilityKey habilityKey)
+    {
+        if (!PlayerHabilities.ContainsKey(habilityKey))
+        {
+            PlayerHabilities.Add(habilityKey, true);
+        }
+    }
+
+    public bool IsPlayerHabilityUnlocked(PlayerHabilityKey habilityKey)
+    {
+        return PlayerHabilities.ContainsKey(habilityKey) && PlayerHabilities[habilityKey];
+    }
+
+
 
     public void SetCurrentPlayerShootType(PlayerShootType shootType)
     {

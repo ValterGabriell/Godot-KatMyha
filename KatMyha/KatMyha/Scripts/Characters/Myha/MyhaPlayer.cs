@@ -205,8 +205,7 @@ namespace KatrinaGame.Players
 
         private void ProcessActionKey()
         {
-            if (this.PlayerCurrentEnabledAction == PlayerCurrentEnabledAction.CAN_OPEN_DOOR
-                    && this.GetDoorThatEnemyIs() != null)
+            if (this.PlayerCurrentEnabledAction == PlayerCurrentEnabledAction.CAN_OPEN_DOOR && this.GetDoorThatEnemyIs() != null)
             {
                 var door = this.GetDoorThatEnemyIs();
                 var isLocked = (bool)door.Get("is_locked");

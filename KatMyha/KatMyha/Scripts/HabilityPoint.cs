@@ -1,0 +1,48 @@
+﻿using Godot;
+using KatrinaGame.Players;
+using PrototipoMyha.Player.StateManager;
+using PrototipoMyha.Utilidades;
+using System;
+
+public partial class HabilityPoint : Area2D
+{
+    private PlayerManager playerManager = PlayerManager.GetPlayerGlobalInstance();
+    private MyhaPlayer myhaPlayer;
+    [Export] private PlayerHabilityKey HabilityKey;
+    [Export] private Label Label;
+    public override void _Ready()
+    {
+        this.BodyEntered += OnBodyEntered;
+        this.BodyExited += OnBodyExited;
+    }
+
+    private void OnBodyExited(Node2D body)
+    {
+        if (body.IsInGroup("player"))
+        {
+            Label.Visible = false;
+            var player = body as MyhaPlayer;
+            player.SetCurrentEnabledAction(PrototipoMyha.Player.StateManager.PlayerCurrentEnabledAction.NONE);
+        }
+    }
+
+    private void OnBodyEntered(Node2D body)
+    {
+        if (body.IsInGroup("player"))
+        {
+            Label.Visible = true;
+            myhaPlayer = body as MyhaPlayer;
+            myhaPlayer.SetCurrentEnabledAction(PrototipoMyha.Player.StateManager.PlayerCurrentEnabledAction.CAN_GET_HABILITY_POINT);
+        }
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if ( Input.IsActionJustPressed("action") && myhaPlayer.PlayerCurrentEnabledAction == PlayerCurrentEnabledAction.CAN_GET_HABILITY_POINT)
+        {
+            GDLogger.Log("Hability Point Collected: " + HabilityKey.ToString());
+            this.QueueFree();
+        }
+
+    }
+}

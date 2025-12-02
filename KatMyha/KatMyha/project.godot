@@ -146,6 +146,7 @@ shoot_options_toogle={
 2d_physics/layer_16="bounderie_world"
 2d_physics/layer_17="terminal_save"
 2d_physics/layer_18="death_light"
+2d_physics/layer_19="get_point_area"
 
 [rendering]
 
