@@ -254,7 +254,10 @@ QueueFreeAtEnd = false
 
 [node name="AimHabilityPoint" parent="HabilitiesGetPoint" instance=ExtResource("17_6jstj")]
 position = Vector2(4442, 533)
-HabilityKey = 1
+
+[node name="AimHabilityPoint2" parent="HabilitiesGetPoint" instance=ExtResource("17_6jstj")]
+position = Vector2(4594, 534)
+HabilityKey = 0
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

@@ -104,9 +104,6 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
         {
             currentThrowForce = Mathf.Clamp(currentThrowForce + delta, MIN_THROW_FORCE, MAX_THROW_FORCE);
             UpdateDistractionTrajectory(); // Atualizar trajetória imediatamente
-
-            // Feedback visual opcional (você pode adicionar um label para mostrar a força atual)
-            GDLogger.LogBlue($"Throw Force: {currentThrowForce:F0}");
         }
 
         private void ChangeAimLightToAim()

@@ -8,6 +8,8 @@ using PrototipoMyha.Player.Components.Impl;
 using PrototipoMyha.Player.StateManager;
 using PrototipoMyha.Scripts.Characters.Myha.Components.Impl;
 using PrototipoMyha.Utilidades;
+using System;
+using System.Collections.Generic;
 
 namespace KatrinaGame.Players
 {
@@ -40,8 +42,11 @@ namespace KatrinaGame.Players
 
         private IMovementComponent MovementComponent;
         private float CurrentPlayerSpeed = 0f;
+        private PlayerManager PlayerManager;
 
-
+        //delegate for change hability
+        private Action CurrentMethodToExecuteBasedOnActiveHability;
+        private Dictionary<PlayerHabilityKey, Action> PlayerHabilityMethodToExecute;
 
 
         /*WALL JUMP*/
@@ -63,6 +68,15 @@ namespace KatrinaGame.Players
             SoundAreaWalkingColiisonComponent = SoundAreaWalkingComponent
             .GetNode<CollisionShape2D>("CollisionShape2D")
             .Shape as CircleShape2D;
+
+            PlayerManager = PlayerManager.GetPlayerGlobalInstance();
+
+            /*habilities*/
+            PlayerHabilityMethodToExecute = new Dictionary<PlayerHabilityKey, Action>()
+            {
+                { PlayerHabilityKey.AIM_SHOOT, ChangePlayerShootType},
+                { PlayerHabilityKey.WALL_JUMP, WallJumpChangeType  }
+            };
         }
 
         private void SubscribeSignals()
@@ -189,18 +203,34 @@ namespace KatrinaGame.Players
                 ProcessActionKey();
             }
 
-            if (Input.IsActionJustPressed(nameof(EnumActionsInput.shoot_options_toogle)))
+            if (Input.IsActionJustPressed(nameof(EnumActionsInput.change_type_of_hability)))
             {
-                if (PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.AIM_SHOOT)
-                    PlayerManager.GetPlayerGlobalInstance().SetCurrentPlayerShootType(PlayerShootType.DISTRACTION_SHOOT);
-                else
-                    PlayerManager.GetPlayerGlobalInstance().SetCurrentPlayerShootType(PlayerShootType.AIM_SHOOT);
-                GDLogger.LogYellow("Toggled Shoot Type to: " + PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType().ToString());
+                PlayerHabilityKey currentActivePlayerHability = PlayerManager.GetCurrentActivePlayerHability();
+                if (currentActivePlayerHability == PlayerHabilityKey.NONE) return;
+                if(PlayerHabilityMethodToExecute.TryGetValue(currentActivePlayerHability, out Action action))
+                {
+                    action();
+                }
             }
 
-            MovementComponent.Move(inputVector, CurrentPlayerSpeed);
+            MovementComponent.Move(inputVector, CurrentPlayerSpeed);    
 
             base.HandleInput(delta);
+        }
+
+        private static void ChangePlayerShootType()
+        {
+            if (PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.AIM_SHOOT)
+                PlayerManager.GetPlayerGlobalInstance().SetCurrentPlayerShootType(PlayerShootType.DISTRACTION_SHOOT);
+            else
+                PlayerManager.GetPlayerGlobalInstance().SetCurrentPlayerShootType(PlayerShootType.AIM_SHOOT);
+
+            GDLogger.LogYellow("Player Shoot Type Changed to: " + PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType().ToString());
+        }
+
+        private static void WallJumpChangeType()
+        {
+            GDLogger.LogYellow("Wall Jump Activated");
         }
 
         private void ProcessActionKey()
@@ -257,7 +287,8 @@ namespace KatrinaGame.Players
 
 enum EnumActionsInput
 {
-    shoot_options_toogle,
+    habilities_key_toggle,
+    change_type_of_hability,
     action,
     jump,
     s,

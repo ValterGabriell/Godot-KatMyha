@@ -6,7 +6,7 @@ using System;
 
 public partial class HabilityPoint : Area2D
 {
-    private PlayerManager playerManager = PlayerManager.GetPlayerGlobalInstance();
+    private PlayerManager playerManager;
     private MyhaPlayer myhaPlayer;
     [Export] private PlayerHabilityKey HabilityKey;
     [Export] private Label Label;
@@ -38,11 +38,16 @@ public partial class HabilityPoint : Area2D
 
     public override void _Input(InputEvent @event)
     {
-        if ( Input.IsActionJustPressed("action") && myhaPlayer.PlayerCurrentEnabledAction == PlayerCurrentEnabledAction.CAN_GET_HABILITY_POINT)
+        if (Input.IsActionJustPressed("action")
+            && myhaPlayer != null
+            && myhaPlayer.PlayerCurrentEnabledAction == PlayerCurrentEnabledAction.CAN_GET_HABILITY_POINT)
         {
-            GDLogger.Log("Hability Point Collected: " + HabilityKey.ToString());
-            this.QueueFree();
+            playerManager = PlayerManager.GetPlayerGlobalInstance();
+            if (playerManager != null)
+            {
+                playerManager.UnlockPlayerHability(HabilityKey);
+                this.QueueFree();
+            }
         }
-
     }
 }

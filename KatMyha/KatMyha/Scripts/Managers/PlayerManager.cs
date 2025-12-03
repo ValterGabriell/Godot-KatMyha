@@ -22,7 +22,7 @@ public enum PlayerHabilityKey
 {
     WALL_JUMP,
     AIM_SHOOT,
-    LIGHT_SHOOT
+    NONE
 }
 
 public partial class PlayerManager : Node
@@ -42,6 +42,9 @@ public partial class PlayerManager : Node
     private PlayerShootType CurrentPlayerShootType { get; set; } = PlayerShootType.DISTRACTION_SHOOT;
 
     private Dictionary<PlayerHabilityKey, bool> PlayerHabilities = new Dictionary<PlayerHabilityKey, bool>();
+    private PlayerHabilityKey CurrentActivePlayerHability = PlayerHabilityKey.NONE;
+
+    public event Action PlayerChangedHability;
 
     public override void _Ready()
     {
@@ -54,6 +57,8 @@ public partial class PlayerManager : Node
             ? BasePlayer.GlobalPosition
             : Vector2.Zero;
 
+
+
         if (PlayerGlobalInstance == null)
         {
             PlayerGlobalInstance = this;
@@ -64,11 +69,28 @@ public partial class PlayerManager : Node
         }
     }
 
+    public PlayerHabilityKey GetCurrentActivePlayerHability()
+    {
+        return CurrentActivePlayerHability;
+    }
+
+    public void SetCurrentActivePlayerHability(PlayerHabilityKey habilityKey)
+    {
+        GDLogger.LogRed($"Trying to set current active player hability to {habilityKey}");
+        if (IsPlayerHabilityUnlocked(habilityKey))
+        {
+            GDLogger.LogGreen($"Current active player hability set to {habilityKey}");
+            CurrentActivePlayerHability = habilityKey;
+            this.PlayerChangedHability?.Invoke();
+        }
+    }
+
     public void UnlockPlayerHability(PlayerHabilityKey habilityKey)
     {
         if (!PlayerHabilities.ContainsKey(habilityKey))
         {
             PlayerHabilities.Add(habilityKey, true);
+            this.PlayerChangedHability?.Invoke();
         }
     }
 
@@ -115,7 +137,6 @@ public partial class PlayerManager : Node
 
     public void UpdateLastDistractionBallPosition(Vector2? newPosition)
     {
-        GDLogger.LogGreen("Updating LastDistractionBallPosition to: " + (newPosition.HasValue ? newPosition.Value.ToString() : "null"));
         LastDistractionBallPosition = newPosition;
     }
 
@@ -128,4 +149,6 @@ public partial class PlayerManager : Node
     {
         LastPlayerPositionThatMakedSound = newPosition;
     }
+
+
 }
