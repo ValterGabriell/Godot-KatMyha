@@ -18,12 +18,14 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
         private Vector2 currentTarget;
         private BaseGuardV2 BaseGuardV2;
         private bool hasValidMarkers;
+        private bool IsInitialized;
 
 
         public BaseGuardStateRoaming(EnemyBaseV2 enemy, StateMachine stateMachine)
             : base(enemy, stateMachine)
         {
             this.BaseGuardV2 = enemy as BaseGuardV2;
+            IsInitialized = false;
 
             if (this.BaseGuardV2 == null)
             {
@@ -37,9 +39,6 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
             }
 
             hasValidMarkers = true;
-            this.markerA = this.BaseGuardV2.RoamMarkerA.GlobalPosition;
-            this.markerB = this.BaseGuardV2.RoamMarkerB.GlobalPosition;
-            currentTarget = markerB;
         }
 
         public override void EnterState(EnemyStateBase previousState)
@@ -49,6 +48,33 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
             if (!hasValidMarkers)
             {
                 TransitionTo(EnumEnemyState.Idle);
+                return;
+            }
+
+            // Só inicializa os markers na primeira vez
+            if (!IsInitialized || !BaseGuardV2.JustLoaded)
+            {
+                this.markerA = this.BaseGuardV2.RoamMarkerA.GlobalPosition;
+                this.markerB = this.BaseGuardV2.RoamMarkerB.GlobalPosition;
+
+                // Define o target inicial baseado na posição atual
+                float distToA = BaseGuardV2.GlobalPosition.DistanceTo(markerA);
+                float distToB = BaseGuardV2.GlobalPosition.DistanceTo(markerB);
+                currentTarget = distToA < distToB ? markerB : markerA;
+
+                IsInitialized = true;
+
+                GD.Print($"Estado Roaming inicializado. MarkerA: {markerA}, MarkerB: {markerB}, Target: {currentTarget}");
+            }
+            else
+            {
+                // Se foi carregado de um save, mantém a posição atual e define o próximo target
+                float distToA = BaseGuardV2.GlobalPosition.DistanceTo(markerA);
+                float distToB = BaseGuardV2.GlobalPosition.DistanceTo(markerB);
+                currentTarget = distToA < distToB ? markerB : markerA;
+
+                GD.Print($"Estado Roaming retomado após load. Posição atual: {BaseGuardV2.GlobalPosition}, Target: {currentTarget}");
+                BaseGuardV2.JustLoaded = false;
             }
         }
 
@@ -59,12 +85,12 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
                 return;
             }
 
-            var direction = (currentTarget - BaseGuardV2.Position).Normalized();
+            var direction = (currentTarget - BaseGuardV2.GlobalPosition).Normalized();
             var newPos = direction * this.BaseGuardV2.Resources.MoveSpeed * delta;
 
-            BaseGuardV2.Position += new Vector2(newPos.X, 0);
+            BaseGuardV2.GlobalPosition += new Vector2(newPos.X, 0);
 
-            if (BaseGuardV2.Position.DistanceTo(currentTarget) < 15.0f)
+            if (BaseGuardV2.GlobalPosition.DistanceTo(currentTarget) < 15.0f)
             {
                 currentTarget = currentTarget == markerA ? markerB : markerA;
                 TransitionTo(EnumEnemyState.Waiting);
@@ -83,7 +109,6 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
                 return;
             }
 
-            this.BaseGuardV2.CheckIfHasToChasePlayer();
         }
 
         private static void FlipEnemyDirection(BaseGuardV2 InEnemy, Vector2 direction)

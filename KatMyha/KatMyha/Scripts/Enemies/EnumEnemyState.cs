@@ -7,7 +7,6 @@
         Roaming,
 
 
-        Chasing,
 
 
         LookingForPlayerInDistractedArea,

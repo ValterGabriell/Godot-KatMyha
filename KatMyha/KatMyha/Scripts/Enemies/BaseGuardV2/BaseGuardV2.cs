@@ -1,6 +1,9 @@
 ﻿using Godot;
 using KatMyha.Scripts.Enemies.DroneEnemy;
+using KatMyha.Scripts.Managers;
+using KatrinaGame.Core;
 using KatrinaGame.Players;
+using PrototipoMyha;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Player.StateManager;
 using PrototipoMyha.Scripts.Utils;
@@ -48,12 +51,47 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2
 
         [Export] private StartDirectionEnum StartDirection = StartDirectionEnum.Left;
 
+        private bool hasEmittedKillSignal = false;
+        private SignalManager SignalManager;
+        private SoundManager SoundManager;
+
         public override void _Ready()
         {
             base._Ready();
             RaycastUtils.FlipRaycast((int)StartDirection, [RayCast2DDetection]);
             SpriteUtils.FlipSprite((int)StartDirection, AnimatedSprite2DEnemy);
             PolyngUtils.Flip((int)StartDirection, Polygon2DDetection);
+            SignalManager = SignalManager.Instance;
+            SoundManager = SoundManager.Instance;
+        }
+
+        public override void _Process(double delta)
+        {
+            ProcessKillOfPlayer();
+            if (hasEmittedKillSignal)
+            {
+                GetTree().CreateTimer(1.0).Timeout += () =>
+                {
+                    hasEmittedKillSignal = false;
+                };
+            }
+        }
+
+        private void ProcessKillOfPlayer()
+        {
+            if (this.RayCast2DDetection != null)
+            {
+                (BasePlayer player, bool isColliding) = RaycastUtils.IsColliding<BasePlayer>(this.RayCast2DDetection);
+                if (isColliding
+                    && !hasEmittedKillSignal)
+                {
+                    SignalManager.EmitSignal(nameof(SignalManager.EnemyKillMyha));
+                    SoundManager.PlaySound(player.DeathAudioStreamPlayer2D);
+                    this.Velocity = Vector2.Zero;
+                    hasEmittedKillSignal = true;
+                    this.Velocity = Vector2.Zero;
+                }
+            }
         }
 
         private bool CanSeePlayer()
@@ -69,15 +107,5 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2
 
             return false;
         }
-
-        public void CheckIfHasToChasePlayer()
-        {
-            if (CanSeePlayer() && this.CurrentEnemyState != EnumEnemyState.Chasing)
-            {
-                this.EnemyStateBase.TransitionTo(EnumEnemyState.Chasing);
-                return;
-            }
-        }
-
     }
 }

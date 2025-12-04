@@ -35,6 +35,7 @@ public enum PlayerCurrentEnabledAction
     CAN_SHOOT,
     NONE,
     CAN_OPEN_DOOR,
+    CAN_OPEN_FLOOR_DOOR,
     CAN_GET_HABILITY_POINT,
     CAN_SAVE
 }

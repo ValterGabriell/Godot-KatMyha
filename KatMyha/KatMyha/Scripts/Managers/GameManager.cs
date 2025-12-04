@@ -147,19 +147,8 @@ namespace PrototipoMyha.Scripts.Managers
         }
         public void SaveGame()
         {
-            var playerManager = PlayerManager.GetPlayerGlobalInstance();
-            Vector2 currentPlayerPosition = playerManager.GetPlayerPosition();
-            
-            var saveData = new LevelSaveData()
-            {
-                LevelNumber = this.CurrentLevelObjData.LevelNumber,
-                PlayerPosition_X_OnLevel = currentPlayerPosition.X,
-                PlayerPosition_Y_OnLevel = currentPlayerPosition.Y,
-                Enemies = this.CurrentLevelObjData.Enemies
-            };
-
-            SignalManager.Instance.EmitSignal(nameof(SignalManager.Instance.PlayerSaveTheGame));
-            SaveSystem.SaveSystemInstance.SaveGame(saveData);
+            var saveData = GetCurrentLevelUpdatedData();
+            SaveSystem.SaveSystemInstance.SaveGame(saveData.LevelNumber);
         }
 
         public void LoadGame()
@@ -171,63 +160,7 @@ namespace PrototipoMyha.Scripts.Managers
 
             var tween = CreateTween();
             tween.TweenProperty(_fadeRect, "color:a", 0.0f, 1.0f);
-
-            var saveData = SaveSystem.SaveSystemInstance.LoadGame();
-            if (saveData != null)
-            {
-                Vector2 loadedPosition = new Vector2(saveData.PlayerPosition_X_OnLevel, saveData.PlayerPosition_Y_OnLevel);
-
-                SignalManager.Instance.EmitSignal(nameof(SignalManager.GameLoaded), loadedPosition);
-
-                var instanceManager = PlayerManager.GetPlayerGlobalInstance();
-                instanceManager.UpdatePlayerPosition(loadedPosition);
-                instanceManager.BasePlayer.SetState(PlayerState.IDLE);
-
-                var enemiesInScene = GetTree().GetNodesInGroup("enemy"); 
-                var pyramdInScene = GetTree().GetNodesInGroup("pyramd"); 
-                var alertsInScene = GetTree().GetNodesInGroup(EnumGroups.AlertSprite.ToString());
-
-                foreach (var item in alertsInScene)
-                {
-                    item.QueueFree();
-                }
-
-
-                foreach (var enemySave in saveData.Enemies)
-                {
-                    // Encontre o inimigo correspondente pelo Id ou outro identificador
-                    var enemy = enemiesInScene
-                        .OfType<EnemyBaseV2>()
-                        .FirstOrDefault(e => e.GetIdentifier() == enemySave.InstanceID); 
-
-                    if (enemy != null)
-                    {
-                        enemy.GlobalPosition = new Vector2(enemySave.PositionX, enemySave.PositionY);
-                        enemy.EnemyStateBase.TransitionTo(enemySave.EnemyState);
-                        enemy.JustLoaded = true;
-
-                    }
-                }
-
-                foreach (var item in saveData.PyramdsFallKill)
-                {
-                    // Encontre o inimigo correspondente pelo Id ou outro identificador
-                    var pyramed = pyramdInScene
-                        .OfType<KillFallPyramd>()
-                        .FirstOrDefault(e => e.InstanceID == item.InstanceID);
-
-                    if (pyramed != null)
-                    {
-                        var newPyramed = (KillFallPyramd)GD.Load<PackedScene>("res://Scenes/Items/Itens/KillFallPyramd.tscn").Instantiate();
-                        newPyramed.InstanceID = item.InstanceID;
-                        newPyramed.GlobalPosition = new Vector2(item.PositionX, item.PositionY);
-                        GetTree().CurrentScene.AddChild(newPyramed);
-                    }
-                }
-
-
-            }
-
+            SaveSystem.SaveSystemInstance.Load();
           
         }
         public void KillPlayer(EnemyBaseV2 enemyBaseV2)

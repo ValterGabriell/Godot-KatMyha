@@ -63,7 +63,7 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
             return targetPos;
         }
 
-        public override void Process(float delta) { this.BaseGuardV2.CheckIfHasToChasePlayer(); }
+   
 
         private static void PlayAnimationAlerted(BaseGuardV2 InEnemy)
         {
@@ -82,5 +82,9 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
             PolyngUtils.Flip(directionSign, InEnemy.Polygon2DDetection);
         }
 
+        public override void Process(float delta)
+        {
+            
+        }
     }
 }

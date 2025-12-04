@@ -42,6 +42,7 @@ door=""
 fall_plataform=""
 fall_trap=""
 pyramd=""
+alert_sound=""
 
 [input]
 
@@ -153,6 +154,7 @@ change_type_of_hability={
 2d_physics/layer_18="death_light"
 2d_physics/layer_19="get_point_area"
 2d_physics/layer_20="change_camera_Area"
+2d_physics/layer_21="floor_door"
 
 [rendering]
 

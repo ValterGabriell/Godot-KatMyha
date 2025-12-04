@@ -18,7 +18,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         {
             if (_enemy != null)
             {
-                _enemy.SetEnemyState(EnumEnemyState.Chasing);
+                _enemy.SetEnemyState(EnumEnemyState.Alerted);
                 GameManager.GetGameManagerInstance().KillPlayer(EnemyBaseV2);
             }
         }

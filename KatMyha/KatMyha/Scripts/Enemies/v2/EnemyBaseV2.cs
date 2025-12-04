@@ -19,6 +19,11 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy
         {
             return Identifier;
         }
+
+        public void SetIdentifier(Guid guid)
+        {
+            this.Identifier = guid;
+        }
         public bool JustLoaded { get; set; } = false;
         public EnumEnemyState CurrentEnemyState { get; private set; } = EnumEnemyState.Idle;
 

@@ -74,43 +74,47 @@ namespace PrototipoMyha.Player.Components.Impl
                 && MyhaPlayer.CurrentLightHiddenState == MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT)
             )
             {
-               
+
                 this.MyhaPlayer.AlterRadiusCollisionSoundArea(0);
                 return;
             }
-           
+
             this.MyhaPlayer.AlterRadiusCollisionSoundArea(NoiseValue);
             SoundManager.Instance.PlaySound(this.MyhaPlayer.WalkAudioStreamPlayer2D, soundExtension: SoundExtension.wav);
         }
 
         private void OnEnemyAreaOfSoundEntered(Node2D area)
         {
-            if (area is EnemyBaseV2 enemy && enemy.CurrentEnemyState != Enemy.States.EnumEnemyState.Chasing)
+            if (area is EnemyBaseV2 enemy)
             {
                 _PlayerManager.UpdateLastPlayerPositionThatMakedSound(this.MyhaPlayer.GlobalPosition);
                 enemy.EnemyStateBase.TransitionTo(Enemy.States.EnumEnemyState.Alerted);
 
                 var packageScene = GD.Load<PackedScene>("res://Scenes/Items/Itens/ItemAlertSound.tscn");
                 var instance = packageScene.Instantiate<AnimatedSprite2D>();
-                instance.GlobalPosition = _PlayerManager.LastPlayerPositionThatMakedSound; 
+                instance.GlobalPosition = _PlayerManager.LastPlayerPositionThatMakedSound;
                 instance.Play("default");
                 GetTree().CurrentScene.AddChild(instance);
-
 
                 var timer = new Timer();
                 timer.WaitTime = 3.0f;
                 timer.OneShot = true;
                 timer.Timeout += () =>
                 {
-                    instance.QueueFree();
-                    timer.QueueFree();
+                    if (GodotObject.IsInstanceValid(instance) && !instance.IsQueuedForDeletion())
+                    {
+                        instance.QueueFree();
+                    }
+
+                    if (GodotObject.IsInstanceValid(timer) && !timer.IsQueuedForDeletion())
+                    {
+                        timer.QueueFree();
+                    }
                 };
                 GetTree().CurrentScene.AddChild(timer);
                 timer.Start();
             }
         }
-
-
 
         public void Process(double delta) { }
 

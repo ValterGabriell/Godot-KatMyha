@@ -32,12 +32,6 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
                 TransitionTo(EnumEnemyState.Roaming);
             }
         }
-
-        public override void Process(float delta)
-        {
-            this.BaseGuardV2.CheckIfHasToChasePlayer();
-        }
-
         private void PlayAnimationWaiting(BaseGuardV2 InEnemy)
         {
             if (InEnemy.AnimatedSprite2DEnemy.Animation != EnumBaseGuardV2_Animation.waiting.ToString())
@@ -46,5 +40,9 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
             }
         }
 
+        public override void Process(float delta)
+        {
+           
+        }
     }
 }

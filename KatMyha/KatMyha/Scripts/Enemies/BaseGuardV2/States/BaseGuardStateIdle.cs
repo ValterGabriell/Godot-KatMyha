@@ -22,20 +22,55 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
         private bool IsMoving;
         private bool MovingToPatrol;
         private Random Random;
-
+        private const float PatrolDistance = 100.0f;
+        private bool IsInitialized;
 
         public BaseGuardStateIdle(EnemyBaseV2 enemy, StateMachine stateMachine) : base(enemy, stateMachine)
         {
             this.BaseGuardV2 = enemy as BaseGuardV2;
             enemy.Velocity = Vector2.Zero;
-            InitialPosition = enemy.Position;
             Random = new Random();
-            PatrolPosition = InitialPosition + new Vector2(this.BaseGuardV2.Resources.PatrolDistance, 0);
-            TargetPosition = InitialPosition;
-            IdleTimer = 0f;
-            IdleWaitTime = GetRandomWaitTime();
-            IsMoving = false;
-            MovingToPatrol = true;
+            IsInitialized = false;
+        }
+
+        public override void EnterState(EnemyStateBase previousState)
+        {
+            base.EnterState(previousState);
+
+            // Só inicializa a posição na primeira vez ou se não foi carregado de um save
+            if (!IsInitialized || !BaseGuardV2.JustLoaded)
+            {
+                InitialPosition = BaseGuardV2.GlobalPosition;
+                PatrolPosition = InitialPosition + new Vector2(PatrolDistance, 0);
+                TargetPosition = InitialPosition;
+                IdleTimer = 0f;
+                IdleWaitTime = GetRandomWaitTime();
+                IsMoving = false;
+                MovingToPatrol = true;
+                IsInitialized = true;
+
+                GD.Print($"Estado Idle inicializado. Posição inicial: {InitialPosition}");
+            }
+            else
+            {
+                // Se foi carregado, mantém a posição e recalcula os alvos baseado nela
+                InitialPosition = BaseGuardV2.GlobalPosition;
+                PatrolPosition = InitialPosition + new Vector2(PatrolDistance, 0);
+
+                // Determina se está indo para patrulha ou voltando baseado na posição atual
+                float distToInitial = BaseGuardV2.GlobalPosition.DistanceTo(InitialPosition);
+                float distToPatrol = BaseGuardV2.GlobalPosition.DistanceTo(PatrolPosition);
+
+                MovingToPatrol = distToPatrol > distToInitial;
+                TargetPosition = MovingToPatrol ? PatrolPosition : InitialPosition;
+
+                IdleTimer = 0f;
+                IdleWaitTime = GetRandomWaitTime();
+                IsMoving = false;
+
+                GD.Print($"Estado Idle retomado após load. Posição: {InitialPosition}");
+                BaseGuardV2.JustLoaded = false;
+            }
         }
 
         public override void PhysicsProcess(float delta)
@@ -52,16 +87,16 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
             }
             else
             {
-                if (BaseGuardV2.Position.DistanceTo(TargetPosition) > 5.0f)
+                if (BaseGuardV2.GlobalPosition.DistanceTo(TargetPosition) > 5.0f)
                 {
-                    Vector2 direction = (TargetPosition - BaseGuardV2.Position).Normalized();
+                    Vector2 direction = (TargetPosition - BaseGuardV2.GlobalPosition).Normalized();
                     var newPos = direction * this.BaseGuardV2.Resources.MoveSpeed * delta;
-                    BaseGuardV2.Position += new Vector2(newPos.X, 0);
+                    BaseGuardV2.GlobalPosition += new Vector2(newPos.X, 0);
                     FlipEnemyDirection(BaseGuardV2, direction);
                 }
                 else
                 {
-                    BaseGuardV2.Position = TargetPosition;
+                    BaseGuardV2.GlobalPosition = TargetPosition;
                     IsMoving = false;
                     MovingToPatrol = !MovingToPatrol;
                     IdleWaitTime = GetRandomWaitTime();

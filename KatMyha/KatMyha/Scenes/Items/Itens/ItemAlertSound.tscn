@@ -98,7 +98,7 @@ animations = [{
 "speed": 15.0
 }]
 
-[node name="ItemAlertSound" type="AnimatedSprite2D"]
+[node name="ItemAlertSound" type="AnimatedSprite2D" groups=["alert_sound"]]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_csko4")
 

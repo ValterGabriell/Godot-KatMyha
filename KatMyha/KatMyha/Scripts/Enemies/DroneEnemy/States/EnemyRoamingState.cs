@@ -78,7 +78,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         {
             if (body.IsInGroup(EnumGroups.player.ToString()))
             {
-                TransitionTo(EnumEnemyState.Chasing);
+                TransitionTo(EnumEnemyState.Alerted);
             }
         }
 

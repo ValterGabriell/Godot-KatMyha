@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtxb67exbsntj"]
+
+[ext_resource type="Texture2D" uid="uid://cemt1im5dg8sy" path="res://Assets/Sprites/Itens/OpenDoorFloor.png" id="1_b0d3l"]
+[ext_resource type="Script" uid="uid://b08febjrhit8a" path="res://Scripts/OpenFloorDoor.cs" id="1_i10vk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0d3l"]
+size = Vector2(30, 7)
+
+[node name="OpenFloorDoor" type="StaticBody2D"]
+collision_layer = 1048576
+collision_mask = 2
+script = ExtResource("1_i10vk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_b0d3l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_b0d3l")
+one_way_collision = true
+
+[node name="OpenArea" type="Area2D" parent="."]
+collision_layer = 1048576
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OpenArea"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_b0d3l")
+debug_color = Color(0, 0.6, 0.69803923, 0)
