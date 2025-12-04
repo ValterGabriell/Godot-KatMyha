@@ -8,7 +8,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
     public abstract partial class StateMachine : Node
     {
         [Export]
-        public EnumEnemyState InitialState { get; set; } = EnumEnemyState.Roaming;
+        public EnumEnemyState InitialState { get; set; } = EnumEnemyState.Idle;
         public EnumEnemyState CurrentStateType { get; private set; }
         
         private EnemyStateBase _currentState;

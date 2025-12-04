@@ -8,6 +8,7 @@
 radius = 126.035706
 
 [node name="LedTube" type="Node2D"]
+z_index = -50
 
 [node name="Area2D" type="Area2D" parent="." groups=["kill_light"]]
 collision_layer = 131072

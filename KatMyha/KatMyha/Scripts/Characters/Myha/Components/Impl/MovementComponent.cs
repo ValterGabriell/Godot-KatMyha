@@ -200,7 +200,6 @@ namespace KatrinaGame.Components
             this._player.SetState(PlayerState.JUMPING);
             _player.Velocity = new Vector2(_player.Velocity.X, _player.JumpVelocity);
 
-
             SignalManager.EmitSignal(nameof(SignalManager.PlayerIsMoving), PlayerManager.JumpNoiseRadius);
             SignalManager.EmitSignal(nameof(SignalManager.PlayerHasChangedState), EnumAnimations.jump_up.ToString());
         }

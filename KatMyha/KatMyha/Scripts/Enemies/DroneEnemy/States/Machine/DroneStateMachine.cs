@@ -9,6 +9,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy.States
         protected override void InitializeStates(EnemyBaseV2 _enemy)
         {
             RegisterState(EnumEnemyState.Roaming, new EnemyRoamingState(_enemy, this));
+            RegisterState(EnumEnemyState.Idle, new EnemyRoamingState(_enemy, this));
             RegisterState(EnumEnemyState.Chasing, new EnemyKillingState(_enemy, this));
         }
     }

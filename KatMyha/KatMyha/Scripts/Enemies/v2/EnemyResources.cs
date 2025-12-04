@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 
 namespace KatMyha.Scripts.Enemies.DroneEnemy
 {
@@ -13,6 +13,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy
         [Export] public float MoveSpeed { get; set; } = 150f;
         [Export] public float Acceleration { get; set; } = 500f;
         [Export] public float Deceleration { get; set; } = 500f;
+        [Export] public float PatrolDistance { get; set; } = 300f;
 
         [ExportGroup("Combat")]
         [Export] public float AttackDamage { get; set; } = 10f;

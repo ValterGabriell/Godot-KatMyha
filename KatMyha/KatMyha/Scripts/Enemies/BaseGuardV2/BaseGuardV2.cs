@@ -3,9 +3,16 @@ using KatMyha.Scripts.Enemies.DroneEnemy;
 using KatrinaGame.Players;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Player.StateManager;
+using PrototipoMyha.Scripts.Utils;
+using PrototipoMyha.Utilidades;
 
 namespace KatMyha.Scripts.Enemies.BaseGuardV2
 {
+    enum StartDirectionEnum
+    {
+        Left = -1,
+        Right = 1
+    }
     public partial class BaseGuardV2 : EnemyBaseV2
     {
         [ExportGroup("Roaming State")]
@@ -38,6 +45,16 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2
         /// Gets the animation sprite of a enemy
         /// <summary>
         [Export] public AnimatedSprite2D AnimatedSprite2DEnemy { get; private set; } = null;
+
+        [Export] private StartDirectionEnum StartDirection = StartDirectionEnum.Left;
+
+        public override void _Ready()
+        {
+            base._Ready();
+            RaycastUtils.FlipRaycast((int)StartDirection, [RayCast2DDetection]);
+            SpriteUtils.FlipSprite((int)StartDirection, AnimatedSprite2DEnemy);
+            PolyngUtils.Flip((int)StartDirection, Polygon2DDetection);
+        }
 
         private bool CanSeePlayer()
         {

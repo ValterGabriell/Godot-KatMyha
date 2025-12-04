@@ -191,7 +191,7 @@ namespace KatrinaGame.Players
             }
 
 
-            if (Input.IsActionJustPressed("jump") && this.CurrentPlayerState != PlayerState.AIMING)
+            if (Input.IsActionPressed("jump") && this.CurrentPlayerState != PlayerState.AIMING)
             {
                 inputVector.Y -= 1;
                 MovementComponent.Jump();

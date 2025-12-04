@@ -17,20 +17,48 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
         private Vector2 markerB;
         private Vector2 currentTarget;
         private BaseGuardV2 BaseGuardV2;
+        private bool hasValidMarkers;
 
 
         public BaseGuardStateRoaming(EnemyBaseV2 enemy, StateMachine stateMachine)
             : base(enemy, stateMachine)
         {
             this.BaseGuardV2 = enemy as BaseGuardV2;
+
+            if (this.BaseGuardV2 == null)
+            {
+                return;
+            }
+
+            if (this.BaseGuardV2.RoamMarkerA == null || this.BaseGuardV2.RoamMarkerB == null)
+            {
+                hasValidMarkers = false;
+                return;
+            }
+
+            hasValidMarkers = true;
             this.markerA = this.BaseGuardV2.RoamMarkerA.GlobalPosition;
             this.markerB = this.BaseGuardV2.RoamMarkerB.GlobalPosition;
             currentTarget = markerB;
         }
 
+        public override void EnterState(EnemyStateBase previousState)
+        {
+            base.EnterState(previousState);
+
+            if (!hasValidMarkers)
+            {
+                TransitionTo(EnumEnemyState.Idle);
+            }
+        }
 
         public override void PhysicsProcess(float delta)
         {
+            if (!hasValidMarkers)
+            {
+                return;
+            }
+
             var direction = (currentTarget - BaseGuardV2.Position).Normalized();
             var newPos = direction * this.BaseGuardV2.Resources.MoveSpeed * delta;
 
@@ -48,7 +76,13 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
 
 
 
-        public override void Process(float delta){
+        public override void Process(float delta)
+        {
+            if (!hasValidMarkers)
+            {
+                return;
+            }
+
             this.BaseGuardV2.CheckIfHasToChasePlayer();
         }
 

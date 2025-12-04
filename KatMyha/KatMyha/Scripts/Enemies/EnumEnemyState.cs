@@ -20,6 +20,7 @@
         DistractionAlerted,
         WalkWarning,
         SearchingHiddenPlace,
-        StopedWhileNotDistracted
+        StopedWhileNotDistracted,
+        Idle
     }
 }
