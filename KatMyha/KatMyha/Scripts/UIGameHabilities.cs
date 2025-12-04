@@ -12,6 +12,7 @@ public partial class UIGameHabilities : MarginContainer
         playerManager = PlayerManager.GetPlayerGlobalInstance();
         playerManager.PlayerChangedHability += OnPlayerChangedHability;
         HabilitiesList = GetNode<ItemList>("ItemList");
+        PopulateHabilitiesList();
     }
 
     private void OnPlayerChangedHability()
@@ -22,28 +23,37 @@ public partial class UIGameHabilities : MarginContainer
         habilidade, o que gerava inconformidade porque a lista era apagada e refeita, mantendo a selecao sempre
         no primeiro item. Entao agora, ao trocar a habilidade, apenas o item selecionado é alterado.
          */
+        PopulateHabilitiesList();
+    }
+
+    private void PopulateHabilitiesList()
+    {
         for (int i = 0; i < Enum.GetValues(typeof(PlayerHabilityKey)).Length; i++)
         {
             var hability = (PlayerHabilityKey)i;
             if (playerManager.IsPlayerHabilityUnlocked((PlayerHabilityKey)hability))
-                AddHabilityToList(hability, i);
+                AddHabilityToList(hability);
         }
     }
 
-    private void AddHabilityToList(object hability, int index)
+    private void AddHabilityToList(object hability)
     {
         HabilitiesList.AddItem(hability.ToString());
-        if(HabilitiesList.ItemCount > 0)
+
+        if (HabilitiesList.ItemCount > 0)
         {
             PlayerHabilityKey playerHabilityKey = playerManager.GetCurrentActivePlayerHability();
 
             if (IsCurrentActiveHability(hability, playerHabilityKey))
-                HabilitiesList.Select(index);
+            {
+                // Usa o índice real da lista (ItemCount - 1) ao invés do índice do enum
+                int actualIndex = HabilitiesList.ItemCount - 1;
+                HabilitiesList.Select(actualIndex);
+            }
 
             if (ShouldSelectFirstHability(playerHabilityKey))
                 HabilitiesList.Select(0);
         }
-
     }
 
     private static bool IsCurrentActiveHability(object hability, PlayerHabilityKey playerHabilityKey)
@@ -67,7 +77,5 @@ public partial class UIGameHabilities : MarginContainer
             playerManager.SetCurrentActivePlayerHability((PlayerHabilityKey)Enum.Parse(typeof(PlayerHabilityKey), v));
             GDLogger.LogYellow("Toggled Hability to: " + v);
         }
-            
-        
     }
 }

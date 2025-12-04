@@ -202,7 +202,7 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
                 this._player.SetState(PlayerState.SHOOTING);
 
                 this.currentTargetAimed.WasShooted = true;
-                this.currentTargetAimed.GetNode<Sprite2D>("Sprite2D").Texture = currentTargetAimed.ShootedAimedTexture2D;
+                ApplyShootedLightEffects();
 
                 this.lastAimLightShooted = this.currentTargetAimed;
                 this.allTargetsOnRange.Remove(this.currentTargetAimed);
@@ -227,7 +227,7 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
                 }
             }
 
-            if(this._player.CurrentPlayerState == PlayerState.AIMING && PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.DISTRACTION_SHOOT)
+            if (this._player.CurrentPlayerState == PlayerState.AIMING && PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.DISTRACTION_SHOOT)
             {
                 this._player.SetState(PlayerState.THROW);
                 ThrowDistractionBall();
@@ -235,6 +235,15 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
                 isDistractionAimActive = false;
                 this._player.SetState(PlayerState.IDLE);
             }
+        }
+
+        private void ApplyShootedLightEffects()
+        {
+            this.currentTargetAimed.GetNode<Sprite2D>("Sprite2D").Texture = currentTargetAimed.ShootedAimedTexture2D;
+            this.currentTargetAimed.GetNode<Area2D>("Area2D").Monitoring = false;
+            this.currentTargetAimed.GetNode<Area2D>("Area2D").GetNode<CollisionPolygon2D>("CollisionPolygon2D").Disabled = true;
+            this.currentTargetAimed.GetNode<Sprite2D>("Sprite2D").GetNode<Sprite2D>("Sprite2D").Visible = false;
+            this.currentTargetAimed.GetNode<Sprite2D>("Sprite2D").GetNode<PointLight2D>("PointLight2D").Visible = false;
         }
 
         private void ThrowDistractionBall()

@@ -281,10 +281,19 @@ namespace KatrinaGame.Players
         {
             this.SetCurrentEnabledAction(PlayerCurrentEnabledAction.CAN_HIDE);
         }
+
+        internal PlayerDirection GetDirectionThatPlayerIsLookingAt()
+        {
+            return AnimatedSprite2D.FlipH ? PlayerDirection.Left : PlayerDirection.Right;
+        }
     }
 }
 
-
+public enum PlayerDirection
+{
+    Left = -1,
+    Right = 1
+}
 enum EnumActionsInput
 {
     habilities_key_toggle,

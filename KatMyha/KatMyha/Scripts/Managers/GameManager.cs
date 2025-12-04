@@ -35,7 +35,7 @@ namespace PrototipoMyha.Scripts.Managers
         public override void _Input(InputEvent @event)
         {
             // F5 para salvar
-            if (@event.IsActionPressed("save_game") 
+            if (@event.IsActionPressed("action") 
                 && PlayerManager.GetPlayerGlobalInstance().PlayerCanSaveTheGame)
             {
                 SaveGame();

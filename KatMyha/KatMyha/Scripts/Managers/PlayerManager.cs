@@ -48,6 +48,10 @@ public partial class PlayerManager : Node
 
     public override void _Ready()
     {
+        PlayerHabilities.Add(PlayerHabilityKey.WALL_JUMP, true);
+        PlayerHabilities.Add(PlayerHabilityKey.AIM_SHOOT, true);
+
+
         var playerInTree = GetTree().GetNodesInGroup("player");
         BasePlayer = playerInTree.Count > 0
             ? playerInTree[0] as BasePlayer

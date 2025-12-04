@@ -35,7 +35,8 @@ public enum PlayerCurrentEnabledAction
     CAN_SHOOT,
     NONE,
     CAN_OPEN_DOOR,
-    CAN_GET_HABILITY_POINT
+    CAN_GET_HABILITY_POINT,
+    CAN_SAVE
 }
 
 public enum MyhaContactLightHiddenState

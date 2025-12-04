@@ -1,6 +1,8 @@
 ﻿using Godot;
 using KatMyha.Scripts.Enemies.DroneEnemy;
 using KatMyha.Scripts.Enemies.DroneEnemy.States;
+using KatMyha.Scripts.Managers;
+using PrototipoMyha;
 using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Scripts.Utils;
 using PrototipoMyha.Utilidades;
@@ -13,13 +15,24 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
         private PlayerManager _PlayerManager = PlayerManager.GetPlayerGlobalInstance();
         private float _TimeSurprisedBySound = 2f;
         private float _TimeInvestigating = 3f;
-        public BaseGuardStateAlertedBySound(EnemyBaseV2 enemy, StateMachine stateMachine) : base(enemy, stateMachine)
+        private bool hasUseNewFeatureOfKillPlayerWhenAlerted = false;
+        private SignalManager SignalManager;
+        private SoundManager SoundManager = SoundManager.Instance;
+        private bool hasEmittedKillSignal = false;
+        public BaseGuardStateAlertedBySound(EnemyBaseV2 enemy, StateMachine stateMachine, bool hasUseNewFeatureOfKillPlayerWhenAlerted) : base(enemy, stateMachine)
         {
             this.BaseGuardV2 = enemy as BaseGuardV2;
+            SignalManager = SignalManager.Instance;
+            this.hasUseNewFeatureOfKillPlayerWhenAlerted = hasUseNewFeatureOfKillPlayerWhenAlerted;
         }
 
         public override void PhysicsProcess(float delta)
         {
+            if (hasUseNewFeatureOfKillPlayerWhenAlerted && !hasEmittedKillSignal)
+            {
+                SignalManager.EmitSignal(nameof(SignalManager.EnemyKillMyha));
+                hasEmittedKillSignal = true;
+            }
             _TimeSurprisedBySound -= delta;
             if (_TimeSurprisedBySound <= 0.0f)
             {

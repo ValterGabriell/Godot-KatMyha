@@ -1,0 +1,111 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpjvj6avxypye"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_qk0ve"]
+script/source = "using Godot;
+using KatrinaGame.Players;
+using System;
+
+public partial class TriggerChangeCamera : Area2D
+{
+    [ExportGroup(\"Camera Behavior\")]
+    [Export] private CameraMode Mode = CameraMode.FollowPlayer;
+
+    [ExportGroup(\"Direction Mode\")]
+    [Export] private Vector2 MoveDirection = Vector2.Right;
+
+    private ChangeCamera camera;
+    private Vector2 lastPlayerPosition = Vector2.Zero;
+    private bool hasStoredPosition = false;
+
+    public override void _Ready()
+    {
+        BodyEntered += OnBodyEntered;
+        BodyExited += OnBodyExited;
+        camera = GetViewport().GetCamera2D() as ChangeCamera;
+
+        if (camera == null)
+        {
+            GD.PrintErr(\"ChangeCamera não encontrada no viewport!\");
+        }
+    }
+
+    private void OnBodyEntered(Node2D body)
+    {
+        if (body is MyhaPlayer player && camera != null)
+        {
+            switch (Mode)
+            {
+                case CameraMode.FollowPlayer:
+                    camera.SetFollowPlayer(true);
+                    break;
+
+                case CameraMode.MoveByDirection:
+                    Vector2 directionToMove = DetectMovementDirection(player);
+                    camera.MoveCameraByDirection(directionToMove);
+                    break;
+            }
+
+            // Armazena a posição atual para a próxima vez
+            lastPlayerPosition = player.GlobalPosition;
+            hasStoredPosition = true;
+        }
+    }
+
+    private void OnBodyExited(Node2D body)
+    {
+        if (body is MyhaPlayer player)
+        {
+            // Atualiza a última posição quando o player sair
+            lastPlayerPosition = player.GlobalPosition;
+        }
+    }
+
+    private Vector2 DetectMovementDirection(MyhaPlayer player)
+    {
+        Vector2 playerPos = player.GlobalPosition;
+
+        // Se não temos posição anterior, usa a posição relativa ao trigger
+        if (!hasStoredPosition)
+        {
+            Vector2 triggerCenter = this.GlobalPosition;
+            Vector2 diff = playerPos - triggerCenter;
+
+            if (Mathf.Abs(diff.X) > Mathf.Abs(diff.Y))
+            {
+                return diff.X > 0 ? Vector2.Right : Vector2.Left;
+            }
+            else
+            {
+                return diff.Y > 0 ? Vector2.Down : Vector2.Up;
+            }
+        }
+
+        // Calcula a direção baseada no movimento real do player
+        Vector2 movementDirection = (playerPos - lastPlayerPosition).Normalized();
+
+        // Determina qual eixo tem maior componente
+        if (Mathf.Abs(movementDirection.X) > Mathf.Abs(movementDirection.Y))
+        {
+            return movementDirection.X > 0 ? Vector2.Right : Vector2.Left;
+        }
+        else
+        {
+            return movementDirection.Y > 0 ? Vector2.Down : Vector2.Up;
+        }
+    }
+}
+
+public enum CameraMode
+{
+    FollowPlayer,       // Segue o player diretamente
+    MoveByDirection     // Move baseado na direção detectada automaticamente
+}
+"
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = SubResource("CSharpScript_qk0ve")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

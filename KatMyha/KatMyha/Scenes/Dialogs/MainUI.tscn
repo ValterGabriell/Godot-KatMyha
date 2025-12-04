@@ -64,6 +64,7 @@ offset_left = 918.0
 offset_top = 51.0
 offset_right = 1134.0
 offset_bottom = 571.0
+theme_override_constants/margin_bottom = 350
 script = ExtResource("2_6ssv7")
 
 [node name="ItemList" type="ItemList" parent="Habilities"]

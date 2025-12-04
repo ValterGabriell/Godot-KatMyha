@@ -21,8 +21,8 @@ public partial class HabilityPoint : Area2D
         if (body.IsInGroup("player"))
         {
             Label.Visible = false;
-            var player = body as MyhaPlayer;
-            player.SetCurrentEnabledAction(PrototipoMyha.Player.StateManager.PlayerCurrentEnabledAction.NONE);
+            myhaPlayer.SetCurrentEnabledAction(PrototipoMyha.Player.StateManager.PlayerCurrentEnabledAction.NONE);
+            myhaPlayer = null;
         }
     }
 

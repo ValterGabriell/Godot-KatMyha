@@ -15,7 +15,7 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States.Machine
         {
             RegisterState(EnumEnemyState.Roaming, new BaseGuardStateRoaming(_enemy, this));
             RegisterState(EnumEnemyState.Waiting, new BaseGuardStateWaiting(_enemy, this));
-            RegisterState(EnumEnemyState.Alerted, new BaseGuardStateAlertedBySound(_enemy, this));
+            RegisterState(EnumEnemyState.Alerted, new BaseGuardStateAlertedBySound(_enemy, this, hasUseNewFeatureOfKillPlayerWhenAlerted: true));
             RegisterState(EnumEnemyState.Chasing, new BaseGuardStateChasing(_enemy, this));
         }
     }

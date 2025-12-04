@@ -1,0 +1,100 @@
+[gd_scene load_steps=2 format=3 uid="uid://byqaunumbrtc5"]
+
+[sub_resource type="CSharpScript" id="CSharpScript_oxa3j"]
+script/source = "using Godot;
+using KatrinaGame.Players;
+using System;
+using System.Threading.Tasks;
+
+public partial class ChangeCamera : Camera2D
+{
+    private Vector2 ScreenSize;
+    [Export] private float PositionSmoothingSpeedOnChange = 7.0f;
+    private Vector2 currentCameraTarget;
+    private bool isFollowingPlayer = false;
+    private MyhaPlayer player;
+
+    public override void _Ready()
+    {
+        this.ScreenSize = GetViewportRect().Size;
+        currentCameraTarget = this.GlobalPosition;
+
+        // Busca o player na cena
+        player = GetTree().GetFirstNodeInGroup(\"player\") as MyhaPlayer;
+
+        InitializeAsync();
+    }
+
+    private async void InitializeAsync()
+    {
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        this.PositionSmoothingEnabled = true;
+        this.PositionSmoothingSpeed = PositionSmoothingSpeedOnChange;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (isFollowingPlayer && player != null)
+        {
+            // Segue o player diretamente
+            this.GlobalPosition = player.GlobalPosition;
+        }
+    }
+
+    public void SetFollowPlayer(bool follow)
+    {
+        isFollowingPlayer = follow;
+
+        if (follow && player != null)
+        {
+            // Ao ativar, move imediatamente para o player
+            this.GlobalPosition = player.GlobalPosition;
+        }
+    }
+
+    public void SetCameraTarget(Vector2 targetPosition)
+    {
+        isFollowingPlayer = false;
+        currentCameraTarget = targetPosition;
+        this.GlobalPosition = targetPosition;
+    }
+
+    public void SetCameraToSection(int sectionX, int sectionY)
+    {
+        isFollowingPlayer = false;
+        float x = sectionX * ScreenSize.X + ScreenSize.X / 2f;
+        float y = sectionY * ScreenSize.Y + ScreenSize.Y / 2f;
+
+        SetCameraTarget(new Vector2(x, y));
+    }
+
+    public void MoveCameraByDirection(Vector2 direction)
+    {
+        isFollowingPlayer = false;
+
+        if (player == null) return;
+
+        // Calcula qual seção o player está baseado na direção
+        Vector2 playerPos = player.GlobalPosition;
+        Vector2 targetSectionCenter = CalculateSectionCenter(playerPos);
+
+        this.GlobalPosition = targetSectionCenter;
+    }
+
+    private Vector2 CalculateSectionCenter(Vector2 position)
+    {
+        // Calcula em qual \"seção\" da tela a posição está
+        float sectionX = Mathf.Floor(position.X / ScreenSize.X);
+        float sectionY = Mathf.Floor(position.Y / ScreenSize.Y);
+
+        // Retorna o centro dessa seção
+        float x = sectionX * ScreenSize.X + ScreenSize.X / 2f;
+        float y = sectionY * ScreenSize.Y + ScreenSize.Y / 2f;
+
+        return new Vector2(x, y);
+    }
+}
+"
+
+[node name="ChangeCamera" type="Camera2D"]
+script = SubResource("CSharpScript_oxa3j")

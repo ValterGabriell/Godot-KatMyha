@@ -152,6 +152,7 @@ change_type_of_hability={
 2d_physics/layer_17="terminal_save"
 2d_physics/layer_18="death_light"
 2d_physics/layer_19="get_point_area"
+2d_physics/layer_20="change_camera_Area"
 
 [rendering]
 
