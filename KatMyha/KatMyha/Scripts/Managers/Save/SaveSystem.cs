@@ -54,11 +54,6 @@ public partial class SaveSystem : Node
             if (file != null)
             {
                 file.StoreString(json);
-                GD.Print($"Jogo salvo! {data.Enemies.Count} inimigos salvos.");
-                foreach (var enemy in data.Enemies)
-                {
-                    GD.Print($"  Inimigo salvo em: X={enemy.PositionX}, Y={enemy.PositionY}, Estado={enemy.EnemyState}");
-                }
             }
             else
             {
@@ -73,14 +68,12 @@ public partial class SaveSystem : Node
 
     public void SaveGame(int LevelNumber)
     {
-        var enemiesInScene = GetTree().GetNodesInGroup("enemy");
         var pyramdsInScene = GetTree().GetNodesInGroup("pyramd");
-        var listaInimigosv2 = enemiesInScene.OfType<EnemyBaseV2>().ToList();
         var pyramdsInScenev = pyramdsInScene.OfType<KillFallPyramd>().ToList();
 
         var gameManagerInstance = GameManager.GetGameManagerInstance();
         gameManagerInstance.SetCurrentLevelNumber(LevelNumber);
-        gameManagerInstance.SetCurrentLevelInitialData(enemyBaseV2s: listaInimigosv2, pyramdsInScenev);
+        gameManagerInstance.SetCurrentLevelInitialData(pyramdsInScenev);
 
         var saveSystem = SaveSystem.SaveSystemInstance;
         var levelSaveData = gameManagerInstance.GetCurrentLevelUpdatedData();
@@ -151,29 +144,11 @@ public partial class SaveSystem : Node
             }
         }
 
-        GD.Print($"Carregando {saveData.Enemies.Count} inimigos...");
+      
 
         _pendingEnemies.Clear();
 
-        foreach (var enemySave in saveData.Enemies)
-        {
-            var newEnemy = (EnemyBaseV2)GD.Load<PackedScene>("res://Scenes/Enemies/BaseGuard.tscn").Instantiate();
 
-            Vector2 savedPosition = new Vector2(enemySave.PositionX, enemySave.PositionY);
-            GD.Print($"Carregando inimigo em: X={savedPosition.X}, Y={savedPosition.Y}, Estado={enemySave.EnemyState}");
-
-            GetTree().CurrentScene.AddChild(newEnemy);
-
-            _pendingEnemies.Add(new EnemyLoadData
-            {
-                Enemy = newEnemy,
-                Position = savedPosition,
-                InstanceId = enemySave.InstanceID,
-                State = enemySave.EnemyState
-            });
-        }
-
-        CallDeferred(nameof(SetupAllEnemies));
 
         foreach (var item in saveData.PyramdsFallKill)
         {
@@ -191,20 +166,6 @@ public partial class SaveSystem : Node
         }
     }
 
-    private void SetupAllEnemies()
-    {
-        foreach (var data in _pendingEnemies)
-        {
-            data.Enemy.GlobalPosition = data.Position;
-            data.Enemy.SetIdentifier(data.InstanceId);
-            data.Enemy.JustLoaded = true;
-            data.Enemy.EnemyStateBase.TransitionTo(data.State);
-
-            GD.Print($"Inimigo configurado em: X={data.Enemy.GlobalPosition.X}, Y={data.Enemy.GlobalPosition.Y}");
-        }
-
-        _pendingEnemies.Clear();
-    }
 
     public bool SaveExists()
     {

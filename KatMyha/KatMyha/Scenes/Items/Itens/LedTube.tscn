@@ -8,7 +8,7 @@
 radius = 126.035706
 
 [node name="LedTube" type="Node2D"]
-z_index = -50
+z_index = -1
 
 [node name="Area2D" type="Area2D" parent="." groups=["kill_light"]]
 collision_layer = 131072
@@ -25,8 +25,8 @@ texture = ExtResource("1_ixgsa")
 
 [node name="PointLight2D" type="PointLight2D" parent="Sprite2D"]
 z_index = 2
-position = Vector2(3, 79)
-energy = 6.6
+position = Vector2(-3, 156)
+energy = 3.0
 texture = ExtResource("2_4ug8y")
 offset = Vector2(0, 0.43)
 texture_scale = 0.64

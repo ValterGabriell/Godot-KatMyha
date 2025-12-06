@@ -1,6 +1,7 @@
 ﻿using Godot;
 using KatMyha.Scripts.Enemies.DroneEnemy;
 using KatMyha.Scripts.Enemies.DroneEnemy.States;
+using PrototipoMyha.Enemy.States;
 using PrototipoMyha.Scripts.Utils;
 using PrototipoMyha.Utilidades;
 using System;
@@ -36,6 +37,12 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
         public override void EnterState(EnemyStateBase previousState)
         {
             base.EnterState(previousState);
+            if (this.BaseGuardV2.RoamMarkerA != null && this.BaseGuardV2.RoamMarkerB != null)
+            {
+                TransitionTo(EnumEnemyState.Roaming);
+                return;
+            }
+         
 
             // Só inicializa a posição na primeira vez ou se não foi carregado de um save
             if (!IsInitialized || !BaseGuardV2.JustLoaded)

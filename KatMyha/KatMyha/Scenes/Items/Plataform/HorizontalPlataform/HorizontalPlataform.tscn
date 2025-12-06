@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://fivb1ydt0fiu"]
+[gd_scene load_steps=5 format=3 uid="uid://fivb1ydt0fiu"]
 
 [ext_resource type="Script" uid="uid://bvimhcnqsm3il" path="res://Scripts/Items/HorizontalPlataform.cs" id="1_mcoud"]
 [ext_resource type="Texture2D" uid="uid://bm48nhna8xnk4" path="res://Assets/Tilesets/World/Plataform/PlataformSpritePrototipo.png" id="1_u537x"]
-[ext_resource type="Texture2D" uid="uid://cj0su0kjlx6ua" path="res://Assets/Sprites/Itens/light (1).png" id="3_3w4h5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u537x"]
 size = Vector2(114, 20)
@@ -22,9 +21,6 @@ texture = ExtResource("1_u537x")
 shape = SubResource("RectangleShape2D_u537x")
 one_way_collision = true
 debug_color = Color(0.7, 0, 0.011666489, 0.41960785)
-
-[node name="PointLight2D" type="PointLight2D" parent="."]
-texture = ExtResource("3_3w4h5")
 
 [node name="Area2D" type="Area2D" parent="." groups=["fall_plataform"]]
 collision_layer = 16

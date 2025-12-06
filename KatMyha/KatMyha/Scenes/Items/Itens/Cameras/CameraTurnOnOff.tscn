@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctdpn25kd2fnw"]
+
+[ext_resource type="Texture2D" uid="uid://bvaitfhcjehck" path="res://Assets/Sprites/Itens/CAMERA.png" id="1_1fmxf"]
+[ext_resource type="Script" uid="uid://vpp1ct2aapyo" path="res://Scripts/Cameras/CameraTurnOnOff.cs" id="1_4qpvt"]
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_4qpvt"]
+length = 279.0
+
+[node name="CameraTurnOnOff" type="Node2D" node_paths=PackedStringArray("Area2D", "TimerToTurnOnAndOff")]
+script = ExtResource("1_4qpvt")
+Area2D = NodePath("Area2D")
+SizeOfDetection = 500.0
+TimerToTurnOnAndOff = NodePath("Timer")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_1fmxf")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4096
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
+rotation = -0.43633232
+shape = SubResource("SeparationRayShape2D_4qpvt")
+debug_color = Color(0, 1, 0.58431375, 0.41960785)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
+rotation = -0.2617994
+shape = SubResource("SeparationRayShape2D_4qpvt")
+debug_color = Color(0, 1, 0.58431375, 0.41960785)
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
+rotation = -0.08726646
+shape = SubResource("SeparationRayShape2D_4qpvt")
+debug_color = Color(0, 1, 0.58431375, 0.41960785)
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
+shape = SubResource("SeparationRayShape2D_4qpvt")
+debug_color = Color(0, 1, 0.58431375, 0.41960785)
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
+rotation = 0.08726646
+shape = SubResource("SeparationRayShape2D_4qpvt")
+debug_color = Color(0, 1, 0.58431375, 0.41960785)
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
+rotation = 0.2617994
+shape = SubResource("SeparationRayShape2D_4qpvt")
+debug_color = Color(0, 1, 0.58431375, 0.41960785)
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
+rotation = 0.43633232
+shape = SubResource("SeparationRayShape2D_4qpvt")
+debug_color = Color(0, 1, 0.58431375, 0.41960785)
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true

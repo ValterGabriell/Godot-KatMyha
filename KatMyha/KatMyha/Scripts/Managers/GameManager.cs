@@ -91,9 +91,8 @@ namespace PrototipoMyha.Scripts.Managers
             return _instance;
         }
 
-        public void SetCurrentLevelInitialData(List<EnemyBaseV2> enemyBaseV2s, List<KillFallPyramd> piramedFallList)
+        public void SetCurrentLevelInitialData(List<KillFallPyramd> piramedFallList)
         {
-            var enemyV2SaveDataList = enemyBaseV2s.Select(e => e.ToSaveData()).ToList();
             var pyramedsToSave = piramedFallList.Select(e => new PyramdFallKillSaveData
             {
                 InstanceID = e.InstanceID,
@@ -103,7 +102,6 @@ namespace PrototipoMyha.Scripts.Managers
             CurrentLevelObjData = new LevelSaveData
             {
                 LevelNumber = GameManager.GetGameManagerInstance().CurrentLevelNumber,
-                Enemies = enemyV2SaveDataList,
                 PyramdsFallKill = pyramedsToSave,
                 PlayerPosition_X_OnLevel = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition().X,
                 PlayerPosition_Y_OnLevel = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition().Y

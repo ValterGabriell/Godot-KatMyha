@@ -25,7 +25,7 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy
             this.Identifier = guid;
         }
         public bool JustLoaded { get; set; } = false;
-        public EnumEnemyState CurrentEnemyState { get; private set; } = EnumEnemyState.Idle;
+        [Export] public EnumEnemyState CurrentEnemyState { get; private set; }
 
 		public EnemyStateBase EnemyStateBase => GetNode<StateMachine>("StateMachine").GetCurrentState();
 
@@ -72,15 +72,6 @@ namespace KatMyha.Scripts.Enemies.DroneEnemy
 			IsDead = true;
 		}
 
-        public EnemySaveData ToSaveData()
-        {
-            return new EnemySaveData
-            {
-                InstanceID = Identifier,
-                PositionX = this.GlobalPosition.X,
-                PositionY = this.GlobalPosition.Y,
-                EnemyState = this.CurrentEnemyState
-            };
-        }
+  
     }
 }

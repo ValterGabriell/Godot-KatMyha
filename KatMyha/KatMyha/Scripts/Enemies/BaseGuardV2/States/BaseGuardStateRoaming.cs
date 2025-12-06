@@ -45,6 +45,13 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
         {
             base.EnterState(previousState);
 
+            GDLogger.Print($"Entrando no estado Roaming para o inimigo {BaseGuardV2.Name}");
+            GDLogger.Print($"Posição atual do inimigo: {BaseGuardV2.GlobalPosition}");
+            GDLogger.LogGreen($"Marker A: {BaseGuardV2.RoamMarkerA.GlobalPosition}, Marker B: {BaseGuardV2.RoamMarkerB.GlobalPosition}");
+            GDLogger.LogBlue($"Inimigo JustLoaded: {BaseGuardV2.JustLoaded}");
+            GDLogger.LogBlue($"Estado IsInitialized: {IsInitialized}");
+            GDLogger.Print($"Verificação de markers válidos: {hasValidMarkers}");
+
             if (!hasValidMarkers)
             {
                 TransitionTo(EnumEnemyState.Idle);
@@ -85,6 +92,7 @@ namespace KatMyha.Scripts.Enemies.BaseGuardV2.States
                 return;
             }
 
+            GDLogger.Print($"Inimigo {BaseGuardV2.Name} movendo-se em direção a {currentTarget}");
             var direction = (currentTarget - BaseGuardV2.GlobalPosition).Normalized();
             var newPos = direction * this.BaseGuardV2.Resources.MoveSpeed * delta;
 

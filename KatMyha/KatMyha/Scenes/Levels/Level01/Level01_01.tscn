@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://cb10hg7he4wk5"]
+[gd_scene load_steps=30 format=4 uid="uid://cb10hg7he4wk5"]
 
 [ext_resource type="Texture2D" uid="uid://d2ivhrkguvk2u" path="res://Assets/Tilesets/World/PrototipoWorldTileset.png" id="1_i5gsn"]
 [ext_resource type="Script" uid="uid://p0tnlhwc8n4b" path="res://Scripts/Levels/LevelBase.cs" id="1_wf4vu"]
@@ -18,14 +18,13 @@
 [ext_resource type="PackedScene" uid="uid://cur6241ewq0d6" path="res://Scenes/Items/Plataform/VerticalPlataform/VerticalPlataform.tscn" id="9_rqb07"]
 [ext_resource type="PackedScene" uid="uid://dyb3c5aecsw5r" path="res://Scenes/Enemies/BaseGuard.tscn" id="10_5mjwn"]
 [ext_resource type="PackedScene" uid="uid://swl6iue57brl" path="res://Scenes/Items/Plataform/ShakeItem/BaseShake.tscn" id="10_6isan"]
-[ext_resource type="PackedScene" uid="uid://belhcxrdca17j" path="res://Scenes/Items/Itens/Bullet01.tscn" id="11_dube1"]
 [ext_resource type="PackedScene" uid="uid://tqq0jk3c6rek" path="res://Scenes/Items/Itens/KillLight.tscn" id="12_0f82d"]
 [ext_resource type="AudioStream" uid="uid://cntajrvgvm6ka" path="res://Assets/Sound/BaseMusic03.mp3" id="13_j1gya"]
 [ext_resource type="PackedScene" uid="uid://canhr253yo7bt" path="res://Scenes/Items/Itens/SwitchLight.tscn" id="21_53dfb"]
 [ext_resource type="PackedScene" uid="uid://wxue5tat5k2c" path="res://Scenes/Items/Itens/Key.tscn" id="22_yonhq"]
 [ext_resource type="PackedScene" uid="uid://d3uhi87fbyy3l" path="res://Scenes/Items/Itens/Door.tscn" id="23_hvpqb"]
 [ext_resource type="PackedScene" uid="uid://cix0q6d614wrr" path="res://Scenes/Items/Itens/FallTrapBall.tscn" id="25_kv7pv"]
-[ext_resource type="PackedScene" uid="uid://bge6tkj65u8sd" path="res://Scenes/Items/Itens/Camera.tscn" id="26_pr731"]
+[ext_resource type="PackedScene" uid="uid://bge6tkj65u8sd" path="res://Scenes/Items/Itens/Cameras/Camera.tscn" id="26_pr731"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_twxkt"]
 texture = ExtResource("1_i5gsn")
@@ -116,6 +115,7 @@ position = Vector2(3115, -173)
 
 [node name="DroneEnemy" parent="Parallax" instance=ExtResource("8_k0dm3")]
 position = Vector2(3700, -264)
+CurrentEnemyState = 9
 
 [node name="World" type="TileMapLayer" parent="."]
 z_index = 2
@@ -133,13 +133,11 @@ position = Vector2(3463, -168)
 position = Vector2(-981, 14)
 curve = SubResource("Curve2D_1kskm")
 Speed = 0.5
-SpeedScale = 0.5
 
 [node name="Path2D2" parent="MovePlataform" instance=ExtResource("5_1kskm")]
 position = Vector2(-686, -3)
 curve = SubResource("Curve2D_kgtyh")
 Speed = 0.7
-SpeedScale = 0.7
 
 [node name="ShakeItem" type="Node" parent="."]
 
@@ -209,11 +207,8 @@ scale = Vector2(1, 0.48)
 
 [node name="01" type="Node" parent="Enemies"]
 
-[node name="CharacterBody2D" parent="Enemies/01" node_paths=PackedStringArray("Marker_01", "Marker_02") instance=ExtResource("10_5mjwn")]
+[node name="CharacterBody2D" parent="Enemies/01" instance=ExtResource("10_5mjwn")]
 position = Vector2(2321, -192)
-Marker_01 = NodePath("../Marker2D")
-Marker_02 = NodePath("../Marker2D2")
-BulletShoot = ExtResource("11_dube1")
 
 [node name="Marker2D2" type="Marker2D" parent="Enemies/01"]
 position = Vector2(2384, -176)
@@ -223,10 +218,8 @@ position = Vector2(2284, -177)
 
 [node name="02" type="Node" parent="Enemies"]
 
-[node name="CharacterBody2D" parent="Enemies/02" node_paths=PackedStringArray("Marker_01", "Marker_02") instance=ExtResource("10_5mjwn")]
+[node name="CharacterBody2D" parent="Enemies/02" instance=ExtResource("10_5mjwn")]
 position = Vector2(2747, -174)
-Marker_01 = NodePath("../Marker2D2")
-Marker_02 = NodePath("../Marker2D")
 
 [node name="Marker2D2" type="Marker2D" parent="Enemies/02"]
 position = Vector2(2694, -164)
