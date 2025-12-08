@@ -276,11 +276,13 @@ size = Vector2(26, 7)
 [sub_resource type="CircleShape2D" id="CircleShape2D_qemu2"]
 radius = 5.0990195
 
-[node name="Myha" type="CharacterBody2D" node_paths=PackedStringArray("AttackRaycast", "SoundAreaWalkingComponent", "WalkAudioStreamPlayer2D", "JumpAudioStreamPlayer2D", "SaveAudioStreamPlayer2D", "TimeToFallWall", "AnimatedSprite2D", "SoundAnimatedSprite2D", "DeathAudioStreamPlayer2D") groups=["player"]]
+[node name="Myha" type="CharacterBody2D" node_paths=PackedStringArray("CameraMap", "CameraPlayer", "AttackRaycast", "SoundAreaWalkingComponent", "WalkAudioStreamPlayer2D", "JumpAudioStreamPlayer2D", "SaveAudioStreamPlayer2D", "TimeToFallWall", "AnimatedSprite2D", "SoundAnimatedSprite2D", "DeathAudioStreamPlayer2D") groups=["player"]]
 z_index = 999
 collision_layer = 2
 collision_mask = 1972213
 script = ExtResource("1_gp1ay")
+CameraMap = NodePath("CameraMap")
+CameraPlayer = NodePath("Camera2D2")
 AttackRaycast = NodePath("AttackRaycast")
 BallScene = ExtResource("2_qemu2")
 SoundAreaWalkingComponent = NodePath("SoundArea")
@@ -310,11 +312,6 @@ animation = &"jump_up"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3.085, 4.228)
 shape = SubResource("CircleShape2D_85h7w")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-visible = false
-enabled = false
-zoom = Vector2(1.5, 1.5)
 
 [node name="AttackRaycast" type="RayCast2D" parent="."]
 target_position = Vector2(34, 0)
@@ -372,6 +369,8 @@ max_distance = 4096.0
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="Sounds"]
 max_distance = 4096.0
+
+[node name="CameraMap" type="Camera2D" parent="."]
 
 [node name="Camera2D2" type="Camera2D" parent="."]
 zoom = Vector2(1.7, 1.7)

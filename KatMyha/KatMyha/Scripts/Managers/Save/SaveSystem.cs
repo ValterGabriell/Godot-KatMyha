@@ -49,11 +49,15 @@ public partial class SaveSystem : Node
                 WriteIndented = true
             });
 
+            GDLogger.LogGreen("Save serializado com sucesso!");
+            GDLogger.Log(json);
+
             using var file = Godot.FileAccess.Open(SAVE_PATH, Godot.FileAccess.ModeFlags.Write);
 
             if (file != null)
             {
-                file.StoreString(json);
+                bool isSaveSuccessful = file.StoreString(json);
+                GDLogger.LogGreen("Jogo salvo com: " + isSaveSuccessful);
             }
             else
             {
@@ -144,7 +148,7 @@ public partial class SaveSystem : Node
             }
         }
 
-      
+
 
         _pendingEnemies.Clear();
 

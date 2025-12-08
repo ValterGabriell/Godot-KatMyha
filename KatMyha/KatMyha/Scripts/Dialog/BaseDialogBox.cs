@@ -32,6 +32,7 @@ public partial class BaseDialogBox : CanvasLayer
         var sprite = this.GetNode<MarginContainer>("MarginContainer").GetNode<MarginContainer>("MarginContainer").GetNode<Sprite2D>("Sprite2D");
         label.Text = LabelText;
         sprite.Texture = Sprite;
+        this.ProcessMode = ProcessModeEnum.Always;
     }
 
     public override void _Input(InputEvent @event)

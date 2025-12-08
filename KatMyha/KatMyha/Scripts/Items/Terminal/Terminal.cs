@@ -3,24 +3,29 @@ using KatrinaGame.Players;
 using PrototipoMyha;
 using PrototipoMyha.Player.StateManager;
 using PrototipoMyha.Scripts.Managers;
-using System;
 
 public partial class Terminal : Node2D
 {
+    [Export] private string TextAction = "[E]";
+    [Export] private int LevelNumber;
+    [Export] private PackedScene TimerScene;
     private Area2D SaveArea => GetNode<Area2D>("SaveArea");
+    private MarginContainer MarginContainer => GetNode<MarginContainer>("MarginContainer");
+    private Label LabelTextAction => MarginContainer.GetNode<Panel>("Panel").GetNode<Label>("Label");
     private AnimatedSprite2D AnimatedSprite2D => GetNode<AnimatedSprite2D>("Sprite2D");
     private MyhaPlayer MyhaPlayer;
-    private GameManager GameManager;
+    private SaveSystem SaveSystem;
     private PlayerManager PlayerManager;
-
+    private GameManager GameManager;
     private bool _hasBeenUsed = false;
 
     public override void _Ready()
     {
-       SignalManager.Instance.PlayerSaveTheGame += OnPlayerSaveTheGame;
-       GameManager = GameManager.GetGameManagerInstance();
+        SignalManager.Instance.PlayerSaveTheGame += OnPlayerSaveTheGame;
+        SaveSystem = SaveSystem.SaveSystemInstance;
         PlayerManager = PlayerManager.GetPlayerGlobalInstance();
         this.AnimatedSprite2D.Play("idle");
+        GameManager = GameManager.GetGameManagerInstance();
     }
 
     private void OnPlayerSaveTheGame()
@@ -32,7 +37,7 @@ public partial class Terminal : Node2D
     private void _on_sprite_2d_animation_finished()
     {
         this.AnimatedSprite2D.Play("saved");
-        if(MyhaPlayer != null 
+        if (MyhaPlayer != null
             && MyhaPlayer.PlayerCurrentEnabledAction == PlayerCurrentEnabledAction.CAN_SAVE
             && PlayerManager.PlayerCanSaveTheGame == true)
         {
@@ -45,23 +50,31 @@ public partial class Terminal : Node2D
 
     public void _on_save_area_body_entered(Node2D body)
     {
+        this.MarginContainer.Visible = true;
+        this.LabelTextAction.Text = TextAction;
         if (body.IsInGroup("player"))
         {
             MyhaPlayer = body as MyhaPlayer;
+            MyhaPlayer.ProcessMode = ProcessModeEnum.Pausable;
             if (!_hasBeenUsed)
             {
-                MyhaPlayer.SetCurrentEnabledAction(PrototipoMyha.Player.StateManager.PlayerCurrentEnabledAction.CAN_SAVE);
+                MyhaPlayer.SetCurrentEnabledAction(PlayerCurrentEnabledAction.CAN_SAVE);
                 PlayerManager.PlayerCanSaveTheGame = true;
                 PlayerManager.UpdatePlayerPosition(this.GlobalPosition);
             }
         }
-   
+
     }
 
     public void _on_save_area_body_exited(Node2D body)
     {
-        PlayerManager.GetPlayerGlobalInstance().PlayerCanSaveTheGame = false;
-        MyhaPlayer.SetCurrentEnabledAction(PrototipoMyha.Player.StateManager.PlayerCurrentEnabledAction.NONE);
+        this.MarginContainer.Visible = false;
+        if (body.IsInGroup("player"))
+        {
+            PlayerManager.GetPlayerGlobalInstance().PlayerCanSaveTheGame = false;
+            MyhaPlayer.SetCurrentEnabledAction(PlayerCurrentEnabledAction.NONE);
+        }
+
     }
 
     public override void _Input(InputEvent @event)
@@ -71,8 +84,11 @@ public partial class Terminal : Node2D
              && MyhaPlayer.PlayerCurrentEnabledAction == PlayerCurrentEnabledAction.CAN_SAVE)
         {
             if (MyhaPlayer != null)
-                GameManager.SaveGame();
+                SaveSystem.SaveGame(LevelNumber);
 
+            GameManager.SetShouldShowKeyInfo(true);
+            var instance = TimerScene.Instantiate<InfoKeys>();
+            GetTree().CurrentScene.AddChild(instance);
         }
     }
 }

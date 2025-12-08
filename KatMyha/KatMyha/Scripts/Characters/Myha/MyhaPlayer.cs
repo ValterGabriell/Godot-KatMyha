@@ -15,6 +15,8 @@ namespace KatrinaGame.Players
 {
     public partial class MyhaPlayer : BasePlayer
     {
+        [Export] private Camera2D CameraMap { get; set; }
+        [Export] private Camera2D CameraPlayer { get; set; }
         [ExportGroup("RayCasts")]
         [Export] public RayCast2D AttackRaycast { get; set; }
 
@@ -34,7 +36,9 @@ namespace KatrinaGame.Players
         [ExportGroup("CollisionShapes")]
         private CircleShape2D SoundAreaWalkingColiisonComponent { get; set; }
 
-        public Camera2D InitialCameraSettings { get; private set; }
+
+        /*camera*/
+        public bool CanMoveCamera { get; private set; } = false;
 
 
         [ExportGroup("UI")]
@@ -45,23 +49,22 @@ namespace KatrinaGame.Players
         private PlayerManager PlayerManager;
 
         //delegate for change hability
-        private Action CurrentMethodToExecuteBasedOnActiveHability;
         private Dictionary<PlayerHabilityKey, Action> PlayerHabilityMethodToExecute;
 
 
         /*WALL JUMP*/
         private int WallDirection { get; set; } = 0;
         [Export] public Vector2 WallJumpForce { get; set; } = new Vector2(250, -400);
-
+        public bool PlayeCanMoveCamera { get; private set; }
 
         protected override void InstanciateComponents()
         {
+            this.CameraPlayer.MakeCurrent();
             AddComponent<IMovementComponent>(new MovementComponent());
             AddComponent<IMakeSoundWhileWalkComponent>(new MakeSoundWhileWalkComponent(this));
             AddComponent<IAnimationComponents>(new AnimationComponents(this));
             AddComponent<IShootAimComponent>(new ShootAimComponent());
             AddComponent<IToogleLightComponent>(new ToogleLightComponent());
-            InitialCameraSettings = this.GetNode<Camera2D>("Camera2D");
 
             MovementComponent = GetComponent<IMovementComponent>();
             SubscribeSignals();
@@ -144,8 +147,8 @@ namespace KatrinaGame.Players
             Vector2 inputVector = Vector2.Zero;
             if (inputVector == Vector2.Zero) CurrentPlayerSpeed = 0f;
 
-
-            if (this.CurrentPlayerState != PlayerState.WALL_SLIDING)
+            if (this.CurrentPlayerState != PlayerState.WALL_SLIDING
+                && !this.PlayeCanMoveCamera)
             {
                 if (Input.IsActionPressed("d") && this.IsMovementBlocked == false && this.CurrentPlayerState != PlayerState.AIMING)
                 {
@@ -175,7 +178,7 @@ namespace KatrinaGame.Players
                 }
             }
 
-            if (this.CurrentPlayerState == PlayerState.WALL_SLIDING)
+            if (this.CurrentPlayerState == PlayerState.WALL_SLIDING && !this.PlayeCanMoveCamera)
             {
                 if (Input.IsActionPressed("w") && this.IsMovementBlocked == false)
                 {
@@ -191,12 +194,40 @@ namespace KatrinaGame.Players
             }
 
 
+            if (this.PlayeCanMoveCamera)
+            {
+                if (Input.IsActionPressed("w")) CameraMap.GlobalPosition += new Vector2(0, -5);
+                if (Input.IsActionPressed("s")) CameraMap.GlobalPosition += new Vector2(0, 5);
+                if (Input.IsActionPressed("d")) CameraMap.GlobalPosition += new Vector2(5, 0);
+                if (Input.IsActionPressed("a")) CameraMap.GlobalPosition += new Vector2(-5, 0);
+            }
+
+
             if (Input.IsActionPressed("jump") && this.CurrentPlayerState != PlayerState.AIMING)
             {
                 inputVector.Y -= 1;
                 MovementComponent.Jump();
             }
 
+            if (Input.IsActionJustPressed("map"))
+            {
+                if (PlayeCanMoveCamera)
+                {
+                    // Fechando o mapa
+                    this.CameraPlayer.MakeCurrent();
+                    GetTree().Paused = false;
+                    this.PlayeCanMoveCamera = false;
+                    this.ProcessMode = ProcessModeEnum.Pausable;
+                }
+                else
+                {
+                    // Abrindo o mapa
+                    this.CameraMap.MakeCurrent();
+                    GetTree().Paused = true;
+                    this.PlayeCanMoveCamera = true;
+                    this.ProcessMode = ProcessModeEnum.WhenPaused;
+                }
+            }
 
             if (Input.IsActionJustPressed("action"))
             {
@@ -207,16 +238,17 @@ namespace KatrinaGame.Players
             {
                 PlayerHabilityKey currentActivePlayerHability = PlayerManager.GetCurrentActivePlayerHability();
                 if (currentActivePlayerHability == PlayerHabilityKey.NONE) return;
-                if(PlayerHabilityMethodToExecute.TryGetValue(currentActivePlayerHability, out Action action))
+                if (PlayerHabilityMethodToExecute.TryGetValue(currentActivePlayerHability, out Action action))
                 {
                     action();
                 }
             }
 
-            MovementComponent.Move(inputVector, CurrentPlayerSpeed);    
+            MovementComponent.Move(inputVector, CurrentPlayerSpeed);
 
             base.HandleInput(delta);
         }
+
 
         private static void ChangePlayerShootType()
         {
@@ -254,7 +286,7 @@ namespace KatrinaGame.Players
                 CallDeferred(nameof(SetHiddenPlace));
             }
 
-    
+
         }
 
         private void SetHiddenPlace()

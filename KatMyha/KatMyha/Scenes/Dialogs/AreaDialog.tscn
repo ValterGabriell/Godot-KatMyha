@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://n6ajj7nlt1ib"]
+[gd_scene load_steps=3 format=3 uid="uid://n6ajj7nlt1ib"]
 
 [ext_resource type="Script" uid="uid://ccqpkk6gtv71k" path="res://Scripts/Dialog/TriggerDialogArea.cs" id="1_b6cp8"]
-[ext_resource type="Texture2D" uid="uid://bint7i64182hn" path="res://Assets/Sprites/Characters/pixel.png" id="2_8d76i"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1crje"]
 size = Vector2(24, 172.04791)
@@ -10,8 +9,6 @@ size = Vector2(24, 172.04791)
 collision_layer = 1024
 collision_mask = 2
 script = ExtResource("1_b6cp8")
-DialogText = "Oi, aqui é a katrina"
-CurrentSprite = ExtResource("2_8d76i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(34.31836, -70.04791)

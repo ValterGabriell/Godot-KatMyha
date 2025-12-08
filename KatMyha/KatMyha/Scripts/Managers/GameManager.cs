@@ -1,10 +1,6 @@
 ﻿using Godot;
 using KatMyha.Scripts.Enemies.DroneEnemy;
-using KatMyha.Scripts.Managers;
-using PrototipoMyha.Enemy;
-using PrototipoMyha.Player.StateManager;
 using PrototipoMyha.Scripts.Utils.Objetos;
-using PrototipoMyha.Utilidades;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,8 +14,9 @@ namespace PrototipoMyha.Scripts.Managers
         private CanvasLayer _fadeLayer;
         private ColorRect _fadeRect;
         private int TIME_TO_LOAD_GAME = TIME_TO_LOAD_GAME_CONST;
-        private const  int TIME_TO_LOAD_GAME_CONST = 150;
+        private const int TIME_TO_LOAD_GAME_CONST = 150;
         private bool playerHasBeenKilled = false;
+        public bool ShouldShowKeyInfo { get; private set; } = false;
         public int CurrentLevelNumber { get; private set; } = 1;
         private bool hasEmittedKillSignal = false;
         private bool stopEnemy = false;
@@ -35,7 +32,7 @@ namespace PrototipoMyha.Scripts.Managers
         public override void _Input(InputEvent @event)
         {
             // F5 para salvar
-            if (@event.IsActionPressed("action") 
+            if (@event.IsActionPressed("action")
                 && PlayerManager.GetPlayerGlobalInstance().PlayerCanSaveTheGame)
             {
                 SaveGame();
@@ -46,6 +43,11 @@ namespace PrototipoMyha.Scripts.Managers
             {
                 LoadGame();
             }
+        }
+
+        public void SetShouldShowKeyInfo(bool shouldShow)
+        {
+            ShouldShowKeyInfo = shouldShow;
         }
 
         public override void _Ready()
@@ -60,11 +62,11 @@ namespace PrototipoMyha.Scripts.Managers
                 QueueFree();
             }
 
-           
+
             _fadeLayer = new CanvasLayer();
             AddChild(_fadeLayer);
 
-  
+
             _fadeRect = new ColorRect
             {
                 Color = new Color(0, 0, 0, 0), // Preto transparente
@@ -97,7 +99,7 @@ namespace PrototipoMyha.Scripts.Managers
             {
                 InstanceID = e.InstanceID,
                 PositionX = e.GlobalPosition.X,
-                PositionY = e.GlobalPosition.Y  
+                PositionY = e.GlobalPosition.Y
             }).ToList();
             CurrentLevelObjData = new LevelSaveData
             {
@@ -135,7 +137,7 @@ namespace PrototipoMyha.Scripts.Managers
         {
             SetGameSpeed(0.1f);
             await FadeScreenAsync(0.2f);
-            
+
             LoadGame();
         }
 
@@ -151,7 +153,7 @@ namespace PrototipoMyha.Scripts.Managers
 
         public void LoadGame()
         {
-      
+
             playerHasBeenKilled = false;
             TIME_TO_LOAD_GAME = TIME_TO_LOAD_GAME_CONST;
             SetGameSpeed(1.0f);
@@ -159,7 +161,7 @@ namespace PrototipoMyha.Scripts.Managers
             var tween = CreateTween();
             tween.TweenProperty(_fadeRect, "color:a", 0.0f, 1.0f);
             SaveSystem.SaveSystemInstance.Load();
-          
+
         }
         public void KillPlayer(EnemyBaseV2 enemyBaseV2)
         {
@@ -170,7 +172,7 @@ namespace PrototipoMyha.Scripts.Managers
                 hasEmittedKillSignal = true;
                 stopEnemy = true;
             }
-   
+
         }
 
     }
