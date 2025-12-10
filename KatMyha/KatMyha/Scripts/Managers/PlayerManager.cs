@@ -1,5 +1,6 @@
 ﻿using Godot;
-using KatrinaGame.Core;
+using KatrinaGame.Players;
+using PrototipoMyha;
 using PrototipoMyha.Utilidades;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,14 @@ public enum PlayerHabilityKey
     NONE
 }
 
+public enum PlayerSubphaseKey
+{
+    SUBFASE_1 = 0,
+    SUBFASE_2 = 1,
+    SUBFASE_3 = 2,
+}
+
+
 public partial class PlayerManager : Node
 {
     private Vector2 CurrentPlayerPosition { get; set; }
@@ -32,7 +41,7 @@ public partial class PlayerManager : Node
 
     private static PlayerManager PlayerGlobalInstance = null;
 
-    public BasePlayer BasePlayer { get; private set; } = null;
+    public MyhaPlayer BasePlayer { get; private set; } = null;
     public static float RunNoiseRadius { get; private set; } = 150f;
     public static float SneakNoiseRadius { get; private set; } = 50f;
     public static float JumpNoiseRadius { get; private set; } = 50f;
@@ -41,25 +50,28 @@ public partial class PlayerManager : Node
     private PlayerShootType CurrentPlayerShootType { get; set; } = PlayerShootType.DISTRACTION_SHOOT;
 
     private Dictionary<PlayerHabilityKey, bool> PlayerHabilities = new Dictionary<PlayerHabilityKey, bool>();
+    private Dictionary<PlayerSubphaseKey, bool> PlayerSubphaseKeys = new Dictionary<PlayerSubphaseKey, bool>();
     private PlayerHabilityKey CurrentActivePlayerHability = PlayerHabilityKey.NONE;
+    private SignalManager SignalManager;
+
 
     public event Action PlayerChangedHability;
 
     public override void _Ready()
     {
-        ////PlayerHabilities.Add(PlayerHabilityKey.WALL_JUMP, true);
-        //PlayerHabilities.Add(PlayerHabilityKey.AIM_SHOOT, true);
-
-
+        this.PlayerSubphaseKeys.Add(PlayerSubphaseKey.SUBFASE_1, true);
         var playerInTree = GetTree().GetNodesInGroup("player");
         BasePlayer = playerInTree.Count > 0
-            ? playerInTree[0] as BasePlayer
+            ? playerInTree[0] as MyhaPlayer
             : null;
 
         CurrentPlayerPosition = playerInTree.Count > 0
             ? BasePlayer.GlobalPosition
             : Vector2.Zero;
 
+        SignalManager = SignalManager.Instance;
+        SignalManager.PlayerAcessSubphase += OnPlayerAcessSubphase;
+        SignalManager.ElevatorReachFinalPoint += OnElevatorReachFinalPoint;
 
 
         if (PlayerGlobalInstance == null)
@@ -70,6 +82,18 @@ public partial class PlayerManager : Node
         {
             QueueFree();
         }
+    }
+
+    private void OnPlayerAcessSubphase(List<Marker2D> _)
+    {
+        BasePlayer.DisableCamera();
+    }
+
+    private void OnElevatorReachFinalPoint(Vector2 vector2)
+    {
+        this.UpdatePlayerPosition(vector2);
+        BasePlayer.GlobalPosition = vector2;
+        BasePlayer.EnableCamera();
     }
 
     public PlayerHabilityKey GetCurrentActivePlayerHability()
@@ -102,7 +126,50 @@ public partial class PlayerManager : Node
         return PlayerHabilities.ContainsKey(habilityKey) && PlayerHabilities[habilityKey];
     }
 
+    public void UnlockPlayerSubphaseKey(PlayerSubphaseKey subphaseKey)
+    {
+        if (!PlayerSubphaseKeys.ContainsKey(subphaseKey))
+        {
+            PlayerSubphaseKeys.Add(subphaseKey, true);
+        }
+    }
 
+    public List<PlayerSubphaseKey> GetObtainedKeys()
+    {
+        return new List<PlayerSubphaseKey>(PlayerSubphaseKeys.Keys);
+    }
+
+    public List<PlayerHabilityKey> GetUnlockedPlayerHabilities()
+    {
+        return new List<PlayerHabilityKey>(PlayerHabilities.Keys);
+    }
+
+    public bool IsPlayerSubphaseKeyUnlocked(PlayerSubphaseKey subphaseKey)
+    {
+        return PlayerSubphaseKeys.ContainsKey(subphaseKey) && PlayerSubphaseKeys[subphaseKey];
+    }
+
+    public void SetObtainedKeys(List<PlayerSubphaseKey> obtainedKeys)
+    {
+        foreach (var key in obtainedKeys)
+        {
+            if (!PlayerSubphaseKeys.ContainsKey(key))
+            {
+                PlayerSubphaseKeys.Add(key, true);
+            }
+        }
+    }
+
+    public void SetUnlockedPlayerHabilities(List<PlayerHabilityKey> unlockedHabilities)
+    {
+        foreach (var hability in unlockedHabilities)
+        {
+            if (!PlayerHabilities.ContainsKey(hability))
+            {
+                PlayerHabilities.Add(hability, true);
+            }
+        }
+    }
 
     public void SetCurrentPlayerShootType(PlayerShootType shootType)
     {

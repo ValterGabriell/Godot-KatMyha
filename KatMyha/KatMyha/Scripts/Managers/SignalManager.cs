@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using PrototipoMyha.Player.StateManager;
 using System;
 using System.Collections.Generic;
@@ -23,6 +23,10 @@ public partial class SignalManager : Node
     [Signal] public delegate void PlayerIsOnLightEventHandler();
     [Signal] public delegate void PlayerHasAlterStateOfLightEventHandler(string playerSwitchLightState);
     [Signal] public delegate void PlayerHasKillAnEnemyEventHandler();
+
+    /*actions*/
+    public Action<List<Marker2D>> PlayerAcessSubphase;
+    public Action<Vector2> ElevatorReachFinalPoint;
 
 
     [Signal] public delegate void GameLoadedEventHandler(Vector2 position);

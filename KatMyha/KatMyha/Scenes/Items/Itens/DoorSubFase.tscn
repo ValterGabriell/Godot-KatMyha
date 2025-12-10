@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwtt81j6q5ah"]
+
+[ext_resource type="Script" uid="uid://bdcc4syxk4ymt" path="res://Scripts/Items/DoorSubFase.cs" id="1_fylig"]
+[ext_resource type="Texture2D" uid="uid://udessgh8m1jc" path="res://Assets/Sprites/Itens/Door03.png" id="1_x263w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x263w"]
+size = Vector2(32, 65)
+
+[node name="DoorSubFase" type="Node2D" node_paths=PackedStringArray("AreaToChangeScene", "Panel")]
+script = ExtResource("1_fylig")
+AreaToChangeScene = NodePath("Area2D")
+Panel = NodePath("Panel")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_x263w")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2097152
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_x263w")
+debug_color = Color(0, 0, 0.69803923, 0)
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = -6.0
+offset_top = -44.0
+offset_right = 6.0
+offset_bottom = -35.0
+
+[node name="Label" type="Label" parent="Panel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 4.0
+offset_top = -2.0
+offset_right = 13.0
+offset_bottom = 21.0
+theme_override_font_sizes/font_size = 8
+text = "E"

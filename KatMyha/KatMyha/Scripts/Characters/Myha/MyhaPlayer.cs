@@ -85,6 +85,16 @@ namespace KatrinaGame.Players
             this.SetState(PlayerState.IDLE);
         }
 
+        public void DisableCamera()
+        {
+            this.CameraPlayer.Enabled = false;
+        }
+
+        public void EnableCamera()
+        {
+            this.CameraPlayer.Enabled = true;
+            this.CameraPlayer.MakeCurrent();
+        }
         private void SubscribeSignals()
         {
             SignalManager.Instance.PlayerStateChanged += PlayerStateChanged;

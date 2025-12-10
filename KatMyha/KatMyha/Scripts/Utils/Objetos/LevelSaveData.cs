@@ -1,5 +1,4 @@
-﻿using PrototipoMyha.Enemy.States;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace PrototipoMyha.Scripts.Utils.Objetos
@@ -10,9 +9,13 @@ namespace PrototipoMyha.Scripts.Utils.Objetos
         public float PlayerPosition_X_OnLevel { get; set; }
         public float PlayerPosition_Y_OnLevel { get; set; }
         public List<PyramdFallKillSaveData> PyramdsFallKill { get; set; }
+        public List<PlayerHabilityKey> PlayerHabilitiesUnlocked { get; set; }
+        public List<PlayerSubphaseKey> PlayerSubphaseKeysObtained { get; set; }
+
+
     }
 
-  
+
 
     public class PyramdFallKillSaveData
     {

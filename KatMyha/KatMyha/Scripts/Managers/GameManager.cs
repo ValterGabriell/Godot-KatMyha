@@ -22,6 +22,7 @@ namespace PrototipoMyha.Scripts.Managers
         private bool stopEnemy = false;
         public LevelSaveData CurrentLevelObjData { get; private set; }
 
+
         public void SetCurrentLevelNumber(int levelNumber)
         {
             CurrentLevelNumber = levelNumber;

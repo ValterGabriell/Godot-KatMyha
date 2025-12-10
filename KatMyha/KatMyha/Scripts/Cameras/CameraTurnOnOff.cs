@@ -2,7 +2,6 @@
 using KatMyha.Scripts.Managers;
 using KatrinaGame.Players;
 using PrototipoMyha;
-using PrototipoMyha.Utilidades;
 
 public partial class CameraTurnOnOff : Node2D
 {
@@ -57,7 +56,6 @@ public partial class CameraTurnOnOff : Node2D
 
     private void OnTimerTimeout()
     {
-        GDLogger.LogBlue("Timer timeout reached. Toggling camera state.");
         isTurnOff = !isTurnOff;
         UpdateDetectionState();
         TimerToTurnOnAndOff.Start();

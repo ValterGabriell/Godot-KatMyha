@@ -76,11 +76,17 @@ public partial class SaveSystem : Node
         var pyramdsInScenev = pyramdsInScene.OfType<KillFallPyramd>().ToList();
 
         var gameManagerInstance = GameManager.GetGameManagerInstance();
+        var playerManagerInstance = PlayerManager.GetPlayerGlobalInstance();
+
         gameManagerInstance.SetCurrentLevelNumber(LevelNumber);
         gameManagerInstance.SetCurrentLevelInitialData(pyramdsInScenev);
 
         var saveSystem = SaveSystem.SaveSystemInstance;
         var levelSaveData = gameManagerInstance.GetCurrentLevelUpdatedData();
+
+        levelSaveData.PlayerSubphaseKeysObtained = playerManagerInstance.GetObtainedKeys();
+        levelSaveData.PlayerHabilitiesUnlocked = playerManagerInstance.GetUnlockedPlayerHabilities();
+
         if (levelSaveData != null)
         {
             saveSystem.SaveGame(levelSaveData);
@@ -118,14 +124,21 @@ public partial class SaveSystem : Node
 
         SignalManager.Instance.EmitSignal(nameof(SignalManager.GameLoaded), loadedPosition);
 
-        var instanceManager = PlayerManager.GetPlayerGlobalInstance();
-        instanceManager.UpdatePlayerPosition(loadedPosition);
-        instanceManager.BasePlayer.SetState(PlayerState.IDLE);
+        var playerManagerInstance = PlayerManager.GetPlayerGlobalInstance();
+        playerManagerInstance.UpdatePlayerPosition(loadedPosition);
+        playerManagerInstance.BasePlayer.SetState(PlayerState.IDLE);
+        playerManagerInstance.SetObtainedKeys(saveData.PlayerSubphaseKeysObtained);
+        playerManagerInstance.SetUnlockedPlayerHabilities(saveData.PlayerHabilitiesUnlocked);
+
 
         var enemiesInScene = GetTree().GetNodesInGroup("enemy");
         var pyramdInScene = GetTree().GetNodesInGroup("pyramd");
         var alertsInScene = GetTree().GetNodesInGroup(EnumGroups.AlertSprite.ToString());
         var alertSoundsInScene = GetTree().GetNodesInGroup("alert_sound");
+
+
+
+
 
         foreach (var item in alertsInScene)
         {
