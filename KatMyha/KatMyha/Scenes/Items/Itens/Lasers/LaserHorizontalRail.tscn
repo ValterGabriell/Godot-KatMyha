@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://2p5m507uglen"]
+
+[ext_resource type="Script" uid="uid://cm0joqpmj3d2e" path="res://Scripts/Lasers/LaserHorizontalRail.cs" id="2_mkj58"]
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_4dojr"]
+length = 111.0
+
+[node name="LaserHorizontalRail" type="Area2D" node_paths=PackedStringArray("SeparationRayShape2D")]
+script = ExtResource("2_mkj58")
+SeparationRayShape2D = NodePath("CollisionShape2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("SeparationRayShape2D_4dojr")

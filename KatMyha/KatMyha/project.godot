@@ -27,6 +27,7 @@ KeyManager="*res://Scripts/Managers/KeyManager.gd"
 [dotnet]
 
 project/assembly_name="PrototipoKatrina"
+project/assembly_reload_nesting_level=1
 
 [global_group]
 

@@ -73,6 +73,8 @@ namespace KatrinaGame.Components
             PlayerManager.GetPlayerGlobalInstance().UpdatePlayerPosition(_player.GlobalPosition);
             if (this._player.IsMovementBlocked) return;
 
+
+
             var isPlayerMoving = this._player.CurrentPlayerState != PlayerState.WALL_SLIDING ? direction.X != 0 : direction.Y != 0;
             var isPlayerOnFloor = this._player.IsOnFloor();
             var isPlayerJumping = this._player.CurrentPlayerState == PlayerState.JUMPING;

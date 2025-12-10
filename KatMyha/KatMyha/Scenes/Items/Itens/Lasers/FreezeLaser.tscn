@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dggqcsbun0vyo"]
+
+[ext_resource type="Script" uid="uid://bf6hdlyuai2gw" path="res://Scripts/Cameras/FreezeCamera.cs" id="1_irqxt"]
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_hcsyj"]
+length = 339.0
+
+[node name="FreezeLaser" type="Node2D" node_paths=PackedStringArray("Area2D")]
+script = ExtResource("1_irqxt")
+Area2D = NodePath("Area2D")
+SizeOfDetection = 250.0
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+rotation = -1.5707964
+shape = SubResource("SeparationRayShape2D_hcsyj")

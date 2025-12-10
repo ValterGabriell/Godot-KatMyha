@@ -80,6 +80,9 @@ namespace KatrinaGame.Players
                 { PlayerHabilityKey.AIM_SHOOT, ChangePlayerShootType},
                 { PlayerHabilityKey.WALL_JUMP, WallJumpChangeType  }
             };
+
+
+            this.SetState(PlayerState.IDLE);
         }
 
         private void SubscribeSignals()
@@ -143,37 +146,28 @@ namespace KatrinaGame.Players
 
         protected override void HandleInput(double delta)
         {
-            // Input de movimento
             Vector2 inputVector = Vector2.Zero;
-            if (inputVector == Vector2.Zero) CurrentPlayerSpeed = 0f;
-
+            CurrentPlayerSpeed = 0f;
             if (this.CurrentPlayerState != PlayerState.WALL_SLIDING
                 && !this.PlayeCanMoveCamera)
             {
                 if (Input.IsActionPressed("d") && this.IsMovementBlocked == false && this.CurrentPlayerState != PlayerState.AIMING)
                 {
                     inputVector.X += 1;
-                    FlipRaycast(direction: 1,
-                    [
-                        AttackRaycast
-                    ]);
+                    FlipRaycast(direction: 1, [AttackRaycast]);
                     CurrentPlayerSpeed = Speed;
                 }
 
                 if (Input.IsActionPressed("a") && this.IsMovementBlocked == false && this.CurrentPlayerState != PlayerState.AIMING)
                 {
                     inputVector.X -= 1;
-                    FlipRaycast(direction: -1,
-                   [
-                       AttackRaycast
-                   ]);
+                    FlipRaycast(direction: -1, [AttackRaycast]);
                     CurrentPlayerSpeed = Speed;
                 }
 
-
-                if (Input.IsKeyPressed(Key.Ctrl) && this.CurrentPlayerState != PlayerState.AIMING)
+                // ✅ Sneak deve modificar a velocidade JÁ DEFINIDA, não substituir
+                if (Input.IsKeyPressed(Key.Ctrl) && this.CurrentPlayerState != PlayerState.AIMING && inputVector.X != 0)
                 {
-
                     CurrentPlayerSpeed = SneakSpeed;
                 }
             }
@@ -193,7 +187,6 @@ namespace KatrinaGame.Players
                 }
             }
 
-
             if (this.PlayeCanMoveCamera)
             {
                 if (Input.IsActionPressed("w")) CameraMap.GlobalPosition += new Vector2(0, -5);
@@ -202,10 +195,8 @@ namespace KatrinaGame.Players
                 if (Input.IsActionPressed("a")) CameraMap.GlobalPosition += new Vector2(-5, 0);
             }
 
-
-            if (Input.IsActionPressed("jump") && this.CurrentPlayerState != PlayerState.AIMING)
+            if (Input.IsActionJustPressed("jump") && this.CurrentPlayerState != PlayerState.AIMING)
             {
-                inputVector.Y -= 1;
                 MovementComponent.Jump();
             }
 
@@ -213,7 +204,6 @@ namespace KatrinaGame.Players
             {
                 if (PlayeCanMoveCamera)
                 {
-                    // Fechando o mapa
                     this.CameraPlayer.MakeCurrent();
                     GetTree().Paused = false;
                     this.PlayeCanMoveCamera = false;
@@ -221,7 +211,6 @@ namespace KatrinaGame.Players
                 }
                 else
                 {
-                    // Abrindo o mapa
                     this.CameraMap.MakeCurrent();
                     GetTree().Paused = true;
                     this.PlayeCanMoveCamera = true;

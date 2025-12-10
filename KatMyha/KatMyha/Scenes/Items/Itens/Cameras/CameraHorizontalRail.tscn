@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://baiymshi468tm"]
 
-[ext_resource type="Script" uid="uid://dc203j1bqrifk" path="res://Scripts/Cameras/CameraHorizontalRail.cs" id="1_87ry7"]
+[ext_resource type="Script" uid="uid://dl0cm16gtv3ul" path="res://Scripts/Cameras/HorizontalMovementRail.cs" id="1_87ry7"]
 [ext_resource type="PackedScene" uid="uid://bx7bdrxlxlkq8" path="res://Scenes/Items/Itens/Cameras/FreezeCamera.tscn" id="1_ot8i8"]
 
 [node name="CameraHorizontalRail" type="Node2D"]

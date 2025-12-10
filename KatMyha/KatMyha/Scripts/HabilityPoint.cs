@@ -1,8 +1,6 @@
 ﻿using Godot;
 using KatrinaGame.Players;
 using PrototipoMyha.Player.StateManager;
-using PrototipoMyha.Utilidades;
-using System;
 
 public partial class HabilityPoint : Area2D
 {

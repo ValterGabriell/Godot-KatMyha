@@ -1,10 +1,6 @@
 ﻿using Godot;
-using KatMyha.Scripts.Enemies.BaseGuardV2;
-using PrototipoMyha.Enemy.States;
-using PrototipoMyha.Utilidades;
-using System;
 
-public partial class CameraHorizontalRail : Node2D
+public partial class HorizontalMovementRail : Node2D
 {
     /// <summary>
     /// Gets or sets the primary roaming marker used for navigation or positioning.

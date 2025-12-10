@@ -1,6 +1,5 @@
 ﻿using Godot;
 using KatrinaGame.Core;
-using KatrinaGame.Players;
 using PrototipoMyha.Utilidades;
 using System;
 using System.Collections.Generic;
@@ -48,8 +47,8 @@ public partial class PlayerManager : Node
 
     public override void _Ready()
     {
-        PlayerHabilities.Add(PlayerHabilityKey.WALL_JUMP, true);
-        PlayerHabilities.Add(PlayerHabilityKey.AIM_SHOOT, true);
+        ////PlayerHabilities.Add(PlayerHabilityKey.WALL_JUMP, true);
+        //PlayerHabilities.Add(PlayerHabilityKey.AIM_SHOOT, true);
 
 
         var playerInTree = GetTree().GetNodesInGroup("player");

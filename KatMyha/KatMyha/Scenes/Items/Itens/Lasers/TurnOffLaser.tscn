@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cg00g2q1gfhqy"]
+
+[ext_resource type="Script" uid="uid://vpp1ct2aapyo" path="res://Scripts/Cameras/CameraTurnOnOff.cs" id="1_dasky"]
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_hy15t"]
+length = 279.0
+
+[node name="TurnOffLaser" type="Node2D" node_paths=PackedStringArray("Area2D", "TimerToTurnOnAndOff")]
+script = ExtResource("1_dasky")
+Area2D = NodePath("Area2D")
+SizeOfDetection = 250.0
+TimerToTurnOnAndOff = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4096
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
+rotation = -1.5707964
+shape = SubResource("SeparationRayShape2D_hy15t")
+debug_color = Color(0, 1, 0.58431375, 0.41960785)

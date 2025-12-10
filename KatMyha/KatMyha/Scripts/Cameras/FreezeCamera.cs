@@ -1,11 +1,7 @@
 ﻿using Godot;
 using KatMyha.Scripts.Managers;
-using KatrinaGame.Core;
 using KatrinaGame.Players;
 using PrototipoMyha;
-using PrototipoMyha.Utilidades;
-using System;
-using System.Collections.Generic;
 
 public partial class FreezeCamera : Node2D
 {
@@ -36,7 +32,7 @@ public partial class FreezeCamera : Node2D
 
     private void OnBodyEntered(Node2D body)
     {
-      if (body.IsInGroup("player") && !hasEmittedKillSignal)
+        if (body.IsInGroup("player") && !hasEmittedKillSignal)
         {
             MyhaPlayer player = body as MyhaPlayer;
             if (player != null && player.CurrentLightHiddenState == PrototipoMyha.Player.StateManager.MyhaContactLightHiddenState.MYHA_IS_ON_LIGHT)

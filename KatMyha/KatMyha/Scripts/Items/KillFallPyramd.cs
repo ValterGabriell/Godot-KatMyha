@@ -1,7 +1,5 @@
 ﻿using Godot;
-using KatMyha.Scripts.Enemies.BaseGuardV2;
 using KatMyha.Scripts.Managers;
-using KatrinaGame.Core;
 using KatrinaGame.Players;
 using PrototipoMyha;
 using PrototipoMyha.Utilidades;
@@ -15,6 +13,8 @@ public partial class KillFallPyramd : Node2D
 
     [Export] private float FallDelayInSeconds { get; set; } = 0.5f;
     [Export] private float FallPosY { get; set; } = 4000;
+    [Export] private float LenghtOfRay { get; set; } = 150;
+    [Export] private CollisionShape2D Ray { get; set; }
     public Guid InstanceID { get; set; } = Guid.NewGuid();
 
     [Signal]
@@ -24,12 +24,19 @@ public partial class KillFallPyramd : Node2D
     {
         SignalManager = SignalManager.Instance;
         EnemyPyramdHasToFall += OnEnemyPyramdHasToFall;
+        if (Ray.Shape is SeparationRayShape2D)
+        {
+            var separationRay = Ray.Shape as SeparationRayShape2D;
+            separationRay.Length = LenghtOfRay;
+        }
+
+
     }
 
     private void OnEnemyPyramdHasToFall()
     {
         var tween = GetTree().CreateTween();
-        tween.TweenProperty(this, "position:y", FallPosY, FallDelayInSeconds); 
+        tween.TweenProperty(this, "position:y", FallPosY, FallDelayInSeconds);
         tween.Play();
 
         GetTree().CreateTimer(FallDelayInSeconds).Timeout += () =>

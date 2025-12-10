@@ -20,8 +20,8 @@ texture_filter = 1
 texture = ExtResource("1_deu6j")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -61.0
+offset_left = -9.0
 offset_top = -37.0
-offset_right = 86.0
+offset_right = 138.0
 offset_bottom = -14.0
-text = "Pegue a habilidade"
+text = "[E] "

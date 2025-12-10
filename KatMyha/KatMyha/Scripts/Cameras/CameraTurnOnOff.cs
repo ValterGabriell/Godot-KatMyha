@@ -3,7 +3,6 @@ using KatMyha.Scripts.Managers;
 using KatrinaGame.Players;
 using PrototipoMyha;
 using PrototipoMyha.Utilidades;
-using System;
 
 public partial class CameraTurnOnOff : Node2D
 {
