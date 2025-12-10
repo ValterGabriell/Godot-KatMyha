@@ -1,10 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://baiymshi468tm"]
+[gd_scene load_steps=7 format=3 uid="uid://baiymshi468tm"]
 
 [ext_resource type="Script" uid="uid://dl0cm16gtv3ul" path="res://Scripts/Cameras/HorizontalMovementRail.cs" id="1_87ry7"]
 [ext_resource type="PackedScene" uid="uid://bx7bdrxlxlkq8" path="res://Scenes/Items/Itens/Cameras/FreezeCamera.tscn" id="1_ot8i8"]
+[ext_resource type="Texture2D" uid="uid://cf5ack8f2nk3n" path="res://Assets/Sprites/Itens/LampadaMirada.png" id="2_aomhb"]
+[ext_resource type="Texture2D" uid="uid://dprw0pas7xloi" path="res://Assets/Sprites/Itens/Lampada.png" id="3_dexa4"]
+[ext_resource type="Texture2D" uid="uid://bd3ks5cuhg6mj" path="res://Assets/Sprites/Itens/LampadaQuebrada.png" id="3_va8ps"]
 
-[node name="CameraHorizontalRail" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_87ry7"]
+
+[node name="CameraHorizontalRail" type="RigidBody2D" groups=["fall_trap"]]
 script = ExtResource("1_87ry7")
+TargetAimedTexture2D = ExtResource("2_aomhb")
+ShootedAimedTexture2D = ExtResource("3_va8ps")
+IdleAimedTexture2D = ExtResource("3_dexa4")
 
 [node name="FreezeCamera" parent="." instance=ExtResource("1_ot8i8")]
-SizeOfDetection = null
+SizeOfDetection = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_87ry7")

@@ -86,9 +86,7 @@ public partial class Terminal : Node2D
             if (MyhaPlayer != null)
                 SaveSystem.SaveGame(LevelNumber);
 
-            GameManager.SetShouldShowKeyInfo(true);
-            var instance = TimerScene.Instantiate<InfoKeys>();
-            GetTree().CurrentScene.AddChild(instance);
+            this.LabelTextAction.Text = "Jogo Salvo!";
         }
     }
 }

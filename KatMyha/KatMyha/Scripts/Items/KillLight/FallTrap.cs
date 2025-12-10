@@ -1,11 +1,6 @@
-using Godot;
+﻿using Godot;
 using PrototipoMyha;
-using PrototipoMyha.Utilidades;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KatMyha.Scripts.Items.KillLight
 {

@@ -7,6 +7,7 @@
 size = Vector2(20, 111)
 
 [node name="VerticalPlataform" type="StaticBody2D" groups=["wall_vertical"]]
+z_index = -5
 collision_layer = 32
 collision_mask = 2
 

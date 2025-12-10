@@ -5,7 +5,6 @@ using KatrinaGame.Players;
 using PrototipoMyha;
 using PrototipoMyha.Player.Components.Interfaces;
 using PrototipoMyha.Player.StateManager;
-using PrototipoMyha.Utilidades;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -197,6 +196,7 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
         {
             if (this._player.CurrentPlayerState == PlayerState.AIMING && PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.AIM_SHOOT)
             {
+
                 if (this.currentTargetAimed == null || this.currentTargetAimed.WasShooted) return;
 
                 this._player.SetState(PlayerState.SHOOTING);
@@ -225,25 +225,21 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
                     this.currentTargetAimed = null;
                     this._player.SetState(PlayerState.IDLE);
                 }
+                PlayerManager.ClearPlayerHabilities();
             }
 
-            if (this._player.CurrentPlayerState == PlayerState.AIMING && PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.DISTRACTION_SHOOT)
-            {
-                this._player.SetState(PlayerState.THROW);
-                ThrowDistractionBall();
-                HideDistractionReticle();
-                isDistractionAimActive = false;
-                this._player.SetState(PlayerState.IDLE);
-            }
+
         }
 
         private void ApplyShootedLightEffects()
         {
             this.currentTargetAimed.GetNode<Sprite2D>("Sprite2D").Texture = currentTargetAimed.ShootedAimedTexture2D;
             this.currentTargetAimed.GetNode<Area2D>("Area2D").Monitoring = false;
-            this.currentTargetAimed.GetNode<Area2D>("Area2D").GetNode<CollisionPolygon2D>("CollisionPolygon2D").Disabled = true;
-            this.currentTargetAimed.GetNode<Sprite2D>("Sprite2D").GetNode<Sprite2D>("Sprite2D").Visible = false;
-            this.currentTargetAimed.GetNode<Sprite2D>("Sprite2D").GetNode<PointLight2D>("PointLight2D").Visible = false;
+            this.currentTargetAimed.GravityScale = 1;
+            GetTree().CreateTimer(1.5f).Timeout += () =>
+            {
+                this.lastAimLightShooted.CallDeferred("queue_free");
+            };
         }
 
         private void ThrowDistractionBall()
@@ -277,14 +273,14 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
 
             HideDistractionReticle();
             isDistractionAimActive = false;
-            currentThrowForce = DEFAULT_THROW_FORCE; 
+            currentThrowForce = DEFAULT_THROW_FORCE;
 
             this._player.SetState(PlayerState.IDLE);
         }
 
         private void OnPlayerAim()
         {
-            if(!PlayerManager.IsPlayerHabilityUnlocked(PlayerHabilityKey.AIM_SHOOT)) return;
+            if (!PlayerManager.IsPlayerHabilityUnlocked(PlayerHabilityKey.AIM_SHOOT)) return;
             this._player.SetState(PlayerState.AIMING);
             if (PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.AIM_SHOOT)
             {
@@ -297,9 +293,9 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
             // Modo de distração
             ShowDistractionReticle();
             isDistractionAimActive = true;
-            currentThrowForce = DEFAULT_THROW_FORCE; 
+            currentThrowForce = DEFAULT_THROW_FORCE;
             UpdateDistractionTrajectory();
- 
+
         }
 
         private void UpdateDistractionTrajectory()
@@ -312,7 +308,7 @@ namespace KatMyha.Scripts.Characters.Myha.Components.Impl
             trajectoryLine.ClearPoints();
 
             var horizontalVelocity = direction.X * currentThrowForce;
-            var verticalVelocity = -currentThrowForce * THROW_VERTICAL_MULTIPLIER; 
+            var verticalVelocity = -currentThrowForce * THROW_VERTICAL_MULTIPLIER;
             var velocity = new Vector2(horizontalVelocity, verticalVelocity);
 
             var landingPos = SimulateTrajectory(startPos, velocity);

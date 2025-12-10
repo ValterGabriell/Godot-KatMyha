@@ -1,9 +1,10 @@
 ﻿using Godot;
+using KatMyha.Scripts.Items.KillLight;
 using KatMyha.Scripts.Managers;
 using KatrinaGame.Players;
 using PrototipoMyha;
 
-public partial class CameraTurnOnOff : Node2D
+public partial class CameraTurnOnOff : FallTrap
 {
 
     [Export] private Area2D Area2D;

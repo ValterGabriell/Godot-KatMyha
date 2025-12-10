@@ -23,6 +23,7 @@ public partial class UIGameHabilities : MarginContainer
         habilidade, o que gerava inconformidade porque a lista era apagada e refeita, mantendo a selecao sempre
         no primeiro item. Entao agora, ao trocar a habilidade, apenas o item selecionado é alterado.
          */
+        if (playerManager.GetCountOfUnlockedHabilities() == 0) return;
         PopulateHabilitiesList();
     }
 

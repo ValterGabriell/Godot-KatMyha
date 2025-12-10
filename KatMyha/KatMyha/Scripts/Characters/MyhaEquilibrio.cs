@@ -1,16 +1,11 @@
-using Godot;
+﻿using Godot;
 using PrototipoMyha.Player.StateManager;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KatrinaGame.Core
 {
     public partial class BasePlayer : CharacterBody2D
     {
-        private const float INITAL_MAX_BALLANCE = 100.0f;
+        private const float INITAL_MAX_BALLANCE = 500.0f;
         private float Equilibrio = INITAL_MAX_BALLANCE;
         private float BallanceZero = 0.0f;
         private float BallanceMax = INITAL_MAX_BALLANCE;
@@ -21,17 +16,17 @@ namespace KatrinaGame.Core
 
         public void AffectBalance(float intensidade)
         {
-            if(Equilibrio > BallanceZero)
+            if (Equilibrio > BallanceZero)
             {
                 Equilibrio -= intensidade;
                 GD.Print("Equilibrio: " + Equilibrio);
             }
 
-            if(Equilibrio <= BallanceZero)
+            if (Equilibrio <= BallanceZero)
             {
                 FallDown();
             }
-            
+
         }
 
         private void FallDown()
@@ -51,8 +46,8 @@ namespace KatrinaGame.Core
         }
 
         public void DecreaseBallance(float delta)
-        {            
-            if(Equilibrio < BallanceMax)
+        {
+            if (Equilibrio < BallanceMax)
             {
                 Equilibrio += 30f * delta;
                 Equilibrio = Mathf.Max(Equilibrio, 0);
@@ -72,12 +67,12 @@ namespace KatrinaGame.Core
 
         public void SlowKatrinaVelocity()
         {
-            Speed = 50.0f; 
+            Speed = 50.0f;
         }
 
         public void NormalizeKatrinaVelocity()
         {
-            Speed = 200.0f; 
+            Speed = 200.0f;
         }
 
     }

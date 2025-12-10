@@ -1,6 +1,7 @@
 ﻿using Godot;
+using KatMyha.Scripts.Items.KillLight;
 
-public partial class HorizontalMovementRail : Node2D
+public partial class HorizontalMovementRail : FallTrap
 {
     /// <summary>
     /// Gets or sets the primary roaming marker used for navigation or positioning.

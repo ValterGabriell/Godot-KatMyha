@@ -1,13 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://2p5m507uglen"]
+[gd_scene load_steps=10 format=3 uid="uid://2p5m507uglen"]
 
 [ext_resource type="Script" uid="uid://cm0joqpmj3d2e" path="res://Scripts/Lasers/LaserHorizontalRail.cs" id="2_mkj58"]
+[ext_resource type="Texture2D" uid="uid://cf5ack8f2nk3n" path="res://Assets/Sprites/Itens/LampadaMirada.png" id="2_whn6c"]
+[ext_resource type="Texture2D" uid="uid://bd3ks5cuhg6mj" path="res://Assets/Sprites/Itens/LampadaQuebrada.png" id="3_whn6c"]
+[ext_resource type="Texture2D" uid="uid://dprw0pas7xloi" path="res://Assets/Sprites/Itens/Lampada.png" id="4_tyl0f"]
+[ext_resource type="Texture2D" uid="uid://bvaitfhcjehck" path="res://Assets/Sprites/Itens/CAMERA.png" id="5_l17s3"]
+[ext_resource type="Texture2D" uid="uid://d1o5o01uboyue" path="res://Assets/Sprites/Itens/Laser.png" id="6_g6i6a"]
+[ext_resource type="Texture2D" uid="uid://hvcwa70k53k7" path="res://Assets/Sprites/FREE Textures Of Light Alpha/Sprite-0002.png" id="7_lko6g"]
 
 [sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_4dojr"]
 length = 111.0
 
-[node name="LaserHorizontalRail" type="Area2D" node_paths=PackedStringArray("SeparationRayShape2D")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_l17s3"]
+
+[node name="LaserHorizontalRail" type="RigidBody2D" node_paths=PackedStringArray("SeparationRayShape2D") groups=["fall_trap"]]
+collision_layer = 0
+collision_mask = 0
+gravity_scale = 0.0
 script = ExtResource("2_mkj58")
-SeparationRayShape2D = NodePath("CollisionShape2D")
+SizeOfDetection = 250.0
+SeparationRayShape2D = NodePath("Area2D/CollisionShape2D")
+TargetAimedTexture2D = ExtResource("2_whn6c")
+ShootedAimedTexture2D = ExtResource("3_whn6c")
+IdleAimedTexture2D = ExtResource("4_tyl0f")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("5_l17s3")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("SeparationRayShape2D_4dojr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("SeparationRayShape2D_4dojr")
+shape = SubResource("CircleShape2D_l17s3")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(1, 570)
+rotation = 1.5707964
+scale = Vector2(17.9, 0.2)
+texture = ExtResource("6_g6i6a")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+z_index = -10
+position = Vector2(1, 557)
+scale = Vector2(0.19523263, 17.489052)
+texture = ExtResource("7_lko6g")

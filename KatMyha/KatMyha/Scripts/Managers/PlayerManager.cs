@@ -14,7 +14,6 @@ public enum PlayerSwitchLightState
 
 public enum PlayerShootType
 {
-    DISTRACTION_SHOOT,
     AIM_SHOOT
 }
 
@@ -47,7 +46,7 @@ public partial class PlayerManager : Node
     public static float JumpNoiseRadius { get; private set; } = 50f;
     public bool PlayerCanSaveTheGame { get; set; } = false;
     public PlayerSwitchLightState PlayerCanTurnOfTheLight { get; set; } = PlayerSwitchLightState.CANT_TOGGLE_LIGHT;
-    private PlayerShootType CurrentPlayerShootType { get; set; } = PlayerShootType.DISTRACTION_SHOOT;
+    private PlayerShootType CurrentPlayerShootType { get; set; } = PlayerShootType.AIM_SHOOT;
 
     private Dictionary<PlayerHabilityKey, bool> PlayerHabilities = new Dictionary<PlayerHabilityKey, bool>();
     private Dictionary<PlayerSubphaseKey, bool> PlayerSubphaseKeys = new Dictionary<PlayerSubphaseKey, bool>();
@@ -112,6 +111,11 @@ public partial class PlayerManager : Node
         }
     }
 
+    public int GetCountOfUnlockedHabilities()
+    {
+        return PlayerHabilities.Count;
+    }
+
     public void UnlockPlayerHability(PlayerHabilityKey habilityKey)
     {
         if (!PlayerHabilities.ContainsKey(habilityKey))
@@ -147,6 +151,12 @@ public partial class PlayerManager : Node
     public bool IsPlayerSubphaseKeyUnlocked(PlayerSubphaseKey subphaseKey)
     {
         return PlayerSubphaseKeys.ContainsKey(subphaseKey) && PlayerSubphaseKeys[subphaseKey];
+    }
+
+    public void ClearPlayerHabilities()
+    {
+        PlayerHabilities.Clear();
+        this.PlayerChangedHability.Invoke();
     }
 
     public void SetObtainedKeys(List<PlayerSubphaseKey> obtainedKeys)

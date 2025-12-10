@@ -251,11 +251,7 @@ namespace KatrinaGame.Players
 
         private static void ChangePlayerShootType()
         {
-            if (PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType() == PlayerShootType.AIM_SHOOT)
-                PlayerManager.GetPlayerGlobalInstance().SetCurrentPlayerShootType(PlayerShootType.DISTRACTION_SHOOT);
-            else
-                PlayerManager.GetPlayerGlobalInstance().SetCurrentPlayerShootType(PlayerShootType.AIM_SHOOT);
-
+            PlayerManager.GetPlayerGlobalInstance().SetCurrentPlayerShootType(PlayerShootType.AIM_SHOOT);
             GDLogger.LogYellow("Player Shoot Type Changed to: " + PlayerManager.GetPlayerGlobalInstance().GetCurrentPlayerShootType().ToString());
         }
 
