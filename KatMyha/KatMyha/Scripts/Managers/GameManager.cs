@@ -1,6 +1,5 @@
 ﻿using Godot;
 using KatMyha.Scripts.Enemies.DroneEnemy;
-using KatMyha.Scripts.Items.KillLight;
 using PrototipoMyha.Scripts.Utils.Objetos;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,7 +94,7 @@ namespace PrototipoMyha.Scripts.Managers
             return _instance;
         }
 
-        public void SetCurrentLevelInitialData(List<KillFallPyramd> piramedFallList, List<FallTrap> fallTraps)
+        public void SetCurrentLevelInitialData(List<KillFallPyramd> piramedFallList)
         {
             var pyramedsToSave = piramedFallList.Select(e => new PyramdFallKillSaveData
             {
@@ -104,22 +103,12 @@ namespace PrototipoMyha.Scripts.Managers
                 PositionY = e.GlobalPosition.Y
             }).ToList();
 
-            var fallTrapToSave = fallTraps.Select(e => new FallTrapKillSaveData
-            {
-                InstanceID = e.InstanceID,
-                PositionX = e.GlobalPosition.X,
-                PositionY = e.GlobalPosition.Y,
-                PackagePath = e.GetSceneFilePath(),
-                MarkerData_A = e.GetMarkerData_A(),
-                MarkerData_B = e.GetMarkerData_B(),
-                IsTargetingMarkerA = e.GetIsTargetingMarkerA()
-            }).ToList();
 
             CurrentLevelObjData = new LevelSaveData
             {
                 LevelNumber = GameManager.GetGameManagerInstance().CurrentLevelNumber,
                 PyramdsFallKill = pyramedsToSave,
-                FallTrapKillList = fallTrapToSave,
+                FallTrapKillList = [],
                 PlayerPosition_X_OnLevel = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition().X,
                 PlayerPosition_Y_OnLevel = PlayerManager.GetPlayerGlobalInstance().GetPlayerPosition().Y
             };

@@ -10,6 +10,7 @@ length = 279.0
 [node name="TurnOffLaser" type="RigidBody2D" node_paths=PackedStringArray("Area2D", "TimerToTurnOnAndOff") groups=["fall_trap"]]
 collision_layer = 0
 collision_mask = 0
+gravity_scale = 0.0
 script = ExtResource("1_dasky")
 Area2D = NodePath("Area2D")
 SizeOfDetection = 250.0

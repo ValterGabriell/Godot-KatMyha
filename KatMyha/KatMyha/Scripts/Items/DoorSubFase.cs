@@ -63,11 +63,14 @@ public partial class DoorSubFase : Node2D
             if (CurrentSubFaseIndex == PlayerSubphaseKey.SUBFASE_1
                 && PlayerManager.IsPlayerSubphaseKeyUnlocked(PlayerSubphaseKey.SUBFASE_1))
             {
-                var elevatorInstance = ElevatorScene.Instantiate<Elevator>();
-                elevatorInstance.MoveSpeed = ElevatorMoveSpeed;
-                elevatorInstance.GlobalPosition = this.GlobalPosition;
-                this.GetParent().AddChild(elevatorInstance);
-                SignalManager.PlayerAcessSubphase.Invoke(PathToFollow.ToList());
+                SpawnElevatorAndChangeSubphase();
+                return;
+            }
+
+            if (CurrentSubFaseIndex == PlayerSubphaseKey.BACK_TO_BEGIN
+               && PlayerManager.IsPlayerSubphaseKeyUnlocked(PlayerSubphaseKey.BACK_TO_BEGIN))
+            {
+                SpawnElevatorAndChangeSubphase();
                 return;
             }
 
@@ -86,10 +89,20 @@ public partial class DoorSubFase : Node2D
 
                 return;
             }
+
             GDLogger.LogError("Player has no key");
 
         }
 
 
+    }
+
+    private void SpawnElevatorAndChangeSubphase()
+    {
+        var elevatorInstance = ElevatorScene.Instantiate<Elevator>();
+        elevatorInstance.MoveSpeed = ElevatorMoveSpeed;
+        elevatorInstance.GlobalPosition = this.GlobalPosition;
+        this.GetParent().AddChild(elevatorInstance);
+        SignalManager.PlayerAcessSubphase.Invoke(PathToFollow.ToList());
     }
 }

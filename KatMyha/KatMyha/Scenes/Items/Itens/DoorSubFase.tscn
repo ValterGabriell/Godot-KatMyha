@@ -6,10 +6,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x263w"]
 size = Vector2(32, 65)
 
-[node name="DoorSubFase" type="Node2D" node_paths=PackedStringArray("AreaToChangeScene", "Panel")]
+[node name="DoorSubFase" type="Node2D" node_paths=PackedStringArray("AreaToChangeScene", "Panel", "PathToFollow")]
 script = ExtResource("1_fylig")
 AreaToChangeScene = NodePath("Area2D")
 Panel = NodePath("Panel")
+PathToFollow = []
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1

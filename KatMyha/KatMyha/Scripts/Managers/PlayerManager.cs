@@ -29,6 +29,7 @@ public enum PlayerSubphaseKey
     SUBFASE_1 = 0,
     SUBFASE_2 = 1,
     SUBFASE_3 = 2,
+    BACK_TO_BEGIN = 3,
 }
 
 
@@ -55,10 +56,11 @@ public partial class PlayerManager : Node
 
 
     public event Action PlayerChangedHability;
+    public event Action PlayerObtainedAllSubphaseKeys;
 
     public override void _Ready()
     {
-        this.PlayerSubphaseKeys.Add(PlayerSubphaseKey.SUBFASE_1, true);
+
         var playerInTree = GetTree().GetNodesInGroup("player");
         BasePlayer = playerInTree.Count > 0
             ? playerInTree[0] as MyhaPlayer
@@ -136,6 +138,7 @@ public partial class PlayerManager : Node
         {
             PlayerSubphaseKeys.Add(subphaseKey, true);
         }
+        if (subphaseKey == PlayerSubphaseKey.SUBFASE_2) PlayerSubphaseKeys.Add(PlayerSubphaseKey.BACK_TO_BEGIN, true);
     }
 
     public List<PlayerSubphaseKey> GetObtainedKeys()

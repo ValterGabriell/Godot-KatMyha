@@ -10,6 +10,7 @@ public partial class Elevator : Node2D
     private Array<Marker2D> PathToFollow { get; set; } = [];
     private bool StartedSceneChange = false;
     private int CurrentMarkerIndex = 0;
+
     public float MoveSpeed { get; set; } = 100f;
 
     public override void _Ready()
@@ -28,9 +29,10 @@ public partial class Elevator : Node2D
         if (CurrentMarkerIndex >= PathToFollow.Count)
         {
             GDLogger.Log("Elevator reached final destination!");
-            StartedSceneChange = false;
-            SignalManager.ElevatorReachFinalPoint.Invoke(this.GlobalPosition);
 
+            SignalManager.ElevatorReachFinalPoint.Invoke(this.GlobalPosition);
+            StartedSceneChange = false;
+            this.QueueFree();
             return;
         }
 

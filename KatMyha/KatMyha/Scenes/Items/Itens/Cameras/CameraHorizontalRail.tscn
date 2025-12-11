@@ -9,6 +9,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_87ry7"]
 
 [node name="CameraHorizontalRail" type="RigidBody2D" groups=["fall_trap"]]
+gravity_scale = 0.0
 script = ExtResource("1_87ry7")
 TargetAimedTexture2D = ExtResource("2_aomhb")
 ShootedAimedTexture2D = ExtResource("3_va8ps")

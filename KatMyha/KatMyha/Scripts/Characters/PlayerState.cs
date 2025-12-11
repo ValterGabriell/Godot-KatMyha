@@ -38,7 +38,8 @@ public enum PlayerCurrentEnabledAction
     CAN_OPEN_FLOOR_DOOR,
     CAN_GET_HABILITY_POINT,
     CAN_SAVE,
-    CAN_CHANGE_SCENE
+    CAN_CHANGE_SCENE,
+    CAN_GET_KEY
 }
 
 public enum MyhaContactLightHiddenState

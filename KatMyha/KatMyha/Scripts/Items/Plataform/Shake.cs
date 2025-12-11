@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using KatrinaGame.Core;
 using KatrinaGame.Players;
 using KatrinaGame.Scripts.Utils;
@@ -6,7 +6,6 @@ using PrototipoMyha;
 using PrototipoMyha.Player.StateManager;
 using PrototipoMyha.Scripts.Utils;
 using PrototipoMyha.Utilidades;
-using System;
 
 public partial class Shake : StaticBody2D
 {
@@ -109,15 +108,15 @@ public partial class Shake : StaticBody2D
         if (Input.IsActionPressed("a"))
             ApplyLeftMovement(delta, moveSpeed);
 
-        
-        if (Input.IsActionPressed("jump") || Input.IsKeyPressed(Key.Space))
+
+        if (Input.IsActionPressed("jump"))
         {
             player.Velocity = new Vector2(player.Velocity.X, -150);
             player.SetState(PlayerState.JUMPING);
             SignalManager.Instance.EmitSignal(nameof(SignalManager.PlayerHasChangedState), EnumAnimations.jump_up.ToString());
         }
 
-        if (!Input.IsActionPressed("d") && !Input.IsActionPressed("a") && !Input.IsActionPressed("jump") && !Input.IsKeyPressed(Key.Space))
+        if (!Input.IsActionPressed("d") && !Input.IsActionPressed("a") && !Input.IsActionPressed("jump"))
             player.DecreaseBallance((float)delta);
     }
 
