@@ -13,13 +13,14 @@ length = 111.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l17s3"]
 
-[node name="LaserHorizontalRail" type="RigidBody2D" node_paths=PackedStringArray("SeparationRayShape2D") groups=["fall_trap"]]
+[node name="LaserHorizontalRail" type="RigidBody2D" node_paths=PackedStringArray("SeparationRayShape2D", "DetectionArea2D") groups=["fall_trap"]]
 collision_layer = 0
 collision_mask = 0
 gravity_scale = 0.0
 script = ExtResource("2_mkj58")
 SizeOfDetection = 250.0
 SeparationRayShape2D = NodePath("Area2D/CollisionShape2D")
+DetectionArea2D = NodePath("Area2D")
 TargetAimedTexture2D = ExtResource("2_whn6c")
 ShootedAimedTexture2D = ExtResource("3_whn6c")
 IdleAimedTexture2D = ExtResource("4_tyl0f")
@@ -29,6 +30,8 @@ texture_filter = 1
 texture = ExtResource("5_l17s3")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4096
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("SeparationRayShape2D_4dojr")

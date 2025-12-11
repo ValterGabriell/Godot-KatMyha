@@ -9,8 +9,6 @@ public partial class HiddenPlace : Area2D
         if (body is MyhaPlayer player)
             player.EnterHiddenPlace();
 
-       
-
     }
 
 }

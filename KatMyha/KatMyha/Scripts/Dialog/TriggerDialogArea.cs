@@ -14,10 +14,12 @@ public enum ActionsOfBaseConfigScene
 public partial class TriggerDialogArea : Area2D
 {
     [Export] private string[] Dialogs = null!;
+    [Export] private string[] DialogsEnglish = null!;
     [Export] private Texture2D[] DialogsTextures = null!;
     [Export] private bool QueueFreeAtEnd = true;
     [Export] private PackedScene DialogScene;
     [Export] private bool ShouldPauseGameWhenItAppears = false;
+    [Export] private bool IsEnglish = false;
 
     [ExportGroup("Scene Config")]
     [ExportCategory("Scene Config")]
@@ -49,7 +51,8 @@ public partial class TriggerDialogArea : Area2D
                 GetTree().Paused = true;
             }
 
-            for (int i = 0; i < Dialogs.Length; i++)
+            var dialogLines = IsEnglish && DialogsEnglish.Length > 0 ? DialogsEnglish : Dialogs;
+            for (int i = 0; i < dialogLines.Length; i++)
             {
                 var dialogText = Dialogs[i];
                 var dialogTexture = DialogsTextures.Length > i ? DialogsTextures[i] : null;

@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=4 uid="uid://cijnda47ncti2"]
+[gd_scene load_steps=43 format=4 uid="uid://cijnda47ncti2"]
 
 [ext_resource type="Script" uid="uid://7l78jpg6ijte" path="res://Scripts/TheGame/01/p01/P01.cs" id="1_jsrrp"]
 [ext_resource type="Texture2D" uid="uid://c1tl7ixhqpw75" path="res://Assets/Tilesets/World/PrototipoWorldTileset-sheet.png" id="1_ser1b"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://n6ajj7nlt1ib" path="res://Scenes/Dialogs/AreaDialog.tscn" id="4_wc7xo"]
 [ext_resource type="PackedScene" uid="uid://bhljenfl22wpn" path="res://Scenes/Dialogs/BaseDialogBox.tscn" id="5_hqiih"]
 [ext_resource type="Texture2D" uid="uid://bint7i64182hn" path="res://Assets/Sprites/Characters/pixel.png" id="5_l4c02"]
+[ext_resource type="Texture2D" uid="uid://bx2lee24m0i46" path="res://Assets/Sprites/Characters/pixel (1).png" id="6_y67b6"]
 [ext_resource type="Texture2D" uid="uid://b8ae0bgdlt38k" path="res://Aseprite/Myha/Screenshot_2.png" id="7_e3pfr"]
 [ext_resource type="Texture2D" uid="uid://b62k4yl0f7wo8" path="res://Aseprite/Myha/Screenshot_3.png" id="8_0k3ho"]
 [ext_resource type="PackedScene" uid="uid://civok6q20bn7s" path="res://Scenes/Items/InfoKeys.tscn" id="9_wnmm5"]
@@ -102,7 +103,7 @@ size = Vector2(6354.5, 1124)
 [node name="TheGame" type="Node2D"]
 
 [node name="Myha" parent="." node_paths=PackedStringArray("UICodigo") instance=ExtResource("4_jsrrp")]
-position = Vector2(2620, -228)
+position = Vector2(5376, 257)
 UICodigo = NodePath("../UI/MainUi")
 
 [node name="P01" type="Node" parent="." node_paths=PackedStringArray("P01Door")]
@@ -119,8 +120,9 @@ tile_set = SubResource("TileSet_jsrrp")
 
 [node name="Area2D" parent="P01/DialogsArea/01" node_paths=PackedStringArray("PSomething_SceneBase") instance=ExtResource("4_wc7xo")]
 position = Vector2(302, -16)
-Dialogs = PackedStringArray("Sistema de Segurança - Nível A", "3 Chaves de Acesso Necessárias", "Pressione M para visualizar mapa", "Progresso pode ser salvo em terminais")
-DialogsTextures = Array[Texture2D]([ExtResource("5_l4c02"), ExtResource("5_l4c02"), ExtResource("5_l4c02"), ExtResource("5_l4c02")])
+Dialogs = PackedStringArray("Você ligou a coisa certa. É a Katrina aqui", "Não há introduções calorosas. Você está em um lixo de complexo. Seus objetivos são irrelevantes para mim, apenas os execute.", " Não me faça perder meu tempo", "Eu dou as ordens. Você obedece. Sem \'por favor\', sem \'obrigada\'", "Você quer fugir, certo? Então preste atenção por cinco segundos: são três chaves de acesso.", "Sem as três, o sistema não abre a porta principal.", "Pegue todas, traga até um terminal e eu faço o resto.", "Tenta não perder nenhuma no caminho", "Pressione M para ver melhor todo o complexo")
+DialogsEnglish = PackedStringArray("You switched on the right thing. Katrina here.", "There are no warm introductions. You’re in a trash-heap of a facility.Your goals mean nothing to me—just carry them out.Don’t waste my time.", "I give     the orders. You obey. No ‘please,’ no ‘thank you.", "You want to escape, right? Then pay attention for five seconds: there are three access keys.", "Without all three, the system won’t open the main door.", "Grab them all, bring them to a terminal, and I’ll handle the rest.", "Try not to lose any on the way.", "Press M to get a better view of the entire facility.")
+DialogsTextures = Array[Texture2D]([ExtResource("5_l4c02"), ExtResource("5_l4c02"), ExtResource("5_l4c02"), ExtResource("5_l4c02"), ExtResource("6_y67b6"), ExtResource("6_y67b6"), ExtResource("6_y67b6"), ExtResource("6_y67b6")])
 DialogScene = ExtResource("5_hqiih")
 ShouldPauseGameWhenItAppears = true
 PSomething_SceneBase = NodePath("../../..")
@@ -219,6 +221,7 @@ position = Vector2(2607, -198)
 [node name="Path2D" parent="P01/Plataforms" instance=ExtResource("20_xos3g")]
 position = Vector2(4091, 9)
 curve = SubResource("Curve2D_xos3g")
+Speed = 0.2
 
 [node name="PrototipoPlataform5" parent="P01/Plataforms" instance=ExtResource("12_djjar")]
 position = Vector2(4956, 81)
@@ -332,7 +335,7 @@ position = Vector2(9993, 3516)
 [node name="HabilityPoint" type="Node" parent="P01"]
 
 [node name="HabilityPoint" parent="P01/HabilityPoint" instance=ExtResource("15_pq0vn")]
-position = Vector2(2650, -219)
+position = Vector2(2637, -226)
 
 [node name="HabilityPoint2" parent="P01/HabilityPoint" instance=ExtResource("15_pq0vn")]
 position = Vector2(10443, 4582)
@@ -344,7 +347,6 @@ position = Vector2(3661, -21)
 
 [node name="LaserHorizontalRail" parent="P01/Lasers" node_paths=PackedStringArray("RoamMarkerA", "RoamMarkerB") instance=ExtResource("16_1hd2l")]
 position = Vector2(3338, -337)
-SizeOfDetection = 100.0
 RoamMarkerA = NodePath("Marker2D")
 RoamMarkerB = NodePath("Marker2D/Marker2D")
 

@@ -34,7 +34,10 @@ namespace KatrinaGame.Players
         [Export] public AudioStreamPlayer2D SaveAudioStreamPlayer2D { get; set; }
 
         [ExportGroup("CollisionShapes")]
+        [Export] public CollisionShape2D HeadCollision { get; set; }
+
         private CircleShape2D SoundAreaWalkingColiisonComponent { get; set; }
+
 
 
         /*camera*/
@@ -156,6 +159,7 @@ namespace KatrinaGame.Players
 
         protected override void HandleInput(double delta)
         {
+
             Vector2 inputVector = Vector2.Zero;
             CurrentPlayerSpeed = 0f;
             if (this.CurrentPlayerState != PlayerState.WALL_SLIDING
@@ -176,9 +180,15 @@ namespace KatrinaGame.Players
                 }
 
                 // ✅ Sneak deve modificar a velocidade JÁ DEFINIDA, não substituir
-                if (Input.IsKeyPressed(Key.Ctrl) && this.CurrentPlayerState != PlayerState.AIMING && inputVector.X != 0)
+                if (Input.IsActionPressed("sneak") && this.CurrentPlayerState != PlayerState.AIMING && inputVector.X != 0)
                 {
                     CurrentPlayerSpeed = SneakSpeed;
+                    this.HeadCollision.Disabled = true;
+                }
+
+                if (Input.IsActionJustReleased("sneak"))
+                {
+                    this.HeadCollision.Disabled = false;
                 }
             }
 

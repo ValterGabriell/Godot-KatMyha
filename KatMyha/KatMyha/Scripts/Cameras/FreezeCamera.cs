@@ -35,11 +35,10 @@ public partial class FreezeCamera : Node2D
         if (body.IsInGroup("player") && !hasEmittedKillSignal)
         {
             MyhaPlayer player = body as MyhaPlayer;
-            if (player != null && player.CurrentLightHiddenState == PrototipoMyha.Player.StateManager.MyhaContactLightHiddenState.MYHA_IS_ON_LIGHT)
-            {
+            if (player.CurrentPlayerState != PrototipoMyha.Player.StateManager.PlayerState.HIDDEN)
                 ProcessKill(player);
-            }
         }
+
     }
 
     private void ProcessKill(MyhaPlayer player)
@@ -47,5 +46,9 @@ public partial class FreezeCamera : Node2D
         SignalManager.EmitSignal(nameof(SignalManager.EnemyKillMyha));
         SoundManager.PlaySound(player.DeathAudioStreamPlayer2D);
         hasEmittedKillSignal = true;
+        GetTree().CreateTimer(1.0f).Timeout += () =>
+        {
+            hasEmittedKillSignal = false;
+        };
     }
 }

@@ -24,6 +24,11 @@ SaveSystem="*res://Scripts/Managers/Save/SaveSystem.cs"
 SoundManager="*res://Scripts/Managers/SoundManager.cs"
 KeyManager="*res://Scripts/Managers/KeyManager.gd"
 
+[display]
+
+window/size/viewport_width=1080
+window/size/viewport_height=720
+
 [dotnet]
 
 project/assembly_name="PrototipoKatrina"

@@ -28,7 +28,7 @@ public partial class BaseDialogBox : CanvasLayer
 
     public override void _Ready()
     {
-        var label = this.GetNode<MarginContainer>("MarginContainer").GetNode<MarginContainer>("MarginContainer").GetNode<HBoxContainer>("HBoxContainer").GetNode<Label>("TextLabel");
+        var label = this.GetNode<MarginContainer>("MarginContainer").GetNode<MarginContainer>("MarginContainer").GetNode<Panel>("Panel2").GetNode<Label>("TextLabel");
         var sprite = this.GetNode<MarginContainer>("MarginContainer").GetNode<MarginContainer>("MarginContainer").GetNode<Sprite2D>("Sprite2D");
         label.Text = LabelText;
         sprite.Texture = Sprite;

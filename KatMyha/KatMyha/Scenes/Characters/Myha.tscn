@@ -276,7 +276,7 @@ size = Vector2(26, 7)
 [sub_resource type="CircleShape2D" id="CircleShape2D_qemu2"]
 radius = 5.0990195
 
-[node name="Myha" type="CharacterBody2D" node_paths=PackedStringArray("CameraMap", "CameraPlayer", "AttackRaycast", "SoundAreaWalkingComponent", "WalkAudioStreamPlayer2D", "JumpAudioStreamPlayer2D", "SaveAudioStreamPlayer2D", "TimeToFallWall", "AnimatedSprite2D", "SoundAnimatedSprite2D", "DeathAudioStreamPlayer2D") groups=["player"]]
+[node name="Myha" type="CharacterBody2D" node_paths=PackedStringArray("CameraMap", "CameraPlayer", "AttackRaycast", "SoundAreaWalkingComponent", "WalkAudioStreamPlayer2D", "JumpAudioStreamPlayer2D", "SaveAudioStreamPlayer2D", "HeadCollision", "TimeToFallWall", "AnimatedSprite2D", "SoundAnimatedSprite2D", "DeathAudioStreamPlayer2D") groups=["player"]]
 z_index = 999
 collision_layer = 2
 collision_mask = 8263669
@@ -289,6 +289,7 @@ SoundAreaWalkingComponent = NodePath("SoundArea")
 WalkAudioStreamPlayer2D = NodePath("Sounds/WalkSound")
 JumpAudioStreamPlayer2D = NodePath("Sounds/JumpSound")
 SaveAudioStreamPlayer2D = NodePath("Sounds/SaveSound")
+HeadCollision = NodePath("Head")
 SneakSpeed = 50.0
 JumpVelocity = -250.0
 TimeToFallWall = NodePath("TimerToFallWall")
@@ -309,8 +310,8 @@ scale = Vector2(3.4732444, 3.3292644)
 sprite_frames = SubResource("SpriteFrames_xh3mw")
 animation = &"jump_up"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3.085, 4.228)
+[node name="Head" type="CollisionShape2D" parent="."]
+position = Vector2(1, -6.0000005)
 shape = SubResource("CircleShape2D_85h7w")
 
 [node name="AttackRaycast" type="RayCast2D" parent="."]
@@ -374,6 +375,10 @@ max_distance = 4096.0
 
 [node name="Camera2D2" type="Camera2D" parent="."]
 zoom = Vector2(1.7, 1.7)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(1, 5.9999995)
+shape = SubResource("CircleShape2D_85h7w")
 
 [connection signal="body_entered" from="DeathCollision" to="." method="_on_death_collision_body_entered"]
 [connection signal="body_entered" from="WallJumpArea" to="." method="_on_wall_jump_area_body_entered"]

@@ -67,7 +67,7 @@ public partial class CameraTurnOnOff : FallTrap
         if (body.IsInGroup("player") && !hasEmittedKillSignal)
         {
             MyhaPlayer player = body as MyhaPlayer;
-            if (player != null)
+            if (player != null && player.CurrentPlayerState != PrototipoMyha.Player.StateManager.PlayerState.HIDDEN)
             {
                 ProcessKill(player);
             }

@@ -49,20 +49,15 @@ position = Vector2(61, 62)
 scale = Vector2(0.035, 0.035)
 texture = ExtResource("2_fda73")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/MarginContainer"]
+[node name="Panel2" type="Panel" parent="MarginContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Start" type="Label" parent="MarginContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "* "
-
-[node name="TextLabel" type="Label" parent="MarginContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
+[node name="TextLabel" type="Label" parent="MarginContainer/MarginContainer/Panel2"]
+layout_mode = 0
+offset_top = 44.0
+offset_right = 984.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 16
 text = "TEXT HERE"
-
-[node name="End" type="Label" parent="MarginContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "*"
+vertical_alignment = 1
+autowrap_mode = 1
