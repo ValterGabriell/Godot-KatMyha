@@ -6,7 +6,7 @@
 [sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_bbk2c"]
 length = 279.0
 
-[node name="FreezeCamera" type="Node2D" node_paths=PackedStringArray("Area2D")]
+[node name="FreezeCamera" type="Node2D" node_paths=PackedStringArray("Area2D") groups=["fall_trap"]]
 script = ExtResource("1_nenbm")
 Area2D = NodePath("Area2D")
 SizeOfDetection = 250.0

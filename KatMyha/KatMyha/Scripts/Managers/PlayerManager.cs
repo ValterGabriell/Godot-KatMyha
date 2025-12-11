@@ -179,6 +179,7 @@ public partial class PlayerManager : Node
                 PlayerHabilities.Add(hability, true);
             }
         }
+        this.PlayerChangedHability.Invoke();
     }
 
     public void SetCurrentPlayerShootType(PlayerShootType shootType)

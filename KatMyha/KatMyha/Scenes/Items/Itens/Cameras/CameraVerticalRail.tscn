@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://waorvkc6eckr"]
+[gd_scene load_steps=3 format=3 uid="uid://waorvkc6eckr"]
 
 [ext_resource type="PackedScene" uid="uid://bx7bdrxlxlkq8" path="res://Scenes/Items/Itens/Cameras/FreezeCamera.tscn" id="1_8p1hc"]
+[ext_resource type="Script" uid="uid://dl0cm16gtv3ul" path="res://Scripts/Cameras/HorizontalMovementRail.cs" id="1_32ov5"]
 
-[node name="CameraVerticalRail" type="Node2D"]
+[node name="CameraVerticalRail" type="Node2D" groups=["fall_trap"]]
+script = ExtResource("1_32ov5")
 
 [node name="FreezeCamera" parent="." instance=ExtResource("1_8p1hc")]
 rotation = -1.5707964
-SizeOfDetection = null
+SizeOfDetection = 0.0

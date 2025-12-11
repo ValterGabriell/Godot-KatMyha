@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bvaitfhcjehck" path="res://Assets/Sprites/Itens/CAMERA.png" id="1_hiyj7"]
 [ext_resource type="Script" uid="uid://5env3spt04s1" path="res://Scripts/Items/Camera.cs" id="1_x1a40"]
 
-[node name="Camera" type="Node2D"]
+[node name="Camera" type="Node2D" groups=["fall_trap"]]
 script = ExtResource("1_x1a40")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
