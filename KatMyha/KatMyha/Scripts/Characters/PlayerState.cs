@@ -39,7 +39,8 @@ public enum PlayerCurrentEnabledAction
     CAN_GET_HABILITY_POINT,
     CAN_SAVE,
     CAN_CHANGE_SCENE,
-    CAN_GET_KEY
+    CAN_GET_KEY,
+    CAN_KILL_YOURSELF,
 }
 
 public enum MyhaContactLightHiddenState

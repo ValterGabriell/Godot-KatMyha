@@ -134,6 +134,7 @@ public partial class SaveSystem : Node
 
         var enemiesInScene = GetTree().GetNodesInGroup("enemy");
         var pyramdInScene = GetTree().GetNodesInGroup("pyramd");
+        var fall_plataformInScene = GetTree().GetNodesInGroup("fall_plataform");
 
         var alertsInScene = GetTree().GetNodesInGroup(EnumGroups.AlertSprite.ToString());
         var alertSoundsInScene = GetTree().GetNodesInGroup("alert_sound");
@@ -141,7 +142,13 @@ public partial class SaveSystem : Node
 
 
 
-
+        foreach (var item in fall_plataformInScene)
+        {
+            if (item is HorizontalPlataform code)
+            {
+                code.ResetPlataform();
+            }
+        }
 
         foreach (var item in alertsInScene)
             item.QueueFree();

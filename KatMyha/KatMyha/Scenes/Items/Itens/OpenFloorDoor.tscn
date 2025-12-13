@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b08febjrhit8a" path="res://Scripts/OpenFloorDoor.cs" id="1_i10vk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b0d3l"]
-size = Vector2(32, 7)
+size = Vector2(32, 11.75)
 
 [node name="OpenFloorDoor" type="StaticBody2D"]
 collision_layer = 1048576
@@ -17,7 +17,7 @@ scale = Vector2(1.6, 1.6)
 texture = ExtResource("1_b0d3l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-3, 1)
+position = Vector2(-3, -2.25)
 shape = SubResource("RectangleShape2D_b0d3l")
 one_way_collision = true
 
@@ -26,6 +26,6 @@ collision_layer = 1048576
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OpenArea"]
-position = Vector2(-3, -5)
+position = Vector2(-3, -5.125)
 shape = SubResource("RectangleShape2D_b0d3l")
 debug_color = Color(0, 0.6, 0.69803923, 0)

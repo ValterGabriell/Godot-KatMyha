@@ -1,5 +1,6 @@
 ﻿using Godot;
 using Godot.Collections;
+using KatrinaGame.Players;
 using PrototipoMyha;
 using PrototipoMyha.Utilidades;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ public partial class Elevator : Node2D
     private Array<Marker2D> PathToFollow { get; set; } = [];
     private bool StartedSceneChange = false;
     private int CurrentMarkerIndex = 0;
+    public MyhaPlayer MyhaPlayer { get; set; }
 
     public float MoveSpeed { get; set; } = 100f;
 
@@ -32,6 +34,7 @@ public partial class Elevator : Node2D
 
             SignalManager.ElevatorReachFinalPoint.Invoke(this.GlobalPosition);
             StartedSceneChange = false;
+            MyhaPlayer.Visible = true;
             this.QueueFree();
             return;
         }

@@ -168,6 +168,7 @@ map={
 2d_physics/layer_21="floor_door"
 2d_physics/layer_22="change_fase_door"
 2d_physics/layer_23="death_area"
+2d_physics/layer_24="info"
 
 [rendering]
 

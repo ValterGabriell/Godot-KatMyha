@@ -64,6 +64,7 @@ public partial class DoorSubFase : Node2D
                 && PlayerManager.IsPlayerSubphaseKeyUnlocked(PlayerSubphaseKey.SUBFASE_1))
             {
                 SpawnElevatorAndChangeSubphase();
+                this.Player.Visible = false;
                 return;
             }
 
@@ -71,6 +72,7 @@ public partial class DoorSubFase : Node2D
                && PlayerManager.IsPlayerSubphaseKeyUnlocked(PlayerSubphaseKey.BACK_TO_BEGIN))
             {
                 SpawnElevatorAndChangeSubphase();
+                this.Player.Visible = false;
                 return;
             }
 
@@ -102,6 +104,7 @@ public partial class DoorSubFase : Node2D
         var elevatorInstance = ElevatorScene.Instantiate<Elevator>();
         elevatorInstance.MoveSpeed = ElevatorMoveSpeed;
         elevatorInstance.GlobalPosition = this.GlobalPosition;
+        elevatorInstance.MyhaPlayer = this.Player;
         this.GetParent().AddChild(elevatorInstance);
         SignalManager.PlayerAcessSubphase.Invoke(PathToFollow.ToList());
     }
