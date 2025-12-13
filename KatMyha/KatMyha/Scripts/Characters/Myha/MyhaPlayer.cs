@@ -3,6 +3,7 @@ using KatMyha.Scripts.Characters.Myha.Components.Impl;
 using KatrinaGame.Components;
 using KatrinaGame.Core;
 using KatrinaGame.Core.Interfaces;
+using KatrinaGame.Scripts.Utils;
 using PrototipoMyha;
 using PrototipoMyha.Player.Components.Impl;
 using PrototipoMyha.Player.StateManager;
@@ -283,12 +284,33 @@ namespace KatrinaGame.Players
             if (this.PlayerCurrentEnabledAction == PlayerCurrentEnabledAction.CAN_OUT_HIDDEN_PLACE)
             {
                 SetCurrentEnabledAction(PlayerCurrentEnabledAction.NONE);
-                CallDeferred(nameof(OutHiddenPlace));
+
+                Vector2 posicaoFinal = new Vector2(this.Position.X - 25.0f, this.Position.Y);
+                this.CreateTween().TweenProperty(this, "position", posicaoFinal, 0.2f);
+
+                this.AnimatedSprite2D.Play(EnumAnimations.hide_out.ToString());
+                GetTree().CreateTimer(0.2).Timeout += () =>
+                {
+                    this.CreateTween().TweenProperty(this, "position", this.PlaceOfHiddenPlace, 0.2f);
+                    CallDeferred(nameof(OutHiddenPlace));
+                };
+
             }
 
             if (this.PlayerCurrentEnabledAction == PlayerCurrentEnabledAction.CAN_HIDE)
             {
-                CallDeferred(nameof(SetHiddenPlace));
+                this.SetState(PlayerState.HIDDEN);
+
+                Vector2 posicaoFinal = new Vector2(this.Position.X - 15.0f, this.Position.Y);
+                this.CreateTween().TweenProperty(this, "position", posicaoFinal, 0.2f);
+
+                this.AnimatedSprite2D.Play(EnumAnimations.hide_in.ToString());
+                GetTree().CreateTimer(0.2).Timeout += () =>
+                {
+                    this.CreateTween().TweenProperty(this, "position", this.PlaceOfHiddenPlace, 0.2f);
+                    CallDeferred(nameof(SetHiddenPlace));
+                };
+
             }
 
 
@@ -299,7 +321,6 @@ namespace KatrinaGame.Players
             UICodigo.EmitSignal("UIChangeVisibility", false);
             this.RemoveMaskOfEnemy();
             this.BlockMovement();
-            this.SetState(PlayerState.HIDDEN);
             SetCurrentEnabledAction(PlayerCurrentEnabledAction.CAN_OUT_HIDDEN_PLACE);
             this.ZIndex = -1;
             this.SoundAreaWalkingComponent.Monitoring = false;
@@ -307,6 +328,7 @@ namespace KatrinaGame.Players
 
         private void OutHiddenPlace()
         {
+
             UICodigo.EmitSignal("UIChangeVisibility", true);
             this.UnblockMovement();
             this.SetState(PlayerState.IDLE);
@@ -314,9 +336,10 @@ namespace KatrinaGame.Players
             this.SoundAreaWalkingComponent.Monitoring = true;
         }
 
-        internal void EnterHiddenPlace()
+        internal void EnterHiddenPlace(Vector2 PlaceToHide)
         {
             this.SetCurrentEnabledAction(PlayerCurrentEnabledAction.CAN_HIDE);
+            this.PlaceOfHiddenPlace = PlaceToHide;
         }
 
         internal PlayerDirection GetDirectionThatPlayerIsLookingAt()

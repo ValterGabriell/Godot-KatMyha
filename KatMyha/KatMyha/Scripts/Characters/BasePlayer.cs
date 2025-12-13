@@ -17,6 +17,7 @@ namespace KatrinaGame.Core
         [Export] public Timer TimeToFallWall { get; set; }
         public PlayerState CurrentPlayerState { get; private set; } = PlayerState.IDLE;
         public PlayerCurrentEnabledAction PlayerCurrentEnabledAction { get; private set; } = PlayerCurrentEnabledAction.NONE;
+        protected Vector2 PlaceOfHiddenPlace { get; set; }
         public MyhaContactLightHiddenState CurrentLightHiddenState { get; private set; } = MyhaContactLightHiddenState.MYHA_IS_NOT_ON_LIGHT;
         private StaticBody2D DoorThatPlayerIs { get; set; }
 
