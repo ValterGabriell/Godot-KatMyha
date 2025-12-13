@@ -27,6 +27,7 @@ public partial class SignalManager : Node
     /*actions*/
     public Action<List<Marker2D>> PlayerAcessSubphase;
     public Action<Vector2> ElevatorReachFinalPoint;
+    public Action StartGame;
 
 
     [Signal] public delegate void GameLoadedEventHandler(Vector2 position);

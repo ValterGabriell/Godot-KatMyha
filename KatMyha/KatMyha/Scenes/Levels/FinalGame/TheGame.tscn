@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=4 uid="uid://cijnda47ncti2"]
+[gd_scene load_steps=47 format=4 uid="uid://cijnda47ncti2"]
 
 [ext_resource type="Script" uid="uid://7l78jpg6ijte" path="res://Scripts/TheGame/01/p01/P01.cs" id="1_jsrrp"]
 [ext_resource type="Texture2D" uid="uid://c1tl7ixhqpw75" path="res://Assets/Tilesets/World/PrototipoWorldTileset-sheet.png" id="1_ser1b"]
@@ -8,10 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://csriwytkhovp1" path="res://Assets/Tilesets/Dungeon Tile Set/Dungeon Tile Set/2Dungeon Tile Set-sheet.png" id="4_jxbmd"]
 [ext_resource type="PackedScene" uid="uid://n6ajj7nlt1ib" path="res://Scenes/Dialogs/AreaDialog.tscn" id="4_wc7xo"]
 [ext_resource type="PackedScene" uid="uid://bhljenfl22wpn" path="res://Scenes/Dialogs/BaseDialogBox.tscn" id="5_hqiih"]
-[ext_resource type="Texture2D" uid="uid://bint7i64182hn" path="res://Assets/Sprites/Characters/pixel.png" id="5_l4c02"]
-[ext_resource type="Texture2D" uid="uid://bx2lee24m0i46" path="res://Assets/Sprites/Characters/pixel (1).png" id="6_y67b6"]
-[ext_resource type="Texture2D" uid="uid://b8ae0bgdlt38k" path="res://Aseprite/Myha/Screenshot_2.png" id="7_e3pfr"]
-[ext_resource type="Texture2D" uid="uid://b62k4yl0f7wo8" path="res://Aseprite/Myha/Screenshot_3.png" id="8_0k3ho"]
+[ext_resource type="Texture2D" uid="uid://cy6nttr1kwg5j" path="res://Assets/Sprites/Characters/Screenshot_2.png" id="6_gohky"]
 [ext_resource type="PackedScene" uid="uid://civok6q20bn7s" path="res://Scenes/Items/InfoKeys.tscn" id="9_wnmm5"]
 [ext_resource type="PackedScene" uid="uid://ctdpn25kd2fnw" path="res://Scenes/Items/Itens/Cameras/CameraTurnOnOff.tscn" id="11_cfmhs"]
 [ext_resource type="PackedScene" uid="uid://fivb1ydt0fiu" path="res://Scenes/Items/Plataform/HorizontalPlataform/HorizontalPlataform.tscn" id="12_djjar"]
@@ -35,6 +32,7 @@
 [ext_resource type="PackedScene" uid="uid://ca7v8keyvqa11" path="res://Scenes/Items/Plataform/ShakeItem/shake.tscn" id="31_h7pts"]
 [ext_resource type="PackedScene" uid="uid://wxue5tat5k2c" path="res://Scenes/Items/Itens/Key.tscn" id="31_jhjgo"]
 [ext_resource type="Script" uid="uid://bic3dwu1cfmvr" path="res://Scripts/DeathArea.cs" id="34_y67b6"]
+[ext_resource type="PackedScene" uid="uid://dvow7rrohw7wi" path="res://Scenes/Levels/FinalGame/Menu.tscn" id="35_5lndn"]
 [ext_resource type="Script" uid="uid://cxitsaqxd45xv" path="res://Scripts/KillYourself.cs" id="36_gohky"]
 [ext_resource type="Texture2D" uid="uid://cpvcmkur3w1ic" path="res://Assets/Sprites/Parallax/4.png" id="37_mq0u5"]
 [ext_resource type="Texture2D" uid="uid://dcnrbevsjtimh" path="res://Assets/Sprites/Parallax/7.png" id="38_gohky"]
@@ -259,7 +257,7 @@ size = Vector2(6354.5, 1124)
 [node name="TheGame" type="Node2D"]
 
 [node name="Myha" parent="." node_paths=PackedStringArray("UICodigo") instance=ExtResource("4_jsrrp")]
-position = Vector2(7465, 812)
+position = Vector2(269, -17)
 UICodigo = NodePath("../UI/MainUi")
 JumpVelocity = -260.0
 
@@ -278,9 +276,9 @@ tile_set = SubResource("TileSet_jsrrp")
 
 [node name="Area2D" parent="P01/DialogsArea/01" node_paths=PackedStringArray("PSomething_SceneBase") instance=ExtResource("4_wc7xo")]
 position = Vector2(302, -16)
-Dialogs = PackedStringArray("Você ligou a coisa certa. É a Katrina aqui", "Não há introduções calorosas. Você está em um lixo de complexo. Seus objetivos são irrelevantes para mim, apenas os execute.", " Não me faça perder meu tempo", "Eu dou as ordens. Você obedece. Sem \'por favor\', sem \'obrigada\'", "Você quer fugir, certo? Então preste atenção por cinco segundos: são três chaves de acesso.", "Sem as três, o sistema não abre a porta principal.", "Pegue todas, traga até um terminal e eu faço o resto.", "Tenta não perder nenhuma no caminho", "Pressione M para ver melhor todo o complexo")
+Dialogs = PackedStringArray("Você ligou a coisa certa. É a Katrina aqui", "Não há introduções calorosas. Você está em um lixo de complexo. Seus objetivos são irrelevantes para mim, apenas os execute.", " Não me faça perder meu tempo", "Eu dou as ordens. Você obedece. Sem \'por favor\', sem \'obrigada\'", "Você quer fugir, certo? Então preste atenção por cinco segundos: são três chaves de acesso.", "Sem as três, o sistema não abre a porta principal.", "Pegue todas, traga até um terminal e eu faço o resto.", "Tenta não perder nenhuma no caminho", "Pressione E num terminal pra salvar! ")
 DialogsEnglish = PackedStringArray("You switched on the right thing. Katrina here.", "There are no warm introductions. You’re in a trash-heap of a facility.Your goals mean nothing to me—just carry them out.Don’t waste my time.", "I give     the orders. You obey. No ‘please,’ no ‘thank you.", "You want to escape, right? Then pay attention for five seconds: there are three access keys.", "Without all three, the system won’t open the main door.", "Grab them all, bring them to a terminal, and I’ll handle the rest.", "Try not to lose any on the way.", "Press M to get a better view of the entire facility.")
-DialogsTextures = Array[Texture2D]([ExtResource("5_l4c02"), ExtResource("5_l4c02"), ExtResource("5_l4c02"), ExtResource("5_l4c02"), ExtResource("6_y67b6"), ExtResource("6_y67b6"), ExtResource("6_y67b6"), ExtResource("6_y67b6")])
+DialogsTextures = Array[Texture2D]([ExtResource("6_gohky"), ExtResource("6_gohky"), ExtResource("6_gohky"), ExtResource("6_gohky"), ExtResource("6_gohky"), ExtResource("6_gohky"), ExtResource("6_gohky"), ExtResource("6_gohky"), ExtResource("6_gohky")])
 DialogScene = ExtResource("5_hqiih")
 ShouldPauseGameWhenItAppears = true
 PSomething_SceneBase = NodePath("../../..")
@@ -290,15 +288,15 @@ ActionsOfBaseConfigScene = 1
 
 [node name="Area2D" parent="P01/DialogsArea/02" instance=ExtResource("4_wc7xo")]
 position = Vector2(2866, -208)
-Dialogs = PackedStringArray("Lasers sao letais")
-DialogsTextures = Array[Texture2D]([ExtResource("7_e3pfr")])
+Dialogs = PackedStringArray("Cuidado com os lasers", "Eles são letais!")
+DialogsTextures = Array[Texture2D]([ExtResource("6_gohky"), ExtResource("6_gohky")])
 DialogScene = ExtResource("5_hqiih")
 ShouldPauseGameWhenItAppears = true
 
 [node name="Area2D" parent="P01/DialogsArea" instance=ExtResource("4_wc7xo")]
 position = Vector2(6524, 704)
-Dialogs = PackedStringArray("falei")
-DialogsTextures = Array[Texture2D]([ExtResource("8_0k3ho")])
+Dialogs = PackedStringArray("Lembre-se, você precisa coletar as chaves pra fugir!")
+DialogsTextures = Array[Texture2D]([ExtResource("6_gohky")])
 DialogScene = ExtResource("5_hqiih")
 ShouldPauseGameWhenItAppears = true
 
@@ -335,7 +333,7 @@ position = Vector2(2130, 23)
 [node name="Cameras" type="Node" parent="P01"]
 
 [node name="CameraTurnOnOff" parent="P01/Cameras" instance=ExtResource("11_cfmhs")]
-position = Vector2(1863, -159)
+position = Vector2(1862, -158)
 SizeOfDetection = 250.0
 TimeToTurnOnAndOff = 32.0
 
@@ -535,7 +533,7 @@ position = Vector2(9993, 3516)
 [node name="HabilityPoint" type="Node" parent="P01"]
 
 [node name="HabilityPoint" parent="P01/HabilityPoint" instance=ExtResource("15_pq0vn")]
-position = Vector2(2637, -226)
+position = Vector2(2632, -225)
 
 [node name="HabilityPoint2" parent="P01/HabilityPoint" instance=ExtResource("15_pq0vn")]
 position = Vector2(10272, 4577)
@@ -644,7 +642,8 @@ CurrentSubFaseIndex = 1
 [node name="UI" type="Node" parent="."]
 
 [node name="MainUi" parent="UI" instance=ExtResource("16_odk5h")]
-visible = false
+
+[node name="Menu" parent="UI" instance=ExtResource("35_5lndn")]
 
 [node name="KillArea" type="Node" parent="."]
 
@@ -715,6 +714,7 @@ scale = Vector2(1.6805556, 2.0185184)
 texture = ExtResource("38_jwucb")
 
 [node name="7" type="Sprite2D" parent="Parallax/ParallaxBackground"]
+visible = false
 modulate = Color(0.18039216, 0.18039216, 0.18039216, 1)
 z_index = -999
 position = Vector2(13532, 942)

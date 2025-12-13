@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://dvow7rrohw7wi"]
+
+[ext_resource type="Texture2D" uid="uid://cc86etjnvy0p2" path="res://Assets/pxArt.png" id="1_kx7je"]
+[ext_resource type="Script" uid="uid://bgsgrf4asp07m" path="res://Scripts/StartGameButton.cs" id="2_ji4q2"]
+[ext_resource type="FontFile" uid="uid://cjd2q7uo3mp53" path="res://Assets/04b_30/04B_30__.TTF" id="2_xpxx5"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xpxx5"]
+texture = ExtResource("1_kx7je")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sseen"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 1)
+shadow_size = 8
+
+[node name="Menu" type="CanvasLayer"]
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -2.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_xpxx5")
+
+[node name="MarginContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 94.0
+offset_bottom = 40.0
+
+[node name="Button" type="Button" parent="MarginContainer" node_paths=PackedStringArray("CanvasLayer")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 743.0
+offset_top = 367.0
+offset_right = 945.0
+offset_bottom = 446.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_sseen")
+text = "Start
+"
+script = ExtResource("2_ji4q2")
+CanvasLayer = NodePath("../..")
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+offset_left = 753.0
+offset_top = 301.0
+offset_right = 1084.0
+offset_bottom = 368.0
+theme_override_fonts/font = ExtResource("2_xpxx5")
+theme_override_font_sizes/font_size = 48
+text = "KatMyha "

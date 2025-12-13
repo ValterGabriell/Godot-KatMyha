@@ -16,6 +16,7 @@ public partial class CameraTurnOnOff : FallTrap
     private SignalManager SignalManager;
     private bool hasEmittedKillSignal = false;
 
+
     private bool isTurnOff = false;
 
     public override void _Ready()
@@ -25,7 +26,7 @@ public partial class CameraTurnOnOff : FallTrap
         Area2D.BodyEntered += OnBodyEntered;
         UpdateDetectionRayLength();
         TimerToTurnOnAndOff.WaitTime = TimeToTurnOnAndOff;
-        TimerToTurnOnAndOff.Timeout += OnTimerTimeout;
+
     }
 
     private void UpdateDetectionRayLength()
@@ -43,24 +44,8 @@ public partial class CameraTurnOnOff : FallTrap
         }
     }
 
-    private void UpdateDetectionState()
-    {
-        var childrens = Area2D.GetChildren();
-        foreach (var child in childrens)
-        {
-            if (child is CollisionShape2D collisionShape)
-            {
-                collisionShape.Disabled = isTurnOff;
-            }
-        }
-    }
 
-    private void OnTimerTimeout()
-    {
-        isTurnOff = !isTurnOff;
-        UpdateDetectionState();
-        TimerToTurnOnAndOff.Start();
-    }
+
 
     private void OnBodyEntered(Node2D body)
     {

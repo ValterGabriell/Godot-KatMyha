@@ -1,23 +1,46 @@
 ﻿using Godot;
-using PrototipoMyha.Utilidades;
 using System;
 
 public partial class UIGameHabilities : MarginContainer
 {
     private PlayerManager playerManager;
-    private ItemList HabilitiesList;
-
+    private Sprite2D HabilitiesIcon;
+    [Export] private Label Aim;
+    [Export] private Label Shoot;
+    private Tween blinkTween;
     public override void _Ready()
     {
         playerManager = PlayerManager.GetPlayerGlobalInstance();
         playerManager.PlayerChangedHability += OnPlayerChangedHability;
-        HabilitiesList = GetNode<ItemList>("ItemList");
+        HabilitiesIcon = GetNode<Sprite2D>("Sprite2D");
         PopulateHabilitiesList();
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Aim.Visible && Shoot.Visible)
+        {
+            GetTree().CreateTimer(5.0).Timeout += () =>
+            {
+                StartBlinking();
+            };
+
+            GetTree().CreateTimer(10.0).Timeout += () =>
+            {
+                Aim.Visible = false;
+                Shoot.Visible = false;
+                if (blinkTween != null && blinkTween.IsValid())
+                {
+                    blinkTween.Kill();
+                }
+            };
+
+        }
     }
 
     private void OnPlayerChangedHability()
     {
-        HabilitiesList.Clear();
+        HabilitiesIcon.Visible = false;
         /*
          Esse for foi feito dessa forma porque esse mesmo metodo é chamado quando usa o TAB pra trocar
         habilidade, o que gerava inconformidade porque a lista era apagada e refeita, mantendo a selecao sempre
@@ -39,44 +62,25 @@ public partial class UIGameHabilities : MarginContainer
 
     private void AddHabilityToList(object hability)
     {
-        HabilitiesList.AddItem(hability.ToString());
-
-        if (HabilitiesList.ItemCount > 0)
-        {
-            PlayerHabilityKey playerHabilityKey = playerManager.GetCurrentActivePlayerHability();
-
-            if (IsCurrentActiveHability(hability, playerHabilityKey))
-            {
-                // Usa o índice real da lista (ItemCount - 1) ao invés do índice do enum
-                int actualIndex = HabilitiesList.ItemCount - 1;
-                HabilitiesList.Select(actualIndex);
-            }
-
-            if (ShouldSelectFirstHability(playerHabilityKey))
-                HabilitiesList.Select(0);
-        }
+        HabilitiesIcon.Visible = true;
+        Aim.Visible = true;
+        Shoot.Visible = true;
+        Aim.Text = "Mire com o botao direito do mouse.";
+        Shoot.Text = "Atire com o botao esquerdo do mouse.";
     }
 
-    private static bool IsCurrentActiveHability(object hability, PlayerHabilityKey playerHabilityKey)
+    private void StartBlinking()
     {
-        return hability.ToString() == playerHabilityKey.ToString();
+        if (blinkTween != null && blinkTween.IsValid())
+            return;
+
+        blinkTween = CreateTween();
+        blinkTween.SetLoops();
+        blinkTween.TweenProperty(Aim, "modulate:a", 0.0f, 0.2);
+        blinkTween.TweenProperty(Shoot, "modulate:a", 0.0f, 0.2);
+        blinkTween.TweenProperty(Aim, "modulate:a", 1.0f, 0.2);
+        blinkTween.TweenProperty(Shoot, "modulate:a", 1.0f, 0.2);
     }
 
-    private bool ShouldSelectFirstHability(PlayerHabilityKey playerHabilityKey)
-    {
-        return playerHabilityKey == PlayerHabilityKey.NONE || HabilitiesList.ItemCount < 2;
-    }
 
-    public override void _Input(InputEvent @event)
-    {
-        if (Input.IsActionPressed(nameof(EnumActionsInput.habilities_key_toggle)))
-        {
-            if (HabilitiesList.ItemCount == 0) return;
-            int selectedIndex = HabilitiesList.GetSelectedItems()[0];
-            string v = HabilitiesList.GetItemText((selectedIndex + 1) % HabilitiesList.ItemCount);
-            HabilitiesList.Select((selectedIndex + 1) % HabilitiesList.ItemCount);
-            playerManager.SetCurrentActivePlayerHability((PlayerHabilityKey)Enum.Parse(typeof(PlayerHabilityKey), v));
-            GDLogger.LogYellow("Toggled Hability to: " + v);
-        }
-    }
 }

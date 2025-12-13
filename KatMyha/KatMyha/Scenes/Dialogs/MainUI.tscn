@@ -1,46 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://c4rjon2p61f1"]
+[gd_scene load_steps=6 format=3 uid="uid://c4rjon2p61f1"]
 
 [ext_resource type="Script" uid="uid://cojd212tnird4" path="res://Scripts/UIGame.cs" id="1_84yft"]
 [ext_resource type="Script" uid="uid://lwfp23tjc6fy" path="res://Scripts/UIGameHabilities.cs" id="2_6ssv7"]
+[ext_resource type="Texture2D" uid="uid://ccp7t1pum2218" path="res://Assets/Sprites/Itens/UiMyhaVisible.png" id="2_7jwoh"]
+[ext_resource type="Texture2D" uid="uid://c18t1yi5xmo42" path="res://Assets/Sprites/Itens/CanShoot.png" id="4_hdii2"]
+[ext_resource type="FontFile" uid="uid://cjd2q7uo3mp53" path="res://Assets/04b_30/04B_30__.TTF" id="5_n3vn0"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ssv7"]
-bg_color = Color(0, 0, 0, 0.19607843)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
-
-[node name="MainUi" type="CanvasLayer" node_paths=PackedStringArray("LabelVisibility")]
+[node name="MainUi" type="CanvasLayer" node_paths=PackedStringArray("Sprite2D", "Timer", "Keys")]
 script = ExtResource("1_84yft")
-LabelVisibility = NodePath("MarginContainer2/Label2")
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-offset_left = 4.0
-offset_top = 15.0
-offset_right = 1125.0
-offset_bottom = 147.0
-size_flags_horizontal = 4
-size_flags_vertical = 8
-theme_override_constants/margin_left = 2
-theme_override_constants/margin_top = 2
-theme_override_constants/margin_right = 800
-theme_override_constants/margin_bottom = 2
-
-[node name="Panel" type="Panel" parent="MarginContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_6ssv7")
-
-[node name="Label" type="Label" parent="MarginContainer"]
-layout_mode = 2
-text = "Botão de Ação: E
-Pular: ESPAÇO
-
-
-"
+Sprite2D = NodePath("MarginContainer2/Sprite2D")
+Timer = NodePath("Label")
+Keys = NodePath("Keys")
 
 [node name="MarginContainer2" type="MarginContainer" parent="."]
 offset_left = 9.0
@@ -48,25 +18,58 @@ offset_top = 100.0
 offset_right = 141.0
 offset_bottom = 140.0
 
-[node name="Label2" type="Label" parent="MarginContainer2"]
-layout_mode = 2
-text = "Myha está visível"
+[node name="Sprite2D" type="Sprite2D" parent="MarginContainer2"]
+texture_filter = 1
+position = Vector2(45, -37)
+scale = Vector2(3, 3.031)
+texture = ExtResource("2_7jwoh")
 
-[node name="Label" type="Label" parent="."]
-offset_left = 921.0
-offset_top = 23.0
-offset_right = 1137.0
-offset_bottom = 46.0
-text = "Habilidades do Jogador"
+[node name="Aim" type="Label" parent="."]
+visible = false
+texture_filter = 1
+offset_left = 820.0
+offset_top = 78.0
+offset_right = 1036.0
+offset_bottom = 101.0
+text = "***"
 
-[node name="Habilities" type="MarginContainer" parent="."]
+[node name="Shoot" type="Label" parent="."]
+visible = false
+texture_filter = 1
+offset_left = 820.0
+offset_top = 90.0
+offset_right = 1036.0
+offset_bottom = 113.0
+text = "***"
+
+[node name="Habilities" type="MarginContainer" parent="." node_paths=PackedStringArray("Aim", "Shoot")]
 offset_left = 918.0
 offset_top = 51.0
 offset_right = 1134.0
 offset_bottom = 571.0
 theme_override_constants/margin_bottom = 350
 script = ExtResource("2_6ssv7")
+Aim = NodePath("../Aim")
+Shoot = NodePath("../Shoot")
 
-[node name="ItemList" type="ItemList" parent="Habilities"]
-layout_mode = 2
-select_mode = 2
+[node name="Sprite2D" type="Sprite2D" parent="Habilities"]
+visible = false
+texture = ExtResource("4_hdii2")
+
+[node name="Label" type="Label" parent="."]
+texture_filter = 1
+offset_left = 468.0
+offset_top = 14.0
+offset_right = 529.0
+offset_bottom = 37.0
+theme_override_fonts/font = ExtResource("5_n3vn0")
+text = "TIMERw"
+
+[node name="Keys" type="Label" parent="."]
+texture_filter = 1
+offset_left = 392.0
+offset_top = 46.0
+offset_right = 476.0
+offset_bottom = 69.0
+theme_override_fonts/font = ExtResource("5_n3vn0")
+text = "TIMERw"

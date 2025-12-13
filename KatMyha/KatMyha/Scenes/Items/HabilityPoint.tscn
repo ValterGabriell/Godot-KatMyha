@@ -16,6 +16,7 @@ Label = NodePath("Label")
 shape = SubResource("RectangleShape2D_opni1")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 texture_filter = 1
 offset_left = -10.0
 offset_top = -39.0

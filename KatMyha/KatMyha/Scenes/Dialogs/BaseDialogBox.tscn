@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bhljenfl22wpn"]
 
 [ext_resource type="Script" uid="uid://uuudh0rk1m1m" path="res://Scripts/Dialog/BaseDialogBox.cs" id="1_6gkff"]
-[ext_resource type="Texture2D" uid="uid://bint7i64182hn" path="res://Assets/Sprites/Characters/pixel.png" id="2_fda73"]
+[ext_resource type="Texture2D" uid="uid://cy6nttr1kwg5j" path="res://Assets/Sprites/Characters/Screenshot_2.png" id="2_fda73"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5u6x7"]
 bg_color = Color(0, 0, 0, 1)
@@ -18,10 +18,10 @@ corner_radius_bottom_left = 2
 script = ExtResource("1_6gkff")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_left = 8.0
-offset_top = 489.0
-offset_right = 1129.0
-offset_bottom = 621.0
+offset_left = 204.0
+offset_top = 554.0
+offset_right = 797.0
+offset_bottom = 659.0
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_constants/margin_left = 2
@@ -45,19 +45,19 @@ layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="MarginContainer/MarginContainer"]
 texture_filter = 1
-position = Vector2(61, 62)
-scale = Vector2(0.035, 0.035)
+position = Vector2(65, 51.000004)
+scale = Vector2(0.3, 0.3)
 texture = ExtResource("2_fda73")
 
 [node name="Panel2" type="Panel" parent="MarginContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="TextLabel" type="Label" parent="MarginContainer/MarginContainer/Panel2"]
+[node name="TextLabel" type="RichTextLabel" parent="MarginContainer/MarginContainer/Panel2"]
 layout_mode = 0
-offset_top = 44.0
-offset_right = 984.0
-offset_bottom = 67.0
-theme_override_font_sizes/font_size = 16
+offset_left = 5.0
+offset_top = 4.0
+offset_right = 404.0
+offset_bottom = 27.0
 text = "TEXT HERE"
-vertical_alignment = 1
 autowrap_mode = 1
+vertical_alignment = 1

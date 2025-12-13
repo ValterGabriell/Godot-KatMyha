@@ -234,5 +234,8 @@ public partial class PlayerManager : Node
         LastPlayerPositionThatMakedSound = newPosition;
     }
 
-
+    internal int GetCountOfUnlockedKeys()
+    {
+        return this.GetObtainedKeys().Count;
+    }
 }

@@ -1,14 +1,51 @@
-[gd_scene load_steps=9 format=3 uid="uid://ctdpn25kd2fnw"]
+[gd_scene load_steps=15 format=3 uid="uid://ctdpn25kd2fnw"]
 
 [ext_resource type="Texture2D" uid="uid://bvaitfhcjehck" path="res://Assets/Sprites/Itens/CAMERA.png" id="1_1fmxf"]
 [ext_resource type="Script" uid="uid://vpp1ct2aapyo" path="res://Scripts/Cameras/CameraTurnOnOff.cs" id="1_4qpvt"]
 [ext_resource type="Texture2D" uid="uid://cf5ack8f2nk3n" path="res://Assets/Sprites/Itens/LampadaMirada.png" id="2_ucnn5"]
 [ext_resource type="Texture2D" uid="uid://bd3ks5cuhg6mj" path="res://Assets/Sprites/Itens/LampadaQuebrada.png" id="3_pueig"]
 [ext_resource type="Texture2D" uid="uid://dprw0pas7xloi" path="res://Assets/Sprites/Itens/Lampada.png" id="4_1fxyy"]
+[ext_resource type="Texture2D" uid="uid://jjvka8t542qj" path="res://Assets/Sprites/Itens/CameraAnimation.png" id="6_1fxyy"]
 [ext_resource type="Texture2D" uid="uid://dbsj44kslmoj7" path="res://Assets/Sprites/FREE Textures Of Light Alpha/32x32/32x32 textures (37).png" id="6_pueig"]
 
 [sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_4qpvt"]
-length = 279.0
+length = 242.87099
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fxyy"]
+atlas = ExtResource("6_1fxyy")
+region = Rect2(0, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4pyx"]
+atlas = ExtResource("6_1fxyy")
+region = Rect2(128, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5qn1r"]
+atlas = ExtResource("6_1fxyy")
+region = Rect2(256, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3gq4"]
+atlas = ExtResource("6_1fxyy")
+region = Rect2(384, 0, 128, 256)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pueig"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fxyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4pyx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5qn1r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3gq4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4qpvt"]
 
@@ -20,12 +57,14 @@ script = ExtResource("1_4qpvt")
 Area2D = NodePath("Area2D")
 SizeOfDetection = 500.0
 TimerToTurnOnAndOff = NodePath("Timer")
+TimeToTurnOnAndOff = 1.0
 TargetAimedTexture2D = ExtResource("2_ucnn5")
 ShootedAimedTexture2D = ExtResource("3_pueig")
 IdleAimedTexture2D = ExtResource("4_1fxyy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_filter = 1
+position = Vector2(1, 0)
 texture = ExtResource("1_1fmxf")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -33,7 +72,7 @@ collision_layer = 4096
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
-rotation = -0.43633232
+rotation = -0.20245819
 shape = SubResource("SeparationRayShape2D_4qpvt")
 debug_color = Color(0, 1, 0.58431375, 0.41960785)
 
@@ -62,19 +101,27 @@ shape = SubResource("SeparationRayShape2D_4qpvt")
 debug_color = Color(0, 1, 0.58431375, 0.41960785)
 
 [node name="CollisionShape2D7" type="CollisionShape2D" parent="Area2D" groups=["freeze_camera_collisors"]]
-rotation = 0.43633232
+rotation = 0.16580628
 shape = SubResource("SeparationRayShape2D_4qpvt")
 debug_color = Color(0, 1, 0.58431375, 0.41960785)
 
-[node name="Timer" type="Timer" parent="."]
-autostart = true
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
+z_index = -95
+texture_filter = 1
+position = Vector2(0, 113)
+sprite_frames = SubResource("SpriteFrames_pueig")
+autoplay = "default"
+frame_progress = 0.06084769
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_4qpvt")
-
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="Area2D"]
 position = Vector2(7, 124.99994)
 scale = Vector2(6.78125, 7.34375)
 energy = 1.2
 texture = ExtResource("6_pueig")
 texture_scale = 3.0
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4qpvt")
